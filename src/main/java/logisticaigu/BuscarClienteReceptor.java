@@ -6,8 +6,11 @@ package logisticaigu;
 
 import Controladoras.ControladoraCliente;
 import Controladoras.ControladoraPaquete;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.sql.Date;
 import java.util.List;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.ListSelectionEvent;
@@ -29,28 +32,66 @@ public class BuscarClienteReceptor extends javax.swing.JFrame {
     private ControladoraPaquete controladoraPaquete;
     private int idClienteEmisorSeleccionado; // Nuevo atributo
     private RegistrarPaquete registrarEnvio;
-    
+    private String rolUsuario;
 
     /**
      * Creates new form BuscarClienteReceptor
      */
-    public BuscarClienteReceptor(Paquete paqueteTemporal) {
+    public BuscarClienteReceptor(Paquete paqueteTemporal, String rolUsuario) {
 
-    initComponents();
+   initComponents();
+   this.rolUsuario = rolUsuario;
+     setLocationRelativeTo(null);
+                setExtendedState(JFrame.MAXIMIZED_BOTH); // Abre el JFrame en pantalla completa
      this.paqueteTemporal = paqueteTemporal;
 
     tableModel = (DefaultTableModel) jTable1.getModel();
     controladoraCliente = new ControladoraCliente();
     cargarClientesEnTabla();
     inicializarVentana();
-    botonAceptar.setEnabled(false);
-    registrarEnvio = new RegistrarPaquete(); // Esto es un ejemplo, ajusta según tu implementación
+    registrarEnvio = new RegistrarPaquete(rolUsuario); // Esto es un ejemplo, ajusta según tu implementación
     paquete = new Paquete();
     
     // Inicializar campos del paquete
     paquete.setEstado("PENDIENTE");
     paquete.setFechaRecibido(new java.sql.Date(System.currentTimeMillis())); // Utiliza la fecha actual
     paquete.setFechaEntrega(null); // Establecer la fecha de entrega como null inicialmente
+    
+     // Validación para el campo de número de documento
+    ingresardocumento.addKeyListener(new KeyListener() {
+        @Override
+        public void keyTyped(KeyEvent e) {
+            char c = e.getKeyChar();
+            if (!(Character.isDigit(c) || (c == KeyEvent.VK_BACK_SPACE) || (c == KeyEvent.VK_DELETE))) {
+                getToolkit().beep();
+                e.consume();
+            }
+        }
+
+        @Override
+        public void keyPressed(KeyEvent e) {}
+
+        @Override
+        public void keyReleased(KeyEvent e) {}
+    });
+
+    // Validación para el campo de nombre y apellido
+    jTextField1.addKeyListener(new KeyListener() {
+        @Override
+        public void keyTyped(KeyEvent e) {
+            char c = e.getKeyChar();
+            if (!(Character.isLetter(c) || (c == KeyEvent.VK_SPACE) || (c == KeyEvent.VK_BACK_SPACE) || (c == KeyEvent.VK_DELETE))) {
+                getToolkit().beep();
+                e.consume();
+            }
+        }
+
+        @Override
+        public void keyPressed(KeyEvent e) {}
+
+        @Override
+        public void keyReleased(KeyEvent e) {}
+    });
 }
     private void mostrarInfoPaqueteTemporal(Paquete paqueteTemporal) {
         if (paqueteTemporal != null) {
@@ -267,7 +308,8 @@ public void seleccionarClienteReceptor() {
                 // Si el cliente seleccionado es nulo, simplemente no hacemos nada aquí.
             }
         } else {
-            System.out.println("Por favor, selecciona un cliente.");
+            // No se ha seleccionado ninguna fila en la tabla, mostrar mensaje de error
+            JOptionPane.showMessageDialog(this, "Por favor, selecciona un cliente.", "Error", JOptionPane.ERROR_MESSAGE);
         }
     } else {
         System.out.println("El paquete es nulo. Verifica su inicialización.");
@@ -341,6 +383,7 @@ private void mostrarCuadroDialogoIDClienteReceptor(int idClienteReceptor) {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        jTable1.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null},
@@ -349,37 +392,46 @@ private void mostrarCuadroDialogoIDClienteReceptor(int idClienteReceptor) {
                 {null, null, null}
             },
             new String [] {
-                "Nombre y Apellido", "N° documento", "N° Telefono"
+                "Nombre y Apellido", "N° Documento", "N° Telefono"
             }
         ));
         jScrollPane1.setViewportView(jTable1);
 
-        numerodocclienteemisor.setText("Numero documento:");
+        numerodocclienteemisor.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
+        numerodocclienteemisor.setText("N° Documento:");
 
+        ingresardocumento.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
         ingresardocumento.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 ingresardocumentoActionPerformed(evt);
             }
         });
 
-        jLabel4.setText("Nombre y Apellido");
+        jLabel4.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
+        jLabel4.setText("Nombre y Apellido:");
 
-        Codpaquete.setText("Cod paquete:");
+        jTextField1.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
 
-        jButton3.setText("Registrar");
+        Codpaquete.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
+        Codpaquete.setText("Codigo del paquete:");
+
+        jButton3.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
+        jButton3.setText("Registrar cliente");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton3ActionPerformed(evt);
             }
         });
 
-        botonAceptar.setText("Aceptar");
+        botonAceptar.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
+        botonAceptar.setText("Seleccionar cliente");
         botonAceptar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 botonAceptarActionPerformed(evt);
             }
         });
 
+        jButton1.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
         jButton1.setText("Volver");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -387,11 +439,12 @@ private void mostrarCuadroDialogoIDClienteReceptor(int idClienteReceptor) {
             }
         });
 
-        jLabel2.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        jLabel2.setFont(new java.awt.Font("Arial", 0, 36)); // NOI18N
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel2.setText("Buscar Cliente receptor");
+        jLabel2.setText("Buscar cliente receptor");
 
-        jLabel1.setText("id emisor: ");
+        jLabel1.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
+        jLabel1.setText("ID Emisor: ");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -401,56 +454,49 @@ private void mostrarCuadroDialogoIDClienteReceptor(int idClienteReceptor) {
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addGap(0, 478, Short.MAX_VALUE)
                         .addComponent(jButton3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(botonAceptar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButton1)
-                        .addContainerGap())
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addGap(100, 100, 100)
+                        .addComponent(jButton1))
+                    .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(numerodocclienteemisor)
+                        .addGap(18, 18, 18)
+                        .addComponent(ingresardocumento, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(200, 200, 200)
+                        .addComponent(jLabel4)
+                        .addGap(18, 18, 18)
+                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 272, Short.MAX_VALUE)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 722, Short.MAX_VALUE)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING))
-                        .addContainerGap())))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGap(48, 48, 48)
-                .addComponent(numerodocclienteemisor)
-                .addGap(18, 18, 18)
-                .addComponent(ingresardocumento, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel4)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(Codpaquete)
-                .addGap(42, 42, 42))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel1)
-                .addGap(58, 58, 58))
+                            .addComponent(jLabel1)
+                            .addComponent(Codpaquete))
+                        .addGap(314, 314, 314)))
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel1)
-                .addGap(3, 3, 3)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
-                    .addComponent(ingresardocumento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(numerodocclienteemisor)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(Codpaquete))
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 59, Short.MAX_VALUE)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton3)
-                    .addComponent(botonAceptar)
-                    .addComponent(jButton1))
+                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(ingresardocumento, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(numerodocclienteemisor, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(Codpaquete, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 736, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(botonAceptar, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
@@ -487,7 +533,7 @@ private void mostrarCuadroDialogoIDClienteReceptor(int idClienteReceptor) {
         registrarEnvio.mostrarVentana();
     } else {
         // Si el usuario elige "No", salir del programa
-        Menu menu = new Menu();
+        Menu menu = new Menu(rolUsuario);
         menu.setVisible(true);
         this.dispose();
     }
@@ -496,14 +542,14 @@ private void mostrarCuadroDialogoIDClienteReceptor(int idClienteReceptor) {
     }//GEN-LAST:event_botonAceptarActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        BuscarClientes buscarclientes = new BuscarClientes(paqueteTemporal);
+        BuscarClientes buscarclientes = new BuscarClientes(paqueteTemporal, rolUsuario);
     buscarclientes.setPaqueteTemporal(paqueteTemporal); // Restaura el paqueteTemporal en la nueva ventana
     buscarclientes.mostrarVentana(); // Muestra la ventana RegistrarPaquete
     this.dispose(); // Cierra la ventana actual (BuscarClientes)
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-    RegistrarClienteRecep registrarclienterecep = new RegistrarClienteRecep(paqueteTemporal);
+    RegistrarClienteRecep registrarclienterecep = new RegistrarClienteRecep(paqueteTemporal, rolUsuario);
         registrarclienterecep.setVisible(true);
         this.dispose();
 

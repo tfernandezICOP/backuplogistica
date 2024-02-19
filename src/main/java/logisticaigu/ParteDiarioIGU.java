@@ -24,14 +24,15 @@ public class ParteDiarioIGU extends javax.swing.JFrame {
     private ControladoraMantenimiento controladoraMante = new ControladoraMantenimiento();
     private int kmMantenimiento = 10000; // Puedes asignar el valor que corresponda
     private ControladoraMantenimientoRealizado controlmanterealizado = new ControladoraMantenimientoRealizado();
+   private String rolUsuario;
     /**
      * Creates new form ParteDiarioIGU
      */
-    public ParteDiarioIGU(Vehiculo vehiculoSeleccionado) {
+    public ParteDiarioIGU(Vehiculo vehiculoSeleccionado, String rolUsuario) {
          initComponents();
     this.vehiculoSeleccionado = vehiculoSeleccionado; 
     this.controladoraMante = controladoraMante;  // Inicializar la controladoraMante
-
+    this.rolUsuario = rolUsuario;
     Date fechaActual = new Date();
     SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
     jFormattedTextField1.setText(sdf.format(fechaActual));
@@ -57,14 +58,21 @@ public class ParteDiarioIGU extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jLabel1.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Arial", 0, 36)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Parte diario");
 
+        jLabel2.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
         jLabel2.setText("Fecha:");
 
+        jFormattedTextField1.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
+
+        jLabel3.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
         jLabel3.setText("Km recorridos:");
 
+        jTextField1.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
+
+        jButton1.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
         jButton1.setText("Guardar");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -72,6 +80,7 @@ public class ParteDiarioIGU extends javax.swing.JFrame {
             }
         });
 
+        jButton2.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
         jButton2.setText("Volver");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -88,40 +97,42 @@ public class ParteDiarioIGU extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(17, 17, 17)
-                                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jFormattedTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(156, 156, 156)
-                                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(441, 441, 441)
-                                .addComponent(jButton1)
-                                .addGap(18, 18, 18)
-                                .addComponent(jButton2)))
-                        .addGap(0, 11, Short.MAX_VALUE)))
+                        .addGap(0, 1573, Short.MAX_VALUE)
+                        .addComponent(jButton1)
+                        .addGap(100, 100, 100)
+                        .addComponent(jButton2)))
                 .addContainerGap())
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(750, 750, 750)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jFormattedTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel3)
+                        .addGap(100, 100, 100)
+                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1)
-                .addGap(31, 31, 31)
+                .addGap(200, 200, 200)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(jFormattedTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 305, Short.MAX_VALUE)
+                    .addComponent(jFormattedTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(200, 200, 200)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2))
-                .addGap(14, 14, 14))
+                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 396, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -132,9 +143,7 @@ public class ParteDiarioIGU extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
@@ -148,12 +157,12 @@ public class ParteDiarioIGU extends javax.swing.JFrame {
 
     if (respuesta == JOptionPane.YES_OPTION) {
         // Si el usuario elige seguir, volver a la pantalla SeleccionVehiculoPD
-        SeleccionVehiculoPD atras = new SeleccionVehiculoPD();
+        SeleccionVehiculoPD atras = new SeleccionVehiculoPD(rolUsuario);
         atras.setVisible(true);
         dispose(); // Cierra la pantalla actual
     } else {
         // Si el usuario elige no seguir, volver al menú (reemplaza con tu lógica específica)
-        Menu menu = new Menu();
+        Menu menu = new Menu(rolUsuario);
         menu.setVisible(true);
         dispose(); // Cierra la pantalla actual
     }
@@ -162,7 +171,7 @@ public class ParteDiarioIGU extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-       SeleccionVehiculoPD atras = new SeleccionVehiculoPD();
+       SeleccionVehiculoPD atras = new SeleccionVehiculoPD(rolUsuario);
         atras.setVisible(true);
         dispose(); // Cierra la pantalla actual
     }//GEN-LAST:event_jButton2ActionPerformed
@@ -177,7 +186,25 @@ public class ParteDiarioIGU extends javax.swing.JFrame {
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         Date fecha = sdf.parse(jFormattedTextField1.getText());
         int kmRecorridos = Integer.parseInt(jTextField1.getText());
+        if (jFormattedTextField1.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Por favor, ingresa una fecha válida.", "Error", JOptionPane.ERROR_MESSAGE);
+            return; // Detener el proceso si la fecha no está presente
+        } else {
+            // Verificar si se proporcionaron los kilómetros recorridos
+            String kmRecorridosText = jTextField1.getText().trim();
+            if (kmRecorridosText.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Por favor, ingresa los kilómetros recorridos.", "Error", JOptionPane.ERROR_MESSAGE);
+                return; // Detener el proceso si los kilómetros no están presentes
+            }
 
+            // Verificar si los kilómetros recorridos son un número válido
+            try {
+                kmRecorridos = Integer.parseInt(kmRecorridosText);
+            } catch (NumberFormatException ex) {
+                JOptionPane.showMessageDialog(this, "Por favor, ingresa una cantidad válida para los kilómetros recorridos.", "Error", JOptionPane.ERROR_MESSAGE);
+                return; // Detener el proceso si los kilómetros no son un número válido
+            }
+        }
         // Verificar si ya existe un ParteDiario para el Vehiculo
         ParteDiario parteDiarioExistente = controladoraPD.obtenerParteDiarioExistente(vehiculoSeleccionado);
 

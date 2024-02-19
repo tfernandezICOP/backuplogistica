@@ -49,5 +49,7 @@ public class ControladoraVehiculo {
    public List<Vehiculo> obtenerVehiculosActivos() {
   return controlpersis.obtenerVehiculosActivos();
    }
-    
+    public boolean existeVehiculoConPatente(String patente) {
+     return controlpersis.existeVehiculoConPatente(patente);
+    }
 }

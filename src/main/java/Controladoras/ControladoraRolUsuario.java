@@ -4,10 +4,16 @@
  */
 package Controladoras;
 
+import logisticalogica.Usuario;
+import logisticapersistencia.ControladoraPersistencia;
+
 /**
  *
  * @author ULTRA
  */
 public class ControladoraRolUsuario {
-    
+    ControladoraPersistencia controlpersis = new ControladoraPersistencia();
+   
 }
+    
+

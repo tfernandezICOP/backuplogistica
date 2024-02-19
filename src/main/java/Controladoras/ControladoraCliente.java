@@ -51,4 +51,7 @@ public class ControladoraCliente {
    public List<Cliente> filtrarClientesPorEstado(String estado) {
        return controlpersis.filtrarClientesPorEstado(estado);
    }
+   public boolean clienteExiste(long nroDocumento) {
+    return controlpersis.clienteExiste(nroDocumento);
+   }
 }

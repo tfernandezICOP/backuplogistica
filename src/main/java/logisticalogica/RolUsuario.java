@@ -45,4 +45,6 @@ public class RolUsuario implements Serializable {
     public void setNombreRol(String nombreRol) {
         this.nombreRol = nombreRol;
     }
+    
+    
 }

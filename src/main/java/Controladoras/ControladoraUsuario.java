@@ -4,6 +4,7 @@
  */
 package Controladoras;
 
+import logisticalogica.Usuario;
 import logisticapersistencia.ControladoraPersistencia;
 
 /**
@@ -15,4 +16,12 @@ public class ControladoraUsuario {
          public boolean autenticarUsuario(String nombreUsuario, String contraseña) {
         return controlpersis.verificarCredenciales(nombreUsuario, contraseña);
     }
+    public String obtenerRolUsuarioActual(String nombreUsuario) {
+        return controlpersis.obtenerRolUsuarioActual(nombreUsuario);
+       }  
+    
+    public String obtenerRolUsuario(String nombreUsuario) {
+        return controlpersis.obtenerRolUsuario(nombreUsuario);
+    }
+     
 }

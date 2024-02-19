@@ -11,10 +11,14 @@ logisticaigu\AvisoMantenimiento$2.class
 logisticapersistencia\EmpleadoJpaController.class
 Controladoras\ControladoraClienteBaja.class
 logisticapersistencia\UsuarioJpaController.class
+logisticaigu\ClientesTotales$9.class
+logisticaigu\ConfirmarEntrega$4.class
 logisticaigu\RegistrarMantenimiento$4.class
 logisticalogica\Usuario_.class
 logisticapersistencia\RolUsuarioJpaController.class
+logisticalogica\Configuracion.class
 logisticalogica\Vehiculo.class
+logisticaigu\ConsultarEstadoPaquete$5.class
 logisticaigu\RegistrarVehiculo$3.class
 logisticaigu\ClientesTotales$3.class
 logisticaigu\ViajeIGU$3.class
@@ -26,6 +30,7 @@ logisticalogica\ViajePaquete.class
 logisticaigu\BuscarClientes.class
 logisticaigu\RegistrarViaje$3.class
 Controladoras\ControladoraCliente.class
+logisticaigu\ClientesTotales$8.class
 logisticalogica\Vehiculo_.class
 Controladoras\ControladoraEmpleadoViaje.class
 logisticapersistencia\exceptions\IllegalOrphanException.class
@@ -42,14 +47,15 @@ logisticaigu\Login$2.class
 logisticaigu\BuscarClienteReceptor$3.class
 logisticaigu\MarcaIGU$5.class
 logisticalogica\ParteDiario_.class
+logisticaigu\RegistrarMantenimiento$5.class
 logisticaigu\RegistrarPaquete$3.class
 logisticalogica\MantenimientoRealizado.class
 logisticapersistencia\exceptions\PreexistingEntityException.class
 logisticaigu\ClientesTotales$2.class
 logisticaigu\RegistrarViaje$2.class
+logisticaigu\BuscarClienteReceptor$9.class
 logisticapersistencia\DetalleMantenimientoJpaController.class
 logisticaigu\RegistrarVehiculo.class
-logisticaigu\RegistrarCliente2$3.class
 logisticaigu\BuscarClienteReceptor$2.class
 logisticaigu\ViajeIGU$4.class
 logisticaigu\AvisoMantenimiento.class
@@ -75,6 +81,7 @@ logisticaigu\ParteDiarioIGU$1.class
 logisticalogica\Mantenimiento_.class
 logisticaigu\MarcaIGU$3.class
 logisticaigu\Menu$6.class
+logisticaigu\Login$3.class
 logisticaigu\SeleccionVehiculoPD$2.class
 logisticaigu\MarcaIGU$1.class
 logisticalogica\Cliente_.class
@@ -82,9 +89,9 @@ logisticapersistencia\EmpleadoViajeJpaController.class
 logisticaigu\TipoMantenimiento$4.class
 logisticaigu\VehiculosTotales$6.class
 logisticalogica\Empleado_.class
+logisticaigu\AvisoMantenimiento$3.class
 logisticalogica\Empleado.class
 logisticaigu\RegistrarClienteRecep$2.class
-logisticalogica\ClienteDadoDeBaja_.class
 logisticaigu\RegistrarCliente2$1.class
 logisticapersistencia\exceptions\NonexistentEntityException.class
 logisticalogica\Marca_.class
@@ -96,7 +103,8 @@ logisticaigu\SeleccionVehiculoPD$3.class
 logisticaigu\TipoMantenimiento.class
 logisticaigu\BuscarClientes$6.class
 logisticalogica\EnviarCorreo.class
-logisticaigu\ViajeIGU$2.class
+logisticaigu\GestionarEntrega$7.class
+logisticaigu\TipoMantenimiento$5.class
 logisticaigu\RegistrarPaquete$1.class
 logisticapersistencia\MantenimientoRealizadoJpaController.class
 logisticaigu\RegistrarMantenimiento$1.class
@@ -108,6 +116,7 @@ logisticaigu\ClientesTotales$6.class
 com\mycompany\proyectofinallogistica\Proyectofinallogistica.class
 logisticaigu\MarcaIGU$7.class
 logisticaigu\TipoMantenimiento$3.class
+logisticaigu\BuscarClientes$8.class
 logisticaigu\BuscarClienteReceptor$1.class
 logisticaigu\Login.class
 logisticaigu\GestionarEntrega$3.class
@@ -120,7 +129,7 @@ logisticalogica\Cliente.class
 logisticalogica\MantenimientoRealizado_.class
 logisticaigu\BuscarClientes$2.class
 logisticaigu\GestionarEntrega$4.class
-logisticaigu\ViajeIGU$6.class
+logisticaigu\BuscarClientes$9.class
 logisticaigu\AsociarPaqueteViaje$1.class
 logisticaigu\RegistrarClienteRecep$1.class
 logisticaigu\ConfirmarEntrega$2.class
@@ -153,9 +162,11 @@ logisticapersistencia\ClienteJpaController.class
 logisticaigu\GestionarEntrega$2.class
 Controladoras\ControladoraVehiculo.class
 logisticalogica\DetalleMantenimiento.class
+logisticaigu\AsociarPaqueteViaje$3.class
 logisticaigu\BuscarClienteReceptor$5.class
 logisticaigu\RegistrarViaje$1.class
 logisticaigu\ConfirmarMantenimiento$1.class
+logisticaigu\BuscarClienteReceptor$8.class
 logisticaigu\ClientesTotales$7.class
 logisticaigu\VehiculosTotales$2.class
 logisticaigu\BuscarClientes$1.class
@@ -163,10 +174,8 @@ logisticaigu\RegistrarPaquete$2.class
 logisticaigu\ConfirmarEntrega$3.class
 logisticaigu\RegistrarMantenimiento.class
 Controladoras\ControladoraViaje.class
-logisticaigu\Menu$9.class
 Controladoras\ControladoraEmpleado.class
 Controladoras\ControladoraParteDiario.class
-logisticalogica\ClienteDadoDeBaja.class
 logisticapersistencia\ViajePaqueteJpaController.class
 logisticaigu\VehiculosTotales.class
 logisticalogica\Marca.class
@@ -190,5 +199,6 @@ logisticaigu\RegistrarMarca$2.class
 logisticaigu\ConfirmarMantenimiento.class
 logisticaigu\GestionarEntrega$1.class
 logisticapersistencia\ParteDiarioJpaController.class
+logisticaigu\MarcaIGU$8.class
 logisticapersistencia\MarcaJpaController.class
 logisticalogica\Paquete.class

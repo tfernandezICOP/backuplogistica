@@ -72,4 +72,7 @@ public class Usuario implements Serializable {
     public void setRolUsuario(RolUsuario rolUsuario) {
         this.rolUsuario = rolUsuario;
     }
+    public String getNombreRol() {
+    return rolUsuario != null ? rolUsuario.getNombreRol() : null;
+}
 }

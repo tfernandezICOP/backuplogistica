@@ -10,7 +10,9 @@ import java.awt.event.ActionListener;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import javax.swing.JOptionPane;
 import logisticalogica.Cliente;
+import logisticalogica.Configuracion;
 import logisticalogica.Paquete;
 
 /**
@@ -20,15 +22,15 @@ import logisticalogica.Paquete;
 public class RegistrarPaquete extends javax.swing.JFrame {
     private ControladoraPaquete controladoraPaquete;
     private Paquete paquete;
-   
     private Paquete paqueteTemporal; // Agregar una variable para almacenar el paqueteTemporal
-
+    private String rolUsuario; 
     /**
      * Creates new form RegistrarEnvio
      */
-    public RegistrarPaquete() {
+    public RegistrarPaquete(String rolUsuario) {
         initComponents();
         controladoraPaquete = new ControladoraPaquete();
+        this.rolUsuario = rolUsuario; 
 
     }
     public void setPaqueteTemporal(Paquete paqueteTemporal) {
@@ -54,20 +56,26 @@ public class RegistrarPaquete extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        Registroenvio.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        Registroenvio.setFont(new java.awt.Font("Arial", 0, 36)); // NOI18N
         Registroenvio.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         Registroenvio.setText("Registrar Envio");
 
+        jLabel1.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
         jLabel1.setText("Domicilio:");
 
-        jLabel2.setText("Descripcion");
+        jTextField1.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
 
+        jLabel2.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
+        jLabel2.setText("Descripcion:");
+
+        jTextField2.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
         jTextField2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField2ActionPerformed(evt);
             }
         });
 
+        jButton1.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
         jButton1.setText("Volver");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -75,6 +83,7 @@ public class RegistrarPaquete extends javax.swing.JFrame {
             }
         });
 
+        jButton2.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
         jButton2.setText("Aceptar");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -88,45 +97,43 @@ public class RegistrarPaquete extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(Registroenvio, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(Registroenvio, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 1580, Short.MAX_VALUE)
+                        .addComponent(jButton2)
+                        .addGap(100, 100, 100)
+                        .addComponent(jButton1)))
                 .addContainerGap())
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 116, Short.MAX_VALUE)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(93, 93, 93))
             .addGroup(layout.createSequentialGroup()
-                .addGap(116, 116, 116)
-                .addComponent(jLabel2)
-                .addGap(18, 18, 18)
-                .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(93, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton2)
-                .addGap(18, 18, 18)
-                .addComponent(jButton1)
-                .addGap(19, 19, 19))
+                .addGap(707, 707, 707)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel2)
+                    .addComponent(jLabel1))
+                .addGap(100, 100, 100)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jTextField1)
+                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(Registroenvio)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 112, Short.MAX_VALUE)
+                .addGap(200, 200, 200)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(18, 18, 18)
+                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(200, 200, 200)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2))
-                .addGap(49, 49, 49)
+                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 396, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2))
-                .addContainerGap(26, Short.MAX_VALUE))
+                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
         );
 
         pack();
@@ -138,7 +145,7 @@ public class RegistrarPaquete extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         
-        Menu atras = new Menu();
+        Menu atras = new Menu(rolUsuario);
         atras.setVisible(true);
         dispose(); // Cierra la pantalla actual
     }//GEN-LAST:event_jButton1ActionPerformed
@@ -147,17 +154,22 @@ public class RegistrarPaquete extends javax.swing.JFrame {
    String domicilio = jTextField1.getText();
     String descripcion = jTextField2.getText();
 
-    paqueteTemporal = inicializarPaquete(domicilio, descripcion);
+    // Verificar si ambos campos contienen datos
+    if (!domicilio.isEmpty() && !descripcion.isEmpty()) {
+        paqueteTemporal = inicializarPaquete(domicilio, descripcion);
 
-    // Añade mensajes de depuración
-    System.out.println("PaqueteTemporal en RegistrarEnvio:");
-    mostrarInfoPaqueteTemporal(paqueteTemporal);
+        // Añade mensajes de depuración
+        System.out.println("PaqueteTemporal en RegistrarEnvio:");
+        mostrarInfoPaqueteTemporal(paqueteTemporal);
 
-    // Crea la instancia de BuscarClientes
-    BuscarClientes busqueda = new BuscarClientes(paqueteTemporal);
-    busqueda.setPaqueteTemporal(paqueteTemporal); // Establece el paqueteTemporal
-    busqueda.setVisible(true);
-    this.dispose(); // Cierra la ventana actual
+        // Crea la instancia de BuscarClientes
+        BuscarClientes busqueda = new BuscarClientes(paqueteTemporal, rolUsuario);
+        busqueda.setPaqueteTemporal(paqueteTemporal); // Establece el paqueteTemporal
+        busqueda.setVisible(true);
+        this.dispose(); // Cierra la ventana actual
+    } else {
+        JOptionPane.showMessageDialog(this, "Por favor, completa todos los campos.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+    }
     }//GEN-LAST:event_jButton2ActionPerformed
     
     private void mostrarInfoPaqueteTemporal(Paquete paqueteTemporal) {

@@ -11,6 +11,8 @@ import java.util.List;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 import javax.swing.ListSelectionModel;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import logisticalogica.Paquete;
 import logisticalogica.Vehiculo;
@@ -28,19 +30,38 @@ public class AsociarPaqueteViaje extends javax.swing.JFrame {
         private Vehiculo vehiculoSeleccionado; // Add this line
 
      private DefaultListModel<String> listModel = new DefaultListModel<>();
-
+     private String rolUsuario;
     /**
      * Creates new form AsociarPaqueteViaje
      */
-    public AsociarPaqueteViaje(int idViaje) {
+    public AsociarPaqueteViaje(int idViaje, String rolUsuario) {
         initComponents();
+        this.rolUsuario = rolUsuario;
         this.idViaje = idViaje;
         this.vehiculoSeleccionado = vehiculoSeleccionado; // Add this line
 
         
         cargarListaPaquetes();
-
+// Agregar el ListSelectionListener a la tabla
+        jTable1.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+            public void valueChanged(ListSelectionEvent event) {
+                // Verificar si hay al menos una fila seleccionada
+                if (!event.getValueIsAdjusting() && jTable1.getSelectedRowCount() > 0) {
+                    // Si hay filas seleccionadas, habilitar el botón de guardar
+                    jButton2.setEnabled(true);
+                } else {
+                    // Si no hay filas seleccionadas, deshabilitar el botón de guardar
+                    jButton2.setEnabled(false);
+                }
+            }
+        });
+        
+        cargarListaPaquetes();
+        
+        // Deshabilitar el botón de guardar inicialmente
+        jButton2.setEnabled(false);
     }
+
 
    
 
@@ -62,10 +83,11 @@ public class AsociarPaqueteViaje extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jLabel1.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Arial", 0, 36)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Paquetes");
 
+        jButton1.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
         jButton1.setText("Volver");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -73,6 +95,7 @@ public class AsociarPaqueteViaje extends javax.swing.JFrame {
             }
         });
 
+        jButton2.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
         jButton2.setText("Guardar");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -80,6 +103,7 @@ public class AsociarPaqueteViaje extends javax.swing.JFrame {
             }
         });
 
+        jTable1.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
@@ -104,9 +128,9 @@ public class AsociarPaqueteViaje extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(jButton2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGap(100, 100, 100)
                         .addComponent(jButton1))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 644, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 1888, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -114,12 +138,12 @@ public class AsociarPaqueteViaje extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 49, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 374, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 875, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton2)
-                    .addComponent(jButton1))
+                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
@@ -127,15 +151,11 @@ public class AsociarPaqueteViaje extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
@@ -183,7 +203,7 @@ public class AsociarPaqueteViaje extends javax.swing.JFrame {
 
     if (confirmacion == JOptionPane.NO_OPTION) {
         // Si elige NO, ir a la pantalla ViajeIGU
-        new ViajeIGU().setVisible(true);
+        new ViajeIGU(rolUsuario).setVisible(true);
         dispose();
     } else {
         // Si elige YES, cargar nuevamente la lista de paquetes y actualizar la JTable
@@ -196,7 +216,7 @@ public class AsociarPaqueteViaje extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-     ViajeIGU atras = new ViajeIGU();
+     ViajeIGU atras = new ViajeIGU(rolUsuario);
      atras.setVisible(true);
      dispose();
     }//GEN-LAST:event_jButton1ActionPerformed

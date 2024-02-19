@@ -6,7 +6,7 @@ import javax.persistence.metamodel.StaticMetamodel;
 import logisticalogica.Mantenimiento;
 import logisticalogica.Marca;
 
-@Generated(value="org.eclipse.persistence.internal.jpa.modelgen.CanonicalModelProcessor", date="2024-02-12T18:58:49", comments="EclipseLink-2.7.12.v20230209-rNA")
+@Generated(value="org.eclipse.persistence.internal.jpa.modelgen.CanonicalModelProcessor", date="2024-02-19T12:42:53", comments="EclipseLink-2.7.12.v20230209-rNA")
 @StaticMetamodel(Vehiculo.class)
 public class Vehiculo_ { 
 

@@ -24,12 +24,13 @@ public class ConfirmarMantenimiento extends javax.swing.JFrame {
 
     Vehiculo vehiculoSeleccionado; // Deja de inicializarlo aquí
         private Vehiculo vehiculo;
+        private String rolUsuario;
     private ControladoraMantenimientoRealizado controladoraMantenimientoRealizado = new ControladoraMantenimientoRealizado();
     private MantenimientoRealizado mantenimientoExistente; // Agrega esta línea
     private boolean tieneMantenimientoRealizado; // Agrega esta línea
-    public ConfirmarMantenimiento(Vehiculo vehiculo)  {
+    public ConfirmarMantenimiento(Vehiculo vehiculo, String rolUsuario)  {
         this.vehiculo = vehiculo;
-
+ this.rolUsuario = rolUsuario;
         initComponents();
         inicializarVentana(); // Llama a la inicialización después de haber asignado el vehículo
         establecerFormatoFecha();
@@ -70,12 +71,14 @@ public class ConfirmarMantenimiento extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jLabel1.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Arial", 0, 36)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Confirmar Mantenimiento");
 
+        jLabel2.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
         jLabel2.setText("Fecha:");
 
+        jButton1.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
         jButton1.setText("Volver");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -83,6 +86,7 @@ public class ConfirmarMantenimiento extends javax.swing.JFrame {
             }
         });
 
+        jButton2.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
         jButton2.setText("Guardar");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -90,53 +94,57 @@ public class ConfirmarMantenimiento extends javax.swing.JFrame {
             }
         });
 
-        Marca.setText("Marca");
+        Marca.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
+        Marca.setText("Marca:");
 
-        Patente.setText("Patente");
+        Patente.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
+        Patente.setText("Patente:");
+
+        jFormattedTextField1.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(18, 18, 18))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGap(36, 36, 36)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jFormattedTextField1))
-                    .addComponent(Marca, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(jButton2)
-                        .addGap(18, 18, 18)
+                        .addGap(100, 100, 100)
                         .addComponent(jButton1))
-                    .addComponent(Patente, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 475, Short.MAX_VALUE))
+                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 1888, Short.MAX_VALUE))
                 .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel2)
+                        .addGap(77, 77, 77)
+                        .addComponent(jFormattedTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(Patente, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(Marca, javax.swing.GroupLayout.PREFERRED_SIZE, 391, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(752, 752, 752))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1)
-                .addGap(43, 43, 43)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 203, Short.MAX_VALUE)
+                .addComponent(Marca, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(200, 200, 200)
+                .addComponent(Patente, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(200, 200, 200)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(Marca)
-                    .addComponent(Patente))
-                .addGap(28, 28, 28)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jFormattedTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(143, 143, 143)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(jFormattedTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 119, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2))
-                .addGap(21, 21, 21))
+                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -160,7 +168,7 @@ public class ConfirmarMantenimiento extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-       AvisoMantenimiento avisomante =  new AvisoMantenimiento();
+       AvisoMantenimiento avisomante =  new AvisoMantenimiento(rolUsuario);
        avisomante.setVisible(true);
        dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
@@ -183,12 +191,19 @@ private void guardarDatosMantenimientoRealizado() {
     MantenimientoRealizado nuevoMantenimiento = null; // Declarar la variable fuera del bloque try
 
     try {
+        // Verificar si el campo de fecha está vacío
+        if (jFormattedTextField1.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Por favor ingrese una fecha", "Error", JOptionPane.ERROR_MESSAGE);
+            return; // Salir del método si no se ingresó una fecha
+        }
+
         // Obtener el último kilómetro recorrido del vehículo desde el parte diario
         int ultimoKmRecorrido = controladoraMantenimientoRealizado.obtenerKmRecorridosMasRecientes(vehiculo);
 
         // Obtener la fecha ingresada por el usuario
         String fechaStr = jFormattedTextField1.getText();
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        sdf.setLenient(false); // Hacer que el formato de fecha sea estricto
         Date fecha = sdf.parse(fechaStr);
 
         // Comprobar si el vehículo ya tiene un mantenimiento realizado
@@ -205,8 +220,8 @@ private void guardarDatosMantenimientoRealizado() {
             // Imprimir información para verificar qué se está pasando a TipoMantenimiento
             System.out.println("Mantenimiento Realizado Existente: " + mantenimientoExistente);
              // Crear una instancia de TipoMantenimiento y pasar el MantenimientoRealizado adecuado
-    TipoMantenimiento tipoMantenimientoFrame = new TipoMantenimiento(mantenimientoExistente);
-    tipoMantenimientoFrame.setVisible(true);
+            TipoMantenimiento tipoMantenimientoFrame = new TipoMantenimiento(mantenimientoExistente, rolUsuario);
+            tipoMantenimientoFrame.setVisible(true);
         } else {
             // Si no tiene mantenimiento, crear uno nuevo
             nuevoMantenimiento = new MantenimientoRealizado(); // Asignar un valor a la variable dentro del bloque try
@@ -219,13 +234,9 @@ private void guardarDatosMantenimientoRealizado() {
             // Imprimir información para verificar qué se está pasando a TipoMantenimiento
             System.out.println("Mantenimiento Realizado Nuevo: " + nuevoMantenimiento);
             // Crear una instancia de TipoMantenimiento y pasar el MantenimientoRealizado adecuado
-    TipoMantenimiento tipoMantenimientoFrame = new TipoMantenimiento(nuevoMantenimiento);
-    tipoMantenimientoFrame.setVisible(true);
+            TipoMantenimiento tipoMantenimientoFrame = new TipoMantenimiento(nuevoMantenimiento, rolUsuario);
+            tipoMantenimientoFrame.setVisible(true);
         }
-
-    
-
-        
 
         // Mostrar un mensaje de éxito
         JOptionPane.showMessageDialog(this, "Mantenimiento realizado guardado exitosamente");
@@ -236,9 +247,12 @@ private void guardarDatosMantenimientoRealizado() {
     } catch (ParseException ex) {
         ex.printStackTrace();
         // Mostrar un mensaje de error si hay un problema con la fecha
-        JOptionPane.showMessageDialog(this, "Error al procesar la fecha", "Error", JOptionPane.ERROR_MESSAGE);
+        JOptionPane.showMessageDialog(this, "Ingrese una fecha válida en el formato dd/MM/yyyy", "Error", JOptionPane.ERROR_MESSAGE);
     }
 }
+
+
+
 
 
 

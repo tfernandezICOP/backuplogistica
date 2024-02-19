@@ -10,7 +10,10 @@ import Controladoras.ControladoraParteDiario;
 import Controladoras.ControladoraVehiculo;
 import java.util.List;
 import javax.swing.JOptionPane;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
+import logisticalogica.Configuracion;
 import logisticalogica.MantenimientoRealizado;
 import logisticalogica.ParteDiario;
 import logisticalogica.Vehiculo;
@@ -25,14 +28,31 @@ public  class AvisoMantenimiento extends javax.swing.JFrame {
     private Vehiculo vehiculoseleccionado;
     private ControladoraMantenimientoRealizado controladoramanterealizado = new ControladoraMantenimientoRealizado();
     private ControladoraParteDiario controladoraPD = new ControladoraParteDiario();
+        private String rolUsuario;
+
     /**
      * Creates new form AvisoMantenimiento
      */
-    public AvisoMantenimiento() {
+    public AvisoMantenimiento(String rolUsuario) {
         initComponents();
-    actualizarTablaAvisoMantenimiento(); // Llama al método para actualizar la tabla al crear la ventana
+    actualizarTablaAvisoMantenimiento();
+            this.rolUsuario = rolUsuario;
+// Llama al método para actualizar la tabla al crear la ventana
 
-
+ jTable1.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+        @Override
+        public void valueChanged(ListSelectionEvent e) {
+            // Verificar si se ha seleccionado una fila en la tabla
+            if (!jTable1.getSelectionModel().isSelectionEmpty()) {
+                // Habilitar el botón "Aceptar"
+                jButton1.setEnabled(true);
+            } else {
+                // Deshabilitar el botón "Aceptar"
+                jButton1.setEnabled(false);
+            }
+        }
+    });
+    
     }
 
     /**
@@ -53,6 +73,7 @@ public  class AvisoMantenimiento extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        jTable1.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null},
@@ -66,10 +87,11 @@ public  class AvisoMantenimiento extends javax.swing.JFrame {
         ));
         jScrollPane2.setViewportView(jTable1);
 
-        jLabel1.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Arial", 0, 36)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Avisos de Mantenimiento");
 
+        jButton1.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
         jButton1.setText("Aceptar");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -77,6 +99,7 @@ public  class AvisoMantenimiento extends javax.swing.JFrame {
             }
         });
 
+        jButton2.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
         jButton2.setText("Volver");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -88,18 +111,18 @@ public  class AvisoMantenimiento extends javax.swing.JFrame {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+            .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 700, Short.MAX_VALUE)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 1894, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(jButton1)
-                        .addGap(10, 10, 10)
-                        .addComponent(jButton2)))
+                        .addGap(30, 30, 30)
+                        .addComponent(jButton2))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jScrollPane2)))
                 .addContainerGap())
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane2))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -107,12 +130,12 @@ public  class AvisoMantenimiento extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jLabel1)
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 860, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2))
-                .addGap(15, 15, 15))
+                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -130,8 +153,7 @@ public  class AvisoMantenimiento extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-   // Obtener el índice de la fila seleccionada directamente del componente jTable1
-    int filaSeleccionada = jTable1.getSelectedRow();
+  int filaSeleccionada = jTable1.getSelectedRow();
 
     // Verificar si se ha seleccionado una fila válida
     if (filaSeleccionada != -1) {
@@ -147,7 +169,7 @@ public  class AvisoMantenimiento extends javax.swing.JFrame {
         // Verificar la opción seleccionada por el usuario
         if (opcion == JOptionPane.YES_OPTION) {
             // Resto del código para mostrar la ventana ConfirmarMantenimiento y cerrar la ventana actual
-            ConfirmarMantenimiento confirmarMantenimientoFrame = new ConfirmarMantenimiento(vehiculoseleccionado);
+            ConfirmarMantenimiento confirmarMantenimientoFrame = new ConfirmarMantenimiento(vehiculoseleccionado, rolUsuario); // Pasar el rolUsuario
             confirmarMantenimientoFrame.setVisible(true);
 
             // Cerrar la ventana actual
@@ -160,7 +182,7 @@ public  class AvisoMantenimiento extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        Menu atras = new Menu();
+        Menu atras = new Menu( Configuracion.getRolUsuario());
         atras.setVisible(true);
         dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
@@ -232,7 +254,6 @@ private void mostrarVehiculosEnTabla() {
     // Establecer el modelo en la tabla
     jTable1.setModel(modeloTabla);
 }
-
 // Método para mostrar la ventana
     public void mostrarVentana() {
         mostrarVehiculosEnTabla(); // Llama al método para actualizar la tabla cada vez que se muestra la ventana

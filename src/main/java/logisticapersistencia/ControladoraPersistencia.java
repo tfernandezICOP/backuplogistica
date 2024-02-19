@@ -21,7 +21,6 @@ import javax.persistence.Persistence;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import logisticalogica.Cliente;
-import logisticalogica.ClienteDadoDeBaja;
 import logisticalogica.DetalleMantenimiento;
 import logisticalogica.Empleado;
 import logisticalogica.EmpleadoViaje;
@@ -30,6 +29,7 @@ import logisticalogica.MantenimientoRealizado;
 import logisticalogica.Marca;
 import logisticalogica.Paquete;
 import logisticalogica.ParteDiario;
+import logisticalogica.RolUsuario;
 import logisticalogica.Usuario;
 import logisticalogica.Vehiculo;
 import logisticalogica.Viaje;
@@ -1144,30 +1144,78 @@ public void actualizarTipoMantenimiento(DetalleMantenimiento detalle) {
         em.close();
     }
 }
+public String obtenerRolUsuarioActual(String nombreUsuario) {
+    EntityManager em = getEntityManager();
+        try {
+            // Consulta para obtener el rol del usuario
+            TypedQuery<String> query = em.createQuery(
+                    "SELECT u.rolUsuario.nombreRol FROM Usuario u WHERE u.nombre = :nombreUsuario", String.class);
+            query.setParameter("nombreUsuario", nombreUsuario);
 
+            // Intenta obtener el resultado de la consulta
+            String rolUsuario = query.getSingleResult();
+
+            // Devuelve el rol del usuario
+            return rolUsuario;
+        } catch (NoResultException ex) {
+            // Si no se encuentra ningún usuario con el nombre proporcionado, devuelve null o un valor predeterminado
+            return null;
+        } finally {
+            em.close(); // Cierra el EntityManager cuando hayas terminado
+        }
+    }
+
+public boolean clienteExiste(long nroDocumento) {
+        EntityManager em = emf.createEntityManager();
+        try {
+            Query query = em.createQuery("SELECT c FROM Cliente c WHERE c.nro_documento = :nroDocumento");
+            query.setParameter("nroDocumento", nroDocumento);
+            return !query.getResultList().isEmpty();
+        } finally {
+            em.close();
+        }
+    }
+public boolean marcaExistente(String modelo, String tipo) {
+        EntityManager em = emf.createEntityManager();
+        List<Marca> marcas = em.createQuery("SELECT m FROM Marca m WHERE m.modelo = :modelo AND m.tipo = :tipo")
+                                .setParameter("modelo", modelo)
+                                .setParameter("tipo", tipo)
+                                .getResultList();
+        em.close();
+        return !marcas.isEmpty();
+    }
+public boolean existeVehiculoConPatente(String patente) {
+    EntityManager em = emf.createEntityManager();
+    Long count = (Long) em.createQuery("SELECT COUNT(v) FROM Vehiculo v WHERE v.patente = :patente")
+                          .setParameter("patente", patente)
+                          .getSingleResult();
+    em.close();
+    return count > 0;
 }
 
-  
+public String obtenerRolUsuario(String nombreUsuario) {
+        EntityManager em = emf.createEntityManager();
+        try {
+            em.getTransaction().begin();
+            // Buscar el usuario por su nombre
+            Usuario usuario = em.createQuery("SELECT u FROM Usuario u WHERE u.nombre = :nombre", Usuario.class)
+                                .setParameter("nombre", nombreUsuario)
+                                .getSingleResult();
+            em.getTransaction().commit();
+            if (usuario != null) {
+                return usuario.getNombreRol();
+            } else {
+                return null;
+            }
+        } catch (Exception e) {
+            if (em.getTransaction().isActive()) {
+                em.getTransaction().rollback();
+            }
+            e.printStackTrace();
+            return null;
+        } finally {
+            em.close();
+        }
+    }
 
-
-
-
-
-
-
-
-
-   
-
-
-
-
-
-    
-
-    
-
-    
-
-
-
+}

@@ -41,4 +41,7 @@ public class ControladoraMarca {
      public Marca obtenerMarcaPorModeloYTipo(String modelo, String tipo) {
         return controlpersis.obtenerMarcaPorModeloYTipo(modelo, tipo);
     }
+     public boolean marcaExistente(String modelo, String tipo) {
+         return controlpersis.marcaExistente(modelo, tipo);
+     }
 }
