@@ -44,4 +44,7 @@ public class ControladoraMarca {
      public boolean marcaExistente(String modelo, String tipo) {
          return controlpersis.marcaExistente(modelo, tipo);
      }
+     public boolean marcaExiste(String modelo) {
+         return controlpersis.marcaExiste(modelo);
+     }
 }

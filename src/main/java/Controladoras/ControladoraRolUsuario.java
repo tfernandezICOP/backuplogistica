@@ -4,6 +4,8 @@
  */
 package Controladoras;
 
+import java.util.List;
+import logisticalogica.RolUsuario;
 import logisticalogica.Usuario;
 import logisticapersistencia.ControladoraPersistencia;
 
@@ -14,6 +16,9 @@ import logisticapersistencia.ControladoraPersistencia;
 public class ControladoraRolUsuario {
     ControladoraPersistencia controlpersis = new ControladoraPersistencia();
    
+    public List<RolUsuario> obtenerTodosLosRoles() {
+        return controlpersis.obtenerTodosLosRoles();
+    }
 }
     
 

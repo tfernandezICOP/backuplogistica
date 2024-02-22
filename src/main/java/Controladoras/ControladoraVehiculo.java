@@ -5,6 +5,7 @@
 package Controladoras;
 
 import java.util.List;
+import logisticalogica.DetalleMantenimiento;
 import logisticalogica.Paquete;
 import logisticalogica.Vehiculo;
 import logisticapersistencia.ControladoraPersistencia;
@@ -52,4 +53,14 @@ public class ControladoraVehiculo {
     public boolean existeVehiculoConPatente(String patente) {
      return controlpersis.existeVehiculoConPatente(patente);
     }
+    
+        public boolean verificarMantenimientosRealizados(int idVehiculoSeleccionado) {
+            return controlpersis.verificarMantenimientosRealizados(idVehiculoSeleccionado);
+        
+        }
+        
+   public List<DetalleMantenimiento> obtenerDetallesMantenimiento(int idVehiculoSeleccionado) {
+       return controlpersis.obtenerDetallesMantenimiento(idVehiculoSeleccionado);
+   
+   }     
 }

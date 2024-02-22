@@ -188,7 +188,6 @@ public class RegistrarVehiculo extends javax.swing.JFrame {
             nuevoVehiculo.setNro_vehiculo(numeroVehiculo);
             guardarVehiculoEnBaseDeDatos(nuevoVehiculo);
 
-            // Verifica qué tipo de ventana llamó a RegistrarVehiculo y la hace visible nuevamente
             if (ventanaQueLlama instanceof MarcaIGU) {
                 MarcaIGU marcaIGU = (MarcaIGU) ventanaQueLlama;
                 marcaIGU.mostrarMarcaIGU(); // Muestra la ventana MarcaIGU

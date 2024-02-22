@@ -9,11 +9,11 @@ import Controladoras.ControladoraMantenimientoRealizado;
 import Controladoras.ControladoraParteDiario;
 import Controladoras.ControladoraVehiculo;
 import java.util.List;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
-import logisticalogica.Configuracion;
 import logisticalogica.MantenimientoRealizado;
 import logisticalogica.ParteDiario;
 import logisticalogica.Vehiculo;
@@ -28,6 +28,7 @@ public  class AvisoMantenimiento extends javax.swing.JFrame {
     private Vehiculo vehiculoseleccionado;
     private ControladoraMantenimientoRealizado controladoramanterealizado = new ControladoraMantenimientoRealizado();
     private ControladoraParteDiario controladoraPD = new ControladoraParteDiario();
+     private List<ParteDiario> parteDiarioList;
         private String rolUsuario;
 
     /**
@@ -35,7 +36,9 @@ public  class AvisoMantenimiento extends javax.swing.JFrame {
      */
     public AvisoMantenimiento(String rolUsuario) {
         initComponents();
-    actualizarTablaAvisoMantenimiento();
+                    JOptionPane.showMessageDialog(this, "¡Bienvenido, " + rolUsuario + "!");
+
+        actualizarTablaAvisoMantenimiento();
             this.rolUsuario = rolUsuario;
 // Llama al método para actualizar la tabla al crear la ventana
 
@@ -54,6 +57,7 @@ public  class AvisoMantenimiento extends javax.swing.JFrame {
     });
     
     }
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -76,13 +80,13 @@ public  class AvisoMantenimiento extends javax.swing.JFrame {
         jTable1.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null}
             },
             new String [] {
-                "ID", "Vehiculo", "Tipo", "Patente", "Kilometros", "Estado"
+                "ID", "Vehiculo", "Tipo", "Patente", "Kilometros", "Estado", "Fecha"
             }
         ));
         jScrollPane2.setViewportView(jTable1);
@@ -182,7 +186,7 @@ public  class AvisoMantenimiento extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        Menu atras = new Menu( Configuracion.getRolUsuario());
+        Menu atras = new Menu( rolUsuario);
         atras.setVisible(true);
         dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
@@ -195,10 +199,9 @@ public  class AvisoMantenimiento extends javax.swing.JFrame {
         // Llenar la tabla con los vehículos que necesitan mantenimiento
         mostrarVehiculosEnTabla();
     }
-   
-private void mostrarVehiculosEnTabla() {
-    // Obtener todos los vehículos
-    List<Vehiculo> vehiculos = controladoravehiculo.obtenerTodosLosVehiculos();
+ private void mostrarVehiculosEnTabla() {
+     
+     List<Vehiculo> vehiculos = controladoravehiculo.obtenerTodosLosVehiculos();
 
     // Crear el modelo de tabla
     DefaultTableModel modeloTabla = new DefaultTableModel();
@@ -214,7 +217,7 @@ private void mostrarVehiculosEnTabla() {
         // Obtener el último mantenimiento realizado
         MantenimientoRealizado ultimoMantenimiento = controladoramanterealizado.obtenerUltimoMantenimientoRealizado(vehiculo);
         // Obtener todos los ParteDiario para el vehículo
-        List<ParteDiario> parteDiarioList = controladoraPD.obtenerParteDiarioPorVehiculo(vehiculo);
+        parteDiarioList = controladoraPD.obtenerParteDiarioPorVehiculo(vehiculo);
 
         // Calcular los kilómetros totales recorridos desde el último mantenimiento
         int kmTotales = 0;
@@ -224,21 +227,17 @@ private void mostrarVehiculosEnTabla() {
             }
         }
 
-        // Restar los kilómetros del último mantenimiento
         if (ultimoMantenimiento != null) {
             kmTotales -= ultimoMantenimiento.getKmMantenimiento();
         }
 
-        // Verificar si el vehículo necesita mantenimiento (supera los 10000 km)
         boolean necesitaMantenimiento = (ultimoMantenimiento != null && kmTotales >= 10000) ||
             (ultimoMantenimiento == null && (vehiculo.getMantenimiento() != null && vehiculo.getMantenimiento().getKm() >= 10000 || vehiculo.getMantenimiento() == null && kmTotales >= 10000));
 
-        // Si el vehículo no necesita mantenimiento, no lo agregues a la tabla
         if (!necesitaMantenimiento || !"Activo".equalsIgnoreCase(vehiculo.getEstado())) {
             continue;
         }
 
-        // Agregar a la tabla solo si necesita mantenimiento y tiene estado "Activo"
         Object[] fila = {
             vehiculo.getVehiculoID(),
             vehiculo.getMarca().getModelo(),
@@ -246,7 +245,6 @@ private void mostrarVehiculosEnTabla() {
             vehiculo.getPatente(),
             kmTotales,
             vehiculo.getEstado()
-                
         };
         modeloTabla.addRow(fila);
     }
@@ -254,11 +252,12 @@ private void mostrarVehiculosEnTabla() {
     // Establecer el modelo en la tabla
     jTable1.setModel(modeloTabla);
 }
-// Método para mostrar la ventana
-    public void mostrarVentana() {
+public void mostrarVentana() {
         mostrarVehiculosEnTabla(); // Llama al método para actualizar la tabla cada vez que se muestra la ventana
         setVisible(true);
     }
+
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;

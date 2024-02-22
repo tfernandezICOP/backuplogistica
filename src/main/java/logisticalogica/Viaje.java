@@ -20,34 +20,47 @@ import javax.persistence.TemporalType;
 @Entity
 @Table(name = "Viaje")
 public class Viaje implements Serializable {
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "viajeID")
     private Integer viajeID;
 
-    @Column(name = "destino")
-    private String destino;
-    
+    @ManyToOne
+    @JoinColumn(name = "origenProvinciaID")
+    private Provincia origen;
+
+    @ManyToOne
+    @JoinColumn(name = "destinoProvinciaID")
+    private Provincia destino;
+
+    @ManyToOne
+    @JoinColumn(name = "origenLocalidadID")
+    private Localidad localidadOrigen;
+
+    @ManyToOne
+    @JoinColumn(name = "destinoLocalidadID")
+    private Localidad localidadDestino;
+
     @Temporal(TemporalType.DATE)     
     @Column(name = "fecha")
     private Date fecha;
-
-    @Column(name = "origen")
-    private String origen;
 
     @ManyToOne
     @JoinColumn(name = "vehiculoID")
     private Vehiculo vehiculo;
 
+    // Getters y setters
+
     public Viaje() {
     }
 
-    public Viaje(Integer viajeID, String destino, Date fecha, String origen, Vehiculo vehiculo) {
+    public Viaje(Integer viajeID, Provincia origen, Provincia destino, Localidad localidadOrigen, Localidad localidadDestino, Date fecha, Vehiculo vehiculo) {
         this.viajeID = viajeID;
-        this.destino = destino;
-        this.fecha = fecha;
         this.origen = origen;
+        this.destino = destino;
+        this.localidadOrigen = localidadOrigen;
+        this.localidadDestino = localidadDestino;
+        this.fecha = fecha;
         this.vehiculo = vehiculo;
     }
 
@@ -59,12 +72,36 @@ public class Viaje implements Serializable {
         this.viajeID = viajeID;
     }
 
-    public String getDestino() {
+    public Provincia getOrigen() {
+        return origen;
+    }
+
+    public void setOrigen(Provincia origen) {
+        this.origen = origen;
+    }
+
+    public Provincia getDestino() {
         return destino;
     }
 
-    public void setDestino(String destino) {
+    public void setDestino(Provincia destino) {
         this.destino = destino;
+    }
+
+    public Localidad getLocalidadOrigen() {
+        return localidadOrigen;
+    }
+
+    public void setLocalidadOrigen(Localidad localidadOrigen) {
+        this.localidadOrigen = localidadOrigen;
+    }
+
+    public Localidad getLocalidadDestino() {
+        return localidadDestino;
+    }
+
+    public void setLocalidadDestino(Localidad localidadDestino) {
+        this.localidadDestino = localidadDestino;
     }
 
     public Date getFecha() {
@@ -75,14 +112,6 @@ public class Viaje implements Serializable {
         this.fecha = fecha;
     }
 
-    public String getOrigen() {
-        return origen;
-    }
-
-    public void setOrigen(String origen) {
-        this.origen = origen;
-    }
-
     public Vehiculo getVehiculo() {
         return vehiculo;
     }
@@ -90,7 +119,4 @@ public class Viaje implements Serializable {
     public void setVehiculo(Vehiculo vehiculo) {
         this.vehiculo = vehiculo;
     }
-
-   
-    
 }

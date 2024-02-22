@@ -13,7 +13,6 @@ import javax.swing.event.DocumentListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
-import logisticalogica.Configuracion;
 import logisticalogica.Vehiculo;
 
 /**
@@ -198,7 +197,7 @@ private void mostrarTodosLosVehiculos() {
                 {null, null, null, null, null}
             },
             new String [] {
-                "ID", "Modelo", "N° Vehiculo", "Patente", "Estado"
+                "Nro Vehiculo", "Modelo", "N° Vehiculo", "Patente", "Estado"
             }
         ));
         jScrollPane1.setViewportView(jTable1);
@@ -296,14 +295,14 @@ private void mostrarTodosLosVehiculos() {
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        Menu atras = new Menu(Configuracion.getRolUsuario());
+        Menu atras = new Menu(rolUsuario);
         atras.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        MarcaIGU marca = new MarcaIGU(this, rolUsuario);
-        marca.setVisible(true);
+       RegistrarMarcaVehiculo marcavehiculo = new RegistrarMarcaVehiculo(this, rolUsuario);
+        marcavehiculo.setVisible(true);
         this.dispose();
         
     }//GEN-LAST:event_jButton2ActionPerformed

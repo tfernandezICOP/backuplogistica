@@ -12,6 +12,7 @@ import java.util.Date;
 import java.util.List;
 import javax.swing.JFormattedTextField;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.text.DefaultFormatterFactory;
 import javax.swing.text.MaskFormatter;
 import logisticalogica.MantenimientoRealizado;
@@ -22,34 +23,22 @@ import logisticalogica.Vehiculo;
  */
 public class ConfirmarMantenimiento extends javax.swing.JFrame {
 
-    Vehiculo vehiculoSeleccionado; // Deja de inicializarlo aquí
+    Vehiculo vehiculoSeleccionado; 
         private Vehiculo vehiculo;
         private String rolUsuario;
     private ControladoraMantenimientoRealizado controladoraMantenimientoRealizado = new ControladoraMantenimientoRealizado();
     private MantenimientoRealizado mantenimientoExistente; // Agrega esta línea
     private boolean tieneMantenimientoRealizado; // Agrega esta línea
+        private Date fechaSeleccionada; // Nueva variable para almacenar la fecha seleccionada del JCalendar
     public ConfirmarMantenimiento(Vehiculo vehiculo, String rolUsuario)  {
         this.vehiculo = vehiculo;
  this.rolUsuario = rolUsuario;
         initComponents();
         inicializarVentana(); // Llama a la inicialización después de haber asignado el vehículo
-        establecerFormatoFecha();
+            JOptionPane.showMessageDialog(this, "¡Bienvenido, " + rolUsuario + "!");
 
     }
-  private void establecerFormatoFecha() {
-    try {
-        MaskFormatter mask = new MaskFormatter("##/##/####");
-        mask.setPlaceholderCharacter(' '); // Usa un espacio en blanco como carácter de relleno
-
-        // Establece el formato en el campo existente jFormattedTextField1
-        jFormattedTextField1.setFormatterFactory(new DefaultFormatterFactory(mask));
-        jFormattedTextField1.setColumns(10); // Puedes ajustar el número de columnas según tus necesidades
-        jFormattedTextField1.setFocusLostBehavior(JFormattedTextField.COMMIT); // Asegura que la entrada se confirme al perder el foco
-
-    } catch (ParseException ex) {
-        ex.printStackTrace();
-    }
-}
+  
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -67,7 +56,7 @@ public class ConfirmarMantenimiento extends javax.swing.JFrame {
         jButton2 = new javax.swing.JButton();
         Marca = new javax.swing.JLabel();
         Patente = new javax.swing.JLabel();
-        jFormattedTextField1 = new javax.swing.JFormattedTextField();
+        jCalendar1 = new com.toedter.calendar.JCalendar();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -100,7 +89,11 @@ public class ConfirmarMantenimiento extends javax.swing.JFrame {
         Patente.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
         Patente.setText("Patente:");
 
-        jFormattedTextField1.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
+        jCalendar1.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                jCalendar1PropertyChange(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -111,8 +104,6 @@ public class ConfirmarMantenimiento extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jButton2)
-                        .addGap(100, 100, 100)
                         .addComponent(jButton1))
                     .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 1888, Short.MAX_VALUE))
                 .addContainerGap())
@@ -121,29 +112,35 @@ public class ConfirmarMantenimiento extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel2)
-                        .addGap(77, 77, 77)
-                        .addComponent(jFormattedTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(58, 58, 58)
+                        .addComponent(jCalendar1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(Patente, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(Marca, javax.swing.GroupLayout.PREFERRED_SIZE, 391, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(752, 752, 752))
+                .addGap(46, 46, 46)
+                .addComponent(jButton2)
+                .addGap(587, 587, 587))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 203, Short.MAX_VALUE)
-                .addComponent(Marca, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(200, 200, 200)
-                .addComponent(Patente, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(200, 200, 200)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jFormattedTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(143, 143, 143)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 203, Short.MAX_VALUE)
+                        .addComponent(Marca, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(200, 200, 200)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(Patente, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(199, 199, 199)
+                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(143, 143, 143))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jCalendar1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(95, 95, 95)))
+                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -172,6 +169,15 @@ public class ConfirmarMantenimiento extends javax.swing.JFrame {
        avisomante.setVisible(true);
        dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jCalendar1PropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_jCalendar1PropertyChange
+    if ("calendar".equals(evt.getPropertyName())) {
+        // Obtener la fecha seleccionada del JCalendar
+        Date selectedDate = jCalendar1.getDate();
+        
+        // Actualizar la variable fechaSeleccionada
+        fechaSeleccionada = selectedDate;
+    }    }//GEN-LAST:event_jCalendar1PropertyChange
   
 
     /**
@@ -189,67 +195,50 @@ public class ConfirmarMantenimiento extends javax.swing.JFrame {
 }
 private void guardarDatosMantenimientoRealizado() {
     MantenimientoRealizado nuevoMantenimiento = null; // Declarar la variable fuera del bloque try
-
-    try {
-        // Verificar si el campo de fecha está vacío
-        if (jFormattedTextField1.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Por favor ingrese una fecha", "Error", JOptionPane.ERROR_MESSAGE);
-            return; // Salir del método si no se ingresó una fecha
-        }
-
-        // Obtener el último kilómetro recorrido del vehículo desde el parte diario
-        int ultimoKmRecorrido = controladoraMantenimientoRealizado.obtenerKmRecorridosMasRecientes(vehiculo);
-
-        // Obtener la fecha ingresada por el usuario
-        String fechaStr = jFormattedTextField1.getText();
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-        sdf.setLenient(false); // Hacer que el formato de fecha sea estricto
-        Date fecha = sdf.parse(fechaStr);
-
-        // Comprobar si el vehículo ya tiene un mantenimiento realizado
-        boolean tieneMantenimiento = controladoraMantenimientoRealizado.tieneMantenimientoRealizado(vehiculo);
-
-        if (tieneMantenimiento) {
-            // Si ya tiene un mantenimiento, actualizar la fecha y el kilometraje
-            MantenimientoRealizado mantenimientoExistente = controladoraMantenimientoRealizado.obtenerUltimoMantenimientoRealizado(vehiculo);
-            mantenimientoExistente.setFechaMantenimiento(fecha);
-            mantenimientoExistente.setKmMantenimiento(ultimoKmRecorrido);
-            controladoraMantenimientoRealizado.actualizarMantenimiento(mantenimientoExistente);
-            System.out.println("Mantenimiento realizado actualizado exitosamente. ID: " + mantenimientoExistente.getMantenimientoRealizadoID());
-
-            // Imprimir información para verificar qué se está pasando a TipoMantenimiento
-            System.out.println("Mantenimiento Realizado Existente: " + mantenimientoExistente);
-             // Crear una instancia de TipoMantenimiento y pasar el MantenimientoRealizado adecuado
-            TipoMantenimiento tipoMantenimientoFrame = new TipoMantenimiento(mantenimientoExistente, rolUsuario);
-            tipoMantenimientoFrame.setVisible(true);
-        } else {
-            // Si no tiene mantenimiento, crear uno nuevo
-            nuevoMantenimiento = new MantenimientoRealizado(); // Asignar un valor a la variable dentro del bloque try
-            nuevoMantenimiento.setFechaMantenimiento(fecha);
-            nuevoMantenimiento.setVehiculo(vehiculo);
-            nuevoMantenimiento.setKmMantenimiento(ultimoKmRecorrido);
-            controladoraMantenimientoRealizado.guardarmantenimiento(nuevoMantenimiento);
-            System.out.println("Mantenimiento realizado guardado exitosamente. ID: " + nuevoMantenimiento.getMantenimientoRealizadoID());
-
-            // Imprimir información para verificar qué se está pasando a TipoMantenimiento
-            System.out.println("Mantenimiento Realizado Nuevo: " + nuevoMantenimiento);
-            // Crear una instancia de TipoMantenimiento y pasar el MantenimientoRealizado adecuado
-            TipoMantenimiento tipoMantenimientoFrame = new TipoMantenimiento(nuevoMantenimiento, rolUsuario);
-            tipoMantenimientoFrame.setVisible(true);
-        }
-
-        // Mostrar un mensaje de éxito
-        JOptionPane.showMessageDialog(this, "Mantenimiento realizado guardado exitosamente");
-
-        // Cerrar la ventana actual después de abrir la nueva ventana
-        this.dispose();
-
-    } catch (ParseException ex) {
-        ex.printStackTrace();
-        // Mostrar un mensaje de error si hay un problema con la fecha
-        JOptionPane.showMessageDialog(this, "Ingrese una fecha válida en el formato dd/MM/yyyy", "Error", JOptionPane.ERROR_MESSAGE);
+    // Verificar si el campo de fecha está vacío
+    if (fechaSeleccionada == null) {
+        // Si no se selecciona ninguna fecha, establecer la fecha predeterminada como la fecha actual
+        fechaSeleccionada = new Date(); // Obtener la fecha actual
     }
+    // Obtener el último kilómetro recorrido del vehículo desde el parte diario
+    int ultimoKmRecorrido = controladoraMantenimientoRealizado.obtenerKmRecorridosMasRecientes(vehiculo);
+    // Comprobar si el vehículo ya tiene un mantenimiento realizado
+    boolean tieneMantenimiento = controladoraMantenimientoRealizado.tieneMantenimientoRealizado(vehiculo);
+    if (tieneMantenimiento) {
+        // Si ya tiene un mantenimiento, actualizar la fecha y el kilometraje
+        MantenimientoRealizado mantenimientoExistente = controladoraMantenimientoRealizado.obtenerUltimoMantenimientoRealizado(vehiculo);
+        mantenimientoExistente.setFechaMantenimiento(fechaSeleccionada);
+        mantenimientoExistente.setKmMantenimiento(ultimoKmRecorrido);
+        controladoraMantenimientoRealizado.actualizarMantenimiento(mantenimientoExistente);
+        System.out.println("Mantenimiento realizado actualizado exitosamente. ID: " + mantenimientoExistente.getMantenimientoRealizadoID());
+        
+        // Imprimir información para verificar qué se está pasando a TipoMantenimiento
+        System.out.println("Mantenimiento Realizado Existente: " + mantenimientoExistente);
+        // Crear una instancia de TipoMantenimiento y pasar el MantenimientoRealizado adecuado
+        TipoMantenimiento tipoMantenimientoFrame = new TipoMantenimiento(mantenimientoExistente, rolUsuario);
+        tipoMantenimientoFrame.setVisible(true);
+    } else {
+        // Si no tiene mantenimiento, crear uno nuevo
+        nuevoMantenimiento = new MantenimientoRealizado(); // Asignar un valor a la variable dentro del bloque try
+        nuevoMantenimiento.setFechaMantenimiento(fechaSeleccionada);
+        nuevoMantenimiento.setVehiculo(vehiculo);
+        nuevoMantenimiento.setKmMantenimiento(ultimoKmRecorrido);
+        controladoraMantenimientoRealizado.guardarmantenimiento(nuevoMantenimiento);
+        System.out.println("Mantenimiento realizado guardado exitosamente. ID: " + nuevoMantenimiento.getMantenimientoRealizadoID());
+        
+        // Imprimir información para verificar qué se está pasando a TipoMantenimiento
+        System.out.println("Mantenimiento Realizado Nuevo: " + nuevoMantenimiento);
+        // Crear una instancia de TipoMantenimiento y pasar el MantenimientoRealizado adecuado
+        TipoMantenimiento tipoMantenimientoFrame = new TipoMantenimiento(nuevoMantenimiento, rolUsuario);
+        tipoMantenimientoFrame.setVisible(true);
+    }
+    // Mostrar un mensaje de éxito
+    JOptionPane.showMessageDialog(this, "Mantenimiento realizado guardado exitosamente");
+    // Cerrar la ventana actual después de abrir la nueva ventana
+    this.dispose();
 }
+
+
 
 
 
@@ -273,7 +262,7 @@ private void guardarDatosMantenimientoRealizado() {
     private javax.swing.JLabel Patente;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
-    private javax.swing.JFormattedTextField jFormattedTextField1;
+    private com.toedter.calendar.JCalendar jCalendar1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;

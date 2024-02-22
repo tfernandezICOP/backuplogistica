@@ -10,7 +10,6 @@ import java.util.stream.Collectors;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
-import logisticalogica.Configuracion;
 import logisticalogica.Vehiculo;
 
 /**
@@ -209,7 +208,7 @@ public class SeleccionVehiculoPD extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        Menu atras = new Menu(Configuracion.getRolUsuario());
+        Menu atras = new Menu(rolUsuario);
         atras.setVisible(true);
         dispose(); // Cierra la pantalla actual
     }//GEN-LAST:event_jButton1ActionPerformed

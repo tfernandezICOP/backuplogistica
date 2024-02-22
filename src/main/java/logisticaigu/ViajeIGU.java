@@ -12,8 +12,6 @@ import javax.swing.event.DocumentListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
-import logisticalogica.Configuracion;
-import static logisticalogica.Usuario_.rolUsuario;
 import logisticalogica.Vehiculo;
 
 /**
@@ -229,8 +227,8 @@ public class ViajeIGU extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        MarcaIGU marca = new MarcaIGU(this, rolUsuario);
-        marca.setVisible(true);
+        RegistrarMarcaVehiculo marcavehiculo = new RegistrarMarcaVehiculo(this, rolUsuario);
+        marcavehiculo.setVisible(true);
         dispose();
     }//GEN-LAST:event_jButton3ActionPerformed
      private void mostrarTodosLosVehiculos() {

@@ -34,8 +34,9 @@ public class ParteDiarioIGU extends javax.swing.JFrame {
     this.controladoraMante = controladoraMante;  // Inicializar la controladoraMante
     this.rolUsuario = rolUsuario;
     Date fechaActual = new Date();
-    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-    jFormattedTextField1.setText(sdf.format(fechaActual));
+        
+        // Establecer la fecha actual en el JCalendar
+        jCalendar1.setDate(fechaActual);
     }
 
     /**
@@ -50,11 +51,11 @@ public class ParteDiarioIGU extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jFormattedTextField1 = new javax.swing.JFormattedTextField();
         jLabel3 = new javax.swing.JLabel();
         jTextField1 = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
+        jCalendar1 = new com.toedter.calendar.JCalendar();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -64,8 +65,6 @@ public class ParteDiarioIGU extends javax.swing.JFrame {
 
         jLabel2.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
         jLabel2.setText("Fecha:");
-
-        jFormattedTextField1.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
 
         jLabel3.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
         jLabel3.setText("Km recorridos:");
@@ -88,6 +87,12 @@ public class ParteDiarioIGU extends javax.swing.JFrame {
             }
         });
 
+        jCalendar1.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                jCalendar1PropertyChange(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -104,15 +109,16 @@ public class ParteDiarioIGU extends javax.swing.JFrame {
                 .addContainerGap())
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(750, 750, 750)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel3)
+                        .addGap(100, 100, 100))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jFormattedTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel3)
-                        .addGap(100, 100, 100)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(182, 182, 182)))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jCalendar1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -120,11 +126,15 @@ public class ParteDiarioIGU extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1)
-                .addGap(200, 200, 200)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jFormattedTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(200, 200, 200)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(200, 200, 200)
+                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(200, 200, 200))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jCalendar1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(145, 145, 145)))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -152,21 +162,7 @@ public class ParteDiarioIGU extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
        guardarParteDiario();
 
-    // Preguntar al usuario si desea seguir haciendo parte diario
-    int respuesta = JOptionPane.showConfirmDialog(this, "¿Desea seguir haciendo parte diario?", "Confirmación", JOptionPane.YES_NO_OPTION);
-
-    if (respuesta == JOptionPane.YES_OPTION) {
-        // Si el usuario elige seguir, volver a la pantalla SeleccionVehiculoPD
-        SeleccionVehiculoPD atras = new SeleccionVehiculoPD(rolUsuario);
-        atras.setVisible(true);
-        dispose(); // Cierra la pantalla actual
-    } else {
-        // Si el usuario elige no seguir, volver al menú (reemplaza con tu lógica específica)
-        Menu menu = new Menu(rolUsuario);
-        menu.setVisible(true);
-        dispose(); // Cierra la pantalla actual
-    }
-
+    
     
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -176,35 +172,35 @@ public class ParteDiarioIGU extends javax.swing.JFrame {
         dispose(); // Cierra la pantalla actual
     }//GEN-LAST:event_jButton2ActionPerformed
 
+    private void jCalendar1PropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_jCalendar1PropertyChange
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jCalendar1PropertyChange
+
     /**
      * @param args the command line arguments
      */
     
- private void guardarParteDiario() {
+private void guardarParteDiario() {
     try {
         // Obtener la fecha y km recorridos desde los campos del formulario
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-        Date fecha = sdf.parse(jFormattedTextField1.getText());
+        Date fecha = jCalendar1.getDate();
         int kmRecorridos = Integer.parseInt(jTextField1.getText());
-        if (jFormattedTextField1.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Por favor, ingresa una fecha válida.", "Error", JOptionPane.ERROR_MESSAGE);
-            return; // Detener el proceso si la fecha no está presente
-        } else {
-            // Verificar si se proporcionaron los kilómetros recorridos
-            String kmRecorridosText = jTextField1.getText().trim();
-            if (kmRecorridosText.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Por favor, ingresa los kilómetros recorridos.", "Error", JOptionPane.ERROR_MESSAGE);
-                return; // Detener el proceso si los kilómetros no están presentes
-            }
-
-            // Verificar si los kilómetros recorridos son un número válido
-            try {
-                kmRecorridos = Integer.parseInt(kmRecorridosText);
-            } catch (NumberFormatException ex) {
-                JOptionPane.showMessageDialog(this, "Por favor, ingresa una cantidad válida para los kilómetros recorridos.", "Error", JOptionPane.ERROR_MESSAGE);
-                return; // Detener el proceso si los kilómetros no son un número válido
-            }
+        
+        // Verificar si se proporcionaron los kilómetros recorridos
+        String kmRecorridosText = jTextField1.getText().trim();
+        if (kmRecorridosText.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Por favor, ingresa los kilómetros recorridos.", "Error", JOptionPane.ERROR_MESSAGE);
+            return; // Detener el proceso si los kilómetros no están presentes
         }
+
+        // Verificar si los kilómetros recorridos son un número válido
+        try {
+            kmRecorridos = Integer.parseInt(kmRecorridosText);
+        } catch (NumberFormatException ex) {
+            JOptionPane.showMessageDialog(this, "Por favor, ingresa una cantidad válida para los kilómetros recorridos.", "Error", JOptionPane.ERROR_MESSAGE);
+            return; // Detener el proceso si los kilómetros no son un número válido
+        }
+
         // Verificar si ya existe un ParteDiario para el Vehiculo
         ParteDiario parteDiarioExistente = controladoraPD.obtenerParteDiarioExistente(vehiculoSeleccionado);
 
@@ -251,14 +247,31 @@ public class ParteDiarioIGU extends javax.swing.JFrame {
                 generarMantenimiento(kmRecorridos);
             }
         }
+    int respuesta = JOptionPane.showConfirmDialog(this, "¿Desea seguir haciendo parte diario?", "Confirmación", JOptionPane.YES_NO_OPTION);
 
-        // Puedes cerrar la ventana o realizar otras acciones según tu lógica de negocio
-        this.dispose();
-    } catch (ParseException | NumberFormatException ex) {
-        // Manejar errores de conversión de fecha o número
+    if (respuesta == JOptionPane.YES_OPTION) {
+        // Si el usuario elige seguir, volver a la pantalla SeleccionVehiculoPD
+        SeleccionVehiculoPD atras = new SeleccionVehiculoPD(rolUsuario);
+        atras.setVisible(true);
+        dispose(); // Cierra la pantalla actual
+    } else {
+        // Si el usuario elige no seguir, volver al menú (reemplaza con tu lógica específica)
+        Menu menu = new Menu(rolUsuario);
+        menu.setVisible(true);
+        dispose(); // Cierra la pantalla actual
+    }
+
+        
+    } catch (NumberFormatException ex) {
+        // Manejar error de conversión de número
+        JOptionPane.showMessageDialog(this, "Por favor, ingresa una cantidad válida para los kilómetros recorridos.", "Error", JOptionPane.ERROR_MESSAGE);
+    }
+    catch (Exception ex) {
+        // Manejar otros errores
         JOptionPane.showMessageDialog(this, "Error al guardar el parte diario. Verifica los datos ingresados.", "Error", JOptionPane.ERROR_MESSAGE);
     }
 }
+
 
 
 
@@ -306,7 +319,7 @@ private void generarMantenimiento( int kmTotales) {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
-    private javax.swing.JFormattedTextField jFormattedTextField1;
+    private com.toedter.calendar.JCalendar jCalendar1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

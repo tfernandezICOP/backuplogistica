@@ -24,11 +24,13 @@ import logisticalogica.Cliente;
 import logisticalogica.DetalleMantenimiento;
 import logisticalogica.Empleado;
 import logisticalogica.EmpleadoViaje;
+import logisticalogica.Localidad;
 import logisticalogica.Mantenimiento;
 import logisticalogica.MantenimientoRealizado;
 import logisticalogica.Marca;
 import logisticalogica.Paquete;
 import logisticalogica.ParteDiario;
+import logisticalogica.Provincia;
 import logisticalogica.RolUsuario;
 import logisticalogica.Usuario;
 import logisticalogica.Vehiculo;
@@ -1217,5 +1219,115 @@ public String obtenerRolUsuario(String nombreUsuario) {
             em.close();
         }
     }
+public boolean marcaExiste(String modelo) {
+        EntityManager em = emf.createEntityManager();
+        try {
+            Query query = em.createQuery("SELECT COUNT(m) FROM Marca m WHERE m.modelo = :modelo");
+            query.setParameter("modelo", modelo);
+            Long count = (Long) query.getSingleResult();
+            return count > 0;
+        } finally {
+            em.close();
+        }
+    }
+public List<Provincia> obtenerTodasLasProvincias() {
+            EntityManager em = emf.createEntityManager();
+    
+    TypedQuery<Provincia> query = em.createQuery("SELECT p FROM Provincia p", Provincia.class);
+        return query.getResultList();
+    }
+
+    public List<Localidad> obtenerTodasLasLocalidades() {
+                EntityManager em = emf.createEntityManager();
+
+        TypedQuery<Localidad> query = em.createQuery("SELECT l FROM Localidad l", Localidad.class);
+        return query.getResultList();
+    }
+    public List<Localidad> obtenerLocalidadesPorProvincia(Provincia provincia) {
+                EntityManager em = emf.createEntityManager();
+
+// Consulta para seleccionar todas las localidades asociadas a la provincia proporcionada
+        String queryString = "SELECT l FROM Localidad l WHERE l.provincia = :provincia";
+        
+        // Crear la consulta con el EntityManager
+        TypedQuery<Localidad> query = em.createQuery(queryString, Localidad.class);
+        
+        // Establecer el parámetro provincia en la consulta
+        query.setParameter("provincia", provincia);
+        
+        // Ejecutar la consulta y devolver el resultado
+        return query.getResultList();
+    }
+    public boolean verificarMantenimientosRealizados(int idVehiculoSeleccionado) {
+    EntityManager em = null;
+    try {
+        em = getEntityManager();
+        Query query = em.createQuery("SELECT COUNT(mr) FROM MantenimientoRealizado mr WHERE mr.vehiculo.vehiculoID = :vehiculoID");
+        query.setParameter("vehiculoID", idVehiculoSeleccionado);
+        Long count = (Long) query.getSingleResult();
+        return count > 0;
+    } finally {
+        if (em != null) {
+            em.close();
+        }
+    }
+}
+public List<DetalleMantenimiento> obtenerDetallesMantenimiento(int idVehiculoSeleccionado) {
+        EntityManager em = null;
+        try {
+            em = getEntityManager();
+            Query query = em.createQuery("SELECT dm FROM DetalleMantenimiento dm " +
+                                          "JOIN dm.mantenimientoRealizado mr " +
+                                          "WHERE mr.vehiculo.vehiculoID = :vehiculoID");
+            query.setParameter("vehiculoID", idVehiculoSeleccionado);
+            return query.getResultList();
+        } finally {
+            if (em != null) {
+                em.close();
+            }
+        }
+    }
+public List<RolUsuario> obtenerTodosLosRoles() {
+        EntityManager em = emf.createEntityManager();
+        try {
+            em.getTransaction().begin();
+
+            Query query = em.createQuery("SELECT r FROM RolUsuario r");
+
+            List<RolUsuario> roles = query.getResultList();
+
+            em.getTransaction().commit();
+
+            return roles;
+        } catch (Exception e) {
+            if (em.getTransaction().isActive()) {
+                em.getTransaction().rollback();
+            }
+            e.printStackTrace();
+            return null;
+        } finally {
+            em.close();
+        }
+    }
+
+public void guardarUsuario(Usuario usuario) {
+        EntityManager em = emf.createEntityManager();
+        EntityTransaction tx = em.getTransaction();
+        try {
+            tx.begin();
+
+            em.persist(usuario);
+
+            tx.commit();
+        } catch (Exception e) {
+            if (tx != null && tx.isActive()) {
+                tx.rollback();
+            }
+            e.printStackTrace();
+        } finally {
+            em.close();
+        }
+    }
 
 }
+

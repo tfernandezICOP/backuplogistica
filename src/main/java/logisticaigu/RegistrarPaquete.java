@@ -12,7 +12,6 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import javax.swing.JOptionPane;
 import logisticalogica.Cliente;
-import logisticalogica.Configuracion;
 import logisticalogica.Paquete;
 
 /**

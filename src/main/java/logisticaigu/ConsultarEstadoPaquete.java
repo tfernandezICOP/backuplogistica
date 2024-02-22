@@ -10,7 +10,6 @@ import java.util.List;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
-import logisticalogica.Configuracion;
 import logisticalogica.Paquete;
 
 /**
@@ -205,28 +204,12 @@ public class ConsultarEstadoPaquete extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
     }
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        Menu atras = new Menu(Configuracion.getRolUsuario());
+        Menu atras = new Menu(rolUsuario);
         atras.setVisible(true);
         dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-   private void mostrarPaquetesentabla(List<Paquete> paquetes) {
-        DefaultTableModel modelo = (DefaultTableModel) tablafiltrar.getModel();
-        modelo.setRowCount(0); // Elimina todas las filas existentes en la tabla
-
-        for (Paquete paquete : paquetes) {
-            modelo.addRow(new Object[]{
-                paquete.getCodigo_paquete(),
-                paquete.getDescripcion(),
-                paquete.getReceptor().getNombre(),
-                paquete.getDomicilioEntrega()
-                
-            });
-        }
-    }
+   
     
    private void inicializarVentana() {
         tablafiltrar.getSelectionModel().addListSelectionListener(e -> {
@@ -250,7 +233,6 @@ public class ConsultarEstadoPaquete extends javax.swing.JFrame {
             paquete.getDescripcion(),
             nombreReceptor,
             paquete.getDomicilioEntrega()
-            // Agrega más columnas según la información que desees mostrar
         });
     }
 }

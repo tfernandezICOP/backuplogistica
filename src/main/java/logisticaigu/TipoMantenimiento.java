@@ -37,11 +37,7 @@ public class TipoMantenimiento extends javax.swing.JFrame {
   initComponents();
         this.mantenimientoRealizado = mantenimientoRealizado; // Asigna el valor recibido al atributo de la clase
         this.rolUsuario = rolUsuario;
-        if (mantenimientoRealizado != null) {
-            JOptionPane.showMessageDialog(this, "ID del Mantenimiento Realizado: " + mantenimientoRealizado.getMantenimientoRealizadoID());
-        } else {
-            JOptionPane.showMessageDialog(this, "Error: Mantenimiento Realizado es nulo");
-        }
+                    JOptionPane.showMessageDialog(this, "¡Bienvenido, " + rolUsuario + "!");
 
         ControladoraDetalleMante controladoraDetalleMante = new ControladoraDetalleMante();
         // Obtener todos los detalles de mantenimiento
@@ -58,12 +54,9 @@ public class TipoMantenimiento extends javax.swing.JFrame {
          jTable1.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
         @Override
         public void valueChanged(ListSelectionEvent e) {
-            // Verificar si hay una fila seleccionada en la tabla
             if (!jTable1.getSelectionModel().isSelectionEmpty()) {
-                // Habilitar el botón "Dar de baja"
                 jButton2.setEnabled(true);
             } else {
-                // Deshabilitar el botón "Dar de baja"
                 jButton2.setEnabled(false);
             }
         }

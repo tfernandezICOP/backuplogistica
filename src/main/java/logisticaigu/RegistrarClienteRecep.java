@@ -144,14 +144,12 @@ public class RegistrarClienteRecep extends javax.swing.JFrame {
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addGap(598, 598, 598)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
                         .addComponent(jLabel1)
                         .addGap(200, 200, 200)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -203,7 +201,7 @@ private boolean camposLlenos() {
       String nombre = jTextField1.getText();
     String apellido = jTextField2.getText();
     String correo = jTextField4.getText();
-    String direccion = jTextField5.getText();
+    String direccion = jTextField6.getText();
     long nroDocumento = 0;
     long nroTelefono = 0;
 
@@ -215,7 +213,7 @@ private boolean camposLlenos() {
         try {
             // Intenta obtener los valores de los campos de texto numéricos
             nroDocumento = Long.parseLong(jTextField3.getText());
-            nroTelefono = Long.parseLong(jTextField6.getText());
+            nroTelefono = Long.parseLong(jTextField5.getText());
         } catch (NumberFormatException e) {
             // Si hay un error al convertir los valores numéricos, muestra un mensaje de error
             JOptionPane.showMessageDialog(this, "Por favor, ingresa números válidos para N° Documento y N° Telefono.", "Error", JOptionPane.ERROR_MESSAGE);

@@ -43,4 +43,6 @@ public class ControladoraMantenimientoRealizado {
        public int obtenerUltimoKmMantenimiento(Vehiculo vehiculo) {
        return controlpersis.obtenerUltimoKmMantenimiento(vehiculo);
        }
+       
+       
 }

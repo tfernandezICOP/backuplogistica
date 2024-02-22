@@ -16,6 +16,8 @@
     <class>logisticalogica.Usuario</class>
     <class>logisticalogica.MantenimientoRealizado</class>
     <class>logisticalogica.RolUsuario</class>
+    <class>logisticalogica.Localidad</class>
+    <class>logisticalogica.Provincia</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/proyectofinal?serverTimezone=UTC"/>
       <property name="javax.persistence.jdbc.user" value="postgres"/>

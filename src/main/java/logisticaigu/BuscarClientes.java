@@ -402,28 +402,43 @@ public class BuscarClientes extends javax.swing.JFrame {
         }
     }
 }
-   private void abrirBuscarClienteReceptor(Cliente clienteEmisorSeleccionado) {
+  /* private void abrirBuscarClienteReceptor(Cliente clienteEmisorSeleccionado) {
     BuscarClienteReceptor clienteReceptor = new BuscarClienteReceptor(paqueteTemporal, rolUsuario);
 
     // Establecer el paqueteTemporal en la nueva ventana
     clienteReceptor.setPaqueteTemporal(paqueteTemporal);
 
-    // Establecer el cliente emisor y paquete temporal en la nueva ventana
     if (paqueteTemporal != null) {
         clienteReceptor.setIdClienteEmisorSeleccionado(clienteEmisorSeleccionado.getClienteID());
     }
 
-    // Asignar el cliente emisor seleccionado al paqueteTemporal
     paqueteTemporal.setEmisor(clienteEmisorSeleccionado);
 
-    // Llamar al método para actualizar el ID del cliente emisor en la ventana BuscarClienteReceptor
+   
     clienteReceptor.actualizarIDClienteEmisor(clienteEmisorSeleccionado.getClienteID());
 
     // Hacer visible la ventana BuscarClienteReceptor
     clienteReceptor.setVisible(true);
     this.dispose(); // Cerrar la ventana actual (BuscarClientes)
 }
+*/
+      private void abrirBuscarClienteReceptor(Cliente clienteEmisorSeleccionado) {
+    BuscarClienteReceptor clienteReceptor = new BuscarClienteReceptor(paqueteTemporal, rolUsuario);
 
+    // Establecer el paqueteTemporal en la nueva ventana
+    clienteReceptor.setPaqueteTemporal(paqueteTemporal);
+
+    if (clienteEmisorSeleccionado != null) {
+        String nombreApellido = clienteEmisorSeleccionado.getNombre() + " " + clienteEmisorSeleccionado.getApellido();
+        clienteReceptor.actualizarNombreApellidoClienteEmisor(nombreApellido);
+    }
+
+    paqueteTemporal.setEmisor(clienteEmisorSeleccionado);
+
+    // Hacer visible la ventana BuscarClienteReceptor
+    clienteReceptor.setVisible(true);
+    this.dispose(); // Cerrar la ventana actual (BuscarClientes)
+}
 
 
 
@@ -476,17 +491,7 @@ public void seleccionarClienteEmisor() {
 }
 
 
-// Agregar el método confirmarSeleccion()
-private boolean confirmarSeleccion() {
-    int confirmacion = JOptionPane.showConfirmDialog(
-            null,
-            "¿Estás seguro de aceptar la selección?",
-            "Confirmación",
-            JOptionPane.YES_NO_OPTION
-    );
 
-    return confirmacion == JOptionPane.YES_OPTION;
-}
 
  public void mostrarInfoPaqueteTemporal(Paquete paqueteTemporal) {
         if (paqueteTemporal != null) {

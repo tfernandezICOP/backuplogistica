@@ -6,10 +6,12 @@ package logisticaigu;
 
 import Controladoras.ControladoraUsuario;
 import com.formdev.flatlaf.IntelliJTheme;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import logisticapersistencia.ControladoraPersistencia;
@@ -88,7 +90,7 @@ public class Login extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGap(0, 1600, Short.MAX_VALUE)
+                .addGap(0, 1046, Short.MAX_VALUE)
                 .addComponent(jButton1)
                 .addGap(100, 100, 100)
                 .addComponent(jButton2))
@@ -119,7 +121,7 @@ public class Login extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 417, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 73, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -166,8 +168,8 @@ public class Login extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
 
     
-      private void verificarCredenciales() {
-     String nombreUsuario = jTextField1.getText();
+     private void verificarCredenciales() {
+    String nombreUsuario = jTextField1.getText();
     String contraseña = new String(jPasswordField1.getPassword());
 
     // Llamar a la ControladoraUsuario para verificar las credenciales
@@ -175,8 +177,11 @@ public class Login extends javax.swing.JFrame {
         // Obtener el nombre del rol del usuario autenticado
         String rolUsuario = controladoraUsuario.obtenerRolUsuario(nombreUsuario);
 
-        // Si las credenciales son válidas, mostrar un mensaje de bienvenida
-        javax.swing.JOptionPane.showMessageDialog(this, "¡Bienvenido!");
+        JLabel mensajeBienvenida = new JLabel("<html><div style='font-size: 24pt;'>¡Bienvenido!</div></html>");
+        mensajeBienvenida.setFont(new Font("Arial", Font.PLAIN, 24));
+
+        // Mostrar el mensaje de bienvenida personalizado
+        JOptionPane.showMessageDialog(this, mensajeBienvenida);
 
         // Crear una instancia de la ventana Menu con el rol del usuario como parámetro
         Menu ventanaMenu = new Menu(rolUsuario);
@@ -188,7 +193,7 @@ public class Login extends javax.swing.JFrame {
         this.dispose();
     } else {
         // Si las credenciales no son válidas, mostrar un mensaje de error
-        javax.swing.JOptionPane.showMessageDialog(this, "Usuario o contraseña incorrectos");
+        JOptionPane.showMessageDialog(this, "Usuario o contraseña incorrectos");
     }
 }
 
