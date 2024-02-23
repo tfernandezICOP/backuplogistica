@@ -54,4 +54,7 @@ public class ControladoraCliente {
    public boolean clienteExiste(long nroDocumento) {
     return controlpersis.clienteExiste(nroDocumento);
    }
+   public void actualizarCliente(Cliente cliente) {
+       controlpersis.actualizarCliente(cliente);
+   }
 }

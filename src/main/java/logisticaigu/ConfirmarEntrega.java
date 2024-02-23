@@ -6,6 +6,7 @@ package logisticaigu;
 
 import Controladoras.ControladoraPaquete;
 import Controladoras.ControladoraVehiculo;
+import Controladoras.ControladoraViaje;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -21,19 +22,19 @@ import logisticalogica.Paquete;
  * @author ULTRA
  */
 public class ConfirmarEntrega extends javax.swing.JFrame {
-    ControladoraPaquete controladoraPaquete = new ControladoraPaquete();
+   ControladoraPaquete controladoraPaquete = new ControladoraPaquete();
     private List<Paquete> paquetes;
-private List<Paquete> paquetesEnCamino; // Agregar esta línea
-private String rolUsuario;
-
+    private List<Paquete> paquetesEnCamino; // Agregar esta línea
+    private String rolUsuario;
     ControladoraVehiculo controladoraVehiculo = new ControladoraVehiculo();
-
-    /**
-     * Creates new form ConfirmarEntrega
-     */
-    public ConfirmarEntrega(String rolUsuario) {
-        initComponents();
+    private int idViaje;
+    private int vehiculoId;
+    private ControladoraViaje controladoraviaje = new ControladoraViaje();
+    public ConfirmarEntrega(int vehiculoId ,int idViaje, String rolUsuario) {
+         initComponents();
         this.rolUsuario = rolUsuario;
+        this.idViaje = idViaje; // Asignar el idViaje recibido
+        this.vehiculoId = vehiculoId; // Asignar el vehiculoId recibido
         abrirConfirmarEntrega();
          jTextField1.getDocument().addDocumentListener(new javax.swing.event.DocumentListener() {
         @Override
@@ -92,6 +93,11 @@ private String rolUsuario;
         jLabel2.setText("Codigo del paquete:");
 
         jTextField1.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
+        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField1ActionPerformed(evt);
+            }
+        });
 
         jButton1.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
         jButton1.setText("Volver");
@@ -128,23 +134,22 @@ private String rolUsuario;
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jButton2)
-                        .addGap(100, 100, 100)
-                        .addComponent(jButton1))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1888, Short.MAX_VALUE)
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel2)
-                                .addGap(18, 18, 18)
-                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE)))))
+                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1888, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel2)
+                        .addGap(18, 18, 18)
+                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jButton2)
+                .addGap(102, 102, 102)
+                .addComponent(jButton1)
+                .addGap(55, 55, 55))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -156,12 +161,12 @@ private String rolUsuario;
                     .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 792, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 501, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
+                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(297, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -179,7 +184,7 @@ private String rolUsuario;
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-    int filaSeleccionada = jTable1.getSelectedRow();
+   int filaSeleccionada = jTable1.getSelectedRow();
 
     if (filaSeleccionada == -1) {
         JOptionPane.showMessageDialog(this, "Por favor, seleccione un paquete para confirmar la entrega", "Paquete no seleccionado", JOptionPane.WARNING_MESSAGE);
@@ -250,13 +255,8 @@ private String rolUsuario;
                 DefaultTableModel modelo = (DefaultTableModel) jTable1.getModel();
                 modelo.setValueAt(paqueteSeleccionado.getEstado(), filaSeleccionada, 3); // El 3 representa la columna del estado en la tabla
 
-                // Preguntar si desea seguir en la pantalla o volver al menú
-                int opcionSeguir = JOptionPane.showConfirmDialog(this, "¿Desea seguir en esta pantalla?", "Continuar", JOptionPane.YES_NO_OPTION);
-                if (opcionSeguir == JOptionPane.NO_OPTION) {
-                    Menu atras = new Menu(rolUsuario);
-                    atras.setVisible(true);
-                    dispose();
-                }
+                // Verificar si es necesario finalizar el viaje
+                finalizarViajeSiNecesario();
             }
         }
     }
@@ -265,41 +265,55 @@ private String rolUsuario;
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        GestionarEntrega atras = new GestionarEntrega(rolUsuario);
+        ViajeVehiculoEntrega atras = new ViajeVehiculoEntrega(vehiculoId, rolUsuario);
         atras.setVisible(true);
-        dispose(); 
+        dispose();
       }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField1ActionPerformed
 
     /**
      * @param args the command line arguments
      */
   
- public void abrirConfirmarEntrega() {
-    try {
-        if (vehiculoSeleccionado != null) {
-             paquetes = controladoraVehiculo.obtenerPaquetesPorVehiculo(vehiculoSeleccionado);
-            if (paquetes != null && !paquetes.isEmpty()) {
-                paquetesEnCamino = filtrarPaquetesEnCamino(paquetes); // Asignar los paquetes en camino
+public void abrirConfirmarEntrega() {
+        try {
+            if (idViaje > 0) {
+                // Obtener los paquetes "EN CAMINO" para el viaje seleccionado
+                paquetesEnCamino = controladoraPaquete.obtenerPaquetesEnCaminoPorViaje(idViaje);
                 if (!paquetesEnCamino.isEmpty()) {
                     mostrarPaquetes(paquetesEnCamino);
                     setVisible(true);
                 } else {
-                    // Mostrar un mensaje indicando que no hay paquetes en camino para el vehículo seleccionado
-                    JOptionPane.showMessageDialog(this, "No hay paquetes en camino para el vehículo seleccionado", "Sin Paquetes", JOptionPane.INFORMATION_MESSAGE);
+                    // Mostrar un mensaje indicando que no hay paquetes "EN CAMINO" para el viaje seleccionado
+                    JOptionPane.showMessageDialog(this, "No hay paquetes 'EN CAMINO' para el viaje seleccionado", "Sin Paquetes", JOptionPane.INFORMATION_MESSAGE);
                 }
             } else {
-                // Mostrar un mensaje indicando que no hay paquetes para el vehículo seleccionado
-                JOptionPane.showMessageDialog(this, "No hay paquetes para el vehículo seleccionado", "Sin Paquetes", JOptionPane.INFORMATION_MESSAGE);
+                // Mostrar un mensaje indicando que no se ha seleccionado ningún viaje
+                JOptionPane.showMessageDialog(this, "Por favor, seleccione un viaje", "Viaje no seleccionado", JOptionPane.WARNING_MESSAGE);
             }
-        } else {
-            // Mostrar un mensaje indicando que no se ha seleccionado ningún vehículo
-            JOptionPane.showMessageDialog(this, "Por favor, seleccione un vehículo", "Vehículo no seleccionado", JOptionPane.WARNING_MESSAGE);
+        } catch (Exception ex) {
+            ex.printStackTrace(); // Imprimir el stack trace en la consola
+            // Aquí puedes agregar un mensaje de error o manejar la excepción de acuerdo a tu lógica de la aplicación
         }
-    } catch (Exception ex) {
-        ex.printStackTrace(); // Imprimir el stack trace en la consola
-        // Aquí puedes agregar un mensaje de error o manejar la excepción de acuerdo a tu lógica de la aplicación
     }
-}
+
+    public void mostrarPaquetes(List<Paquete> paquetes) {
+        DefaultTableModel modelo = (DefaultTableModel) jTable1.getModel();
+        modelo.setRowCount(0); // Limpiar la tabla
+
+        for (Paquete paquete : paquetes) {
+            modelo.addRow(new Object[]{
+                    paquete.getCodigo_paquete(),
+                    paquete.getDescripcion(),
+                    paquete.getDomicilioEntrega(),
+                    paquete.getEstado()
+            });
+        }
+    }
+
 
 
 
@@ -312,7 +326,7 @@ public List<Paquete> filtrarPaquetesEnCamino(List<Paquete> paquetes) {
     }
     return paquetesEnCamino;
 }
-public void mostrarPaquetes(List<Paquete> paquetes) {
+/*public void mostrarPaquetes(List<Paquete> paquetes) {
     this.paquetesEnCamino = paquetes; // Actualiza la lista de paquetes en camino
     DefaultTableModel modelo = (DefaultTableModel) jTable1.getModel();
     modelo.setRowCount(0); // Limpiar la tabla
@@ -327,31 +341,78 @@ public void mostrarPaquetes(List<Paquete> paquetes) {
     }
 }
 
-  
+ */ 
  private void filtrarPaquetes() {
     String codigoPaqueteTexto = jTextField1.getText();
 
     if (!codigoPaqueteTexto.isEmpty()) {
         List<Paquete> paquetesFiltrados = new ArrayList<>();
-        int codigoPaquete;
-        try {
-            codigoPaquete = Integer.parseInt(codigoPaqueteTexto);
-            if (paquetes != null) {
-                for (Paquete paquete : paquetes) {
-                    if (paquete.getCodigo_paquete() == codigoPaquete) {
-                        paquetesFiltrados.add(paquete);
-                    }
+        if (paquetesEnCamino != null) {
+            for (Paquete paquete : paquetesEnCamino) {
+                // Cambia la comparación para que busque coincidencias parciales del código de paquete
+                if (String.valueOf(paquete.getCodigo_paquete()).contains(codigoPaqueteTexto)) {
+                    paquetesFiltrados.add(paquete);
                 }
-                mostrarPaquetes(paquetesFiltrados);
-            } else {
-                System.out.println("La lista de paquetes está vacía o no ha sido inicializada.");
             }
-        } catch (NumberFormatException ex) {
-            System.out.println("Ingrese un número válido para el código de paquete.");
+            mostrarPaquetes(paquetesFiltrados);
+        } else {
+            System.out.println("La lista de paquetes está vacía o no ha sido inicializada.");
         }
     } else {
-        // Si el campo está vacío, muestra todos los paquetes
-        abrirConfirmarEntrega();
+        mostrarPaquetes(paquetesEnCamino);
+    }
+}
+
+private boolean todosPaquetesEntregadosODevolucionesRealizadas(int idViaje) {
+    List<Paquete> paquetes = controladoraPaquete.obtenerPaquetesEnCaminoPorViaje(idViaje);
+    for (Paquete paquete : paquetes) {
+        if (!paquete.getEstado().equals("Entregado") && !paquete.getEstado().equals("Devuelto")) {
+            return false; // Al menos un paquete no ha sido entregado ni devuelto
+        }
+    }
+    return true; // Todos los paquetes han sido entregados o devueltos
+}
+
+private void finalizarViajeSiNecesario() {
+    int idViajeSeleccionado = obtenerIdViajeSeleccionado();
+    if (idViajeSeleccionado != -1) {
+        if (todosPaquetesEntregadosODevolucionesRealizadas(idViajeSeleccionado)) {
+            int opcion = JOptionPane.showConfirmDialog(this, "¿Desea finalizar el viaje?", "Finalizar Viaje", JOptionPane.YES_NO_OPTION);
+            if (opcion == JOptionPane.YES_OPTION) {
+                // Actualizar estado del viaje a "Baja"
+                controladoraviaje.actualizarEstadoViaje(idViajeSeleccionado, "Baja");
+                JOptionPane.showMessageDialog(this, "El viaje ha sido finalizado.", "Viaje Finalizado", JOptionPane.INFORMATION_MESSAGE);
+                
+                // Cerrar el JFrame actual
+                dispose();
+                
+                // Abrir el JFrame ViajesEntrega
+                ViajesEntrega viajesEntrega = new ViajesEntrega(rolUsuario);
+                viajesEntrega.setVisible(true);
+            }
+        }
+    } else {
+        JOptionPane.showMessageDialog(this, "Por favor, seleccione un viaje.", "Alerta", JOptionPane.WARNING_MESSAGE);
+    }
+}
+
+private int obtenerIdViajeSeleccionado() {
+    return idViaje;
+}
+private void llenarTabla() {
+    try {
+        // Llena la tabla con los paquetes en camino para el viaje seleccionado
+        paquetesEnCamino = controladoraPaquete.obtenerPaquetesEnCaminoPorViaje(idViaje);
+        if (!paquetesEnCamino.isEmpty()) {
+            mostrarPaquetes(paquetesEnCamino);
+        } else {
+            // Si no hay paquetes en camino, limpia la tabla
+            DefaultTableModel modelo = (DefaultTableModel) jTable1.getModel();
+            modelo.setRowCount(0);
+        }
+    } catch (Exception ex) {
+        ex.printStackTrace(); // Imprime el stack trace en la consola en caso de error
+        // Aquí puedes agregar un mensaje de error o manejar la excepción según tu lógica de la aplicación
     }
 }
 

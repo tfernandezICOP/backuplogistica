@@ -48,13 +48,15 @@ public class Viaje implements Serializable {
     @ManyToOne
     @JoinColumn(name = "vehiculoID")
     private Vehiculo vehiculo;
-
-    // Getters y setters
-
+ @Column(name = "estado")  // Nueva columna "estado"
+    private String estado;
+    
     public Viaje() {
+                this.estado = "Activo";  // Por defecto, el cliente se establece como "Activo"
+
     }
 
-    public Viaje(Integer viajeID, Provincia origen, Provincia destino, Localidad localidadOrigen, Localidad localidadDestino, Date fecha, Vehiculo vehiculo) {
+    public Viaje(Integer viajeID, Provincia origen, Provincia destino, Localidad localidadOrigen, Localidad localidadDestino, Date fecha, Vehiculo vehiculo, String estado) {
         this.viajeID = viajeID;
         this.origen = origen;
         this.destino = destino;
@@ -62,6 +64,7 @@ public class Viaje implements Serializable {
         this.localidadDestino = localidadDestino;
         this.fecha = fecha;
         this.vehiculo = vehiculo;
+        this.estado = estado;
     }
 
     public Integer getViajeID() {
@@ -119,4 +122,14 @@ public class Viaje implements Serializable {
     public void setVehiculo(Vehiculo vehiculo) {
         this.vehiculo = vehiculo;
     }
+
+    public String getEstado() {
+        return estado;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
+    }
+
+   
 }

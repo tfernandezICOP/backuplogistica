@@ -35,6 +35,7 @@ import logisticapersistencia.DetalleMantenimientoJpaController;
 import logisticapersistencia.LocalidadJpaController;
 import logisticapersistencia.MantenimientoJpaController;
 import logisticapersistencia.MantenimientoRealizadoJpaController;
+import logisticapersistencia.PaqueteJpaController;
 import logisticapersistencia.ParteDiarioJpaController;
 import logisticapersistencia.ProvinciaJpaController;
 import logisticapersistencia.RolUsuarioJpaController;
@@ -50,8 +51,6 @@ import logisticapersistencia.ViajeJpaController;
 public class Proyectofinallogistica {
 
     public static void main(String[] args) {
-    
-   
     /*Menu menu = new Menu();
     menu.setVisible(true);
      */

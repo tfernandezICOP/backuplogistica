@@ -29,7 +29,8 @@ public class Paquete implements Serializable {
 
     @Column(name = "descripcion")
     private String descripcion;
-
+ @Column(name = "domicilioRetiro")
+    private String domicilioRetiro;
     @Column(name = "domicilioEntrega")
     private String domicilioEntrega;
 
@@ -54,14 +55,17 @@ public class Paquete implements Serializable {
     public Paquete() {
     }
 
-    public Paquete(Integer paqueteID, Integer codigo_paquete, String descripcion, String domicilioEntrega, String estado, Cliente emisor, Cliente receptor) {
+    public Paquete(Integer paqueteID, Integer codigo_paquete, String descripcion, String domicilioRetiro, String domicilioEntrega, String estado, Cliente emisor, Cliente receptor, Date fechaEntrega, Date fechaRecibido) {
         this.paqueteID = paqueteID;
         this.codigo_paquete = codigo_paquete;
         this.descripcion = descripcion;
+        this.domicilioRetiro = domicilioRetiro;
         this.domicilioEntrega = domicilioEntrega;
         this.estado = estado;
         this.emisor = emisor;
         this.receptor = receptor;
+        this.fechaEntrega = fechaEntrega;
+        this.fechaRecibido = fechaRecibido;
     }
 
     public Integer getPaqueteID() {
@@ -86,6 +90,14 @@ public class Paquete implements Serializable {
 
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
+    }
+
+    public String getDomicilioRetiro() {
+        return domicilioRetiro;
+    }
+
+    public void setDomicilioRetiro(String domicilioRetiro) {
+        this.domicilioRetiro = domicilioRetiro;
     }
 
     public String getDomicilioEntrega() {
@@ -136,5 +148,4 @@ public class Paquete implements Serializable {
         this.fechaRecibido = fechaRecibido;
     }
 
-    
 }

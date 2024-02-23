@@ -336,12 +336,10 @@ private void llenarComboBoxLocalidadesDestino(Provincia provincia) {
             idViaje = nuevoViaje.getViajeID();
             // Mostrar mensaje de éxito
             JOptionPane.showMessageDialog(this, "Viaje guardado exitosamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
-
-            // Cerrar la ventana actual
+            Menu menu = new Menu(rolUsuario);
+            menu.setVisible(true);
             this.dispose();
-
-            // Ir a la pantalla AsociarPaqueteViaje
-            new AsociarPaqueteViaje(idViaje, rolUsuario).setVisible(true);
+           
         }
     } catch (Exception e) {
         JOptionPane.showMessageDialog(this, "Ha ocurrido un error al guardar el viaje.", "Error", JOptionPane.ERROR_MESSAGE);

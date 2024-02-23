@@ -39,7 +39,15 @@ public class ControladoraPaquete {
     controlpersis.actualizarFechaentrega(paquete);
     }    
     
-    
+      public List<Paquete> obtenerPaquetesEnCaminoPorViaje(int idViaje) {
+       return controlpersis.obtenerPaquetesEnCaminoPorViaje(idViaje);
+      }
+      public List<Paquete> obtenerPaquetesPorEstadoYViaje(int idViaje) {
+          return controlpersis.obtenerPaquetesPorEstadoYViaje(idViaje);
+      }
+           public List<Paquete> obtenerPaquetesPorViaje(int viajeID) {
+           return controlpersis.obtenerPaquetesPorViaje(viajeID);
+           }
 }
 
 

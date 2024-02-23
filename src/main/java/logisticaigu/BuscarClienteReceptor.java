@@ -131,7 +131,6 @@ public class BuscarClienteReceptor extends javax.swing.JFrame {
         String nombreCompleto = cliente.getNombre() + " " + cliente.getApellido();
 
         Object[] rowData = {
-            cliente.getClienteID(),
             nombreCompleto,
             cliente.getNro_documento(),
             cliente.getNro_telefono(),
@@ -238,7 +237,7 @@ public class BuscarClienteReceptor extends javax.swing.JFrame {
     String apellido = ingresardocumento.getText().trim(); // Obtener el apellido desde el campo de número de documento
 
     if (nombre.isEmpty() && apellido.isEmpty()) {
-        cargarClientesEnTabla(); // Si ambos campos están vacíos, muestra todos los clientes
+        cargarClientesEnTabla(); 
     } else {
         // Realizar la búsqueda de clientes según los valores ingresados
         List<Cliente> clientes = controladoraCliente.filtrarNombreyApellido(nombre + " " + apellido);
@@ -258,6 +257,7 @@ public class BuscarClienteReceptor extends javax.swing.JFrame {
         }
     }
 }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always

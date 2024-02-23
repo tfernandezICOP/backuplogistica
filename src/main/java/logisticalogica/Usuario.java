@@ -29,7 +29,6 @@ public class Usuario implements Serializable {
     @JoinColumn(name = "rolUsuario_ID") 
     private RolUsuario rolUsuario;
 
-    // Constructors, getters, and setters
 
     public Usuario() {
     }

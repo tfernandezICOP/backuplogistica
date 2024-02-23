@@ -26,9 +26,7 @@ public class ClientesTotales extends javax.swing.JFrame {
     private ControladoraCliente controladoraCliente;
     private DefaultTableModel tableModel;
     private String rolUsuario;
-    /**
-     * Creates new form ClientesTotales
-     */
+   
     public ClientesTotales(String rolUsuario) {
         initComponents();
         this.rolUsuario = rolUsuario;
@@ -125,6 +123,7 @@ public class ClientesTotales extends javax.swing.JFrame {
     });
   if (!rolUsuario.equals("Administrador")) {
         jButton3.setVisible(false);
+        jButton4.setVisible(false);
     }     
 
 }
@@ -149,19 +148,20 @@ public class ClientesTotales extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
+        jButton4 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jTable1.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null}
             },
             new String [] {
-                "ID", "Nombre y Apellido", "N° Documento", "N° Telefono", "Correo electronico", "Estado"
+                "ID", "Nombre y Apellido", "N° Documento", "N° Telefono", "Correo electronico", "Direccion", "Estado"
             }
         ));
         jScrollPane1.setViewportView(jTable1);
@@ -204,6 +204,13 @@ public class ClientesTotales extends javax.swing.JFrame {
         jButton3.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
         jButton3.setText("Dar de baja");
 
+        jButton4.setText("Editar");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -224,6 +231,8 @@ public class ClientesTotales extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jButton3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton4)
+                        .addGap(110, 110, 110)
                         .addComponent(jButton2)
                         .addGap(100, 100, 100)
                         .addComponent(jButton1)))
@@ -243,11 +252,16 @@ public class ClientesTotales extends javax.swing.JFrame {
                     .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 792, Short.MAX_VALUE)
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(26, 26, 26)
+                        .addComponent(jButton4)))
                 .addContainerGap())
         );
 
@@ -281,6 +295,39 @@ public class ClientesTotales extends javax.swing.JFrame {
         this.dispose();
 
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+    int filaSeleccionada = jTable1.getSelectedRow();
+
+    if (filaSeleccionada == -1) {
+        JOptionPane.showMessageDialog(null, "Seleccione un cliente para editar.");
+        return;
+    }
+    int idcliente = (int) jTable1.getValueAt(filaSeleccionada, 0);
+    String nombreCompleto = jTable1.getValueAt(filaSeleccionada, 1).toString();
+    
+    String[] partesNombreApellido = nombreCompleto.split(" ");
+    String nombre = partesNombreApellido[0];
+    String apellido = partesNombreApellido[1];
+
+    long numeroDocumento = Long.parseLong(jTable1.getValueAt(filaSeleccionada, 2).toString());
+    long numeroTelefono = Long.parseLong(jTable1.getValueAt(filaSeleccionada, 3).toString());
+    String correoElectronico = jTable1.getValueAt(filaSeleccionada, 4).toString();
+    String direccion = jTable1.getValueAt(filaSeleccionada, 5).toString();
+
+    Cliente cliente = new Cliente();
+    cliente.setClienteID(idcliente);
+    cliente.setNombre(nombre);
+    cliente.setApellido(apellido);
+    cliente.setNro_documento(numeroDocumento);
+    cliente.setNro_telefono(numeroTelefono);
+    cliente.setCorreoElectronico(correoElectronico);
+    cliente.setDireccion(direccion);
+    
+    EditarCliente editarCliente = new EditarCliente(cliente, rolUsuario);
+    editarCliente.setVisible(true);
+    dispose();
+    }//GEN-LAST:event_jButton4ActionPerformed
 
    
 private void darDeBajaCliente() {
@@ -341,6 +388,7 @@ private void darDeBajaCliente() {
             cliente.getNro_documento(),
             cliente.getNro_telefono(),
             cliente.getCorreoElectronico(),
+            cliente.getDireccion(),
             cliente.getEstado()
         };
         tableModel.addRow(rowData);
@@ -411,6 +459,7 @@ private void darDeBajaCliente() {
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;

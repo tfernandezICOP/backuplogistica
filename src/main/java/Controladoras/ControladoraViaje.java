@@ -4,6 +4,7 @@
  */
 package Controladoras;
 
+import java.util.List;
 import logisticalogica.Vehiculo;
 import logisticalogica.Viaje;
 import logisticapersistencia.ControladoraPersistencia;
@@ -23,5 +24,25 @@ public class ControladoraViaje {
     public Viaje obtenerViajePorId(int viajeID) {
         return controlpersis.obtenerViajePorId(viajeID);
     }
-
+ public List<Viaje> obtenerViajesActivosPorVehiculo(int vehiculoID) {
+     return controlpersis.obtenerViajesActivosPorVehiculo(vehiculoID);
+ 
+ }
+ 
+ public List<Viaje> obtenerTodosLosViajes() {
+      return controlpersis.obtenerTodosLosViajes();
+  }
+ 
+   public void actualizarEstadoViaje(int idViaje, String nuevoEstado) {
+    controlpersis.actualizarEstadoViaje(idViaje, nuevoEstado);
+   }
+   
+     public List<Viaje> obtenerViajesActivos() {
+         return controlpersis.obtenerViajesActivos();
+             
+     }
+     
+          public List<Viaje> obtenerViajesPorEstadoYVehiculo(String estado, int vehiculoID) {
+           return controlpersis.obtenerViajesPorEstadoYVehiculo(estado, vehiculoID);
+          }
 }

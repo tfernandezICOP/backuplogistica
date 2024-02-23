@@ -47,4 +47,12 @@ public class ControladoraMarca {
      public boolean marcaExiste(String modelo) {
          return controlpersis.marcaExiste(modelo);
      }
+     
+      public void actualizarModelo(int marcaID, String nuevoModelo) {
+      controlpersis.actualizarModelo(marcaID, nuevoModelo);
+      }
+      
+          public void actualizarTipo(int marcaID, String nuevoTipo) {
+          controlpersis.actualizarTipo(marcaID, nuevoTipo);
+          }
 }

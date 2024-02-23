@@ -63,4 +63,8 @@ public class ControladoraVehiculo {
        return controlpersis.obtenerDetallesMantenimiento(idVehiculoSeleccionado);
    
    }     
+   
+   public void guardarVehiculoModificado(Vehiculo vehiculo) {
+       controlpersis.guardarVehiculoModificado(vehiculo);
+   }
 }

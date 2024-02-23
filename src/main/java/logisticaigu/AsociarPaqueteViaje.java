@@ -27,6 +27,8 @@ import logisticapersistencia.ControladoraPersistencia;
 public class AsociarPaqueteViaje extends javax.swing.JFrame {
   ControladoraPaquete ctrlPaquete = new ControladoraPaquete();
     private int idViaje;
+        private int vehiculoId;
+
         private Vehiculo vehiculoSeleccionado; // Add this line
 
      private DefaultListModel<String> listModel = new DefaultListModel<>();
@@ -34,23 +36,21 @@ public class AsociarPaqueteViaje extends javax.swing.JFrame {
     /**
      * Creates new form AsociarPaqueteViaje
      */
-    public AsociarPaqueteViaje(int idViaje, String rolUsuario) {
+    public AsociarPaqueteViaje(int vehiculoId ,int idViaje, String rolUsuario) {
         initComponents();
+                this.vehiculoId = vehiculoId;
+
         this.rolUsuario = rolUsuario;
         this.idViaje = idViaje;
         this.vehiculoSeleccionado = vehiculoSeleccionado; // Add this line
 
         
         cargarListaPaquetes();
-// Agregar el ListSelectionListener a la tabla
         jTable1.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
             public void valueChanged(ListSelectionEvent event) {
-                // Verificar si hay al menos una fila seleccionada
                 if (!event.getValueIsAdjusting() && jTable1.getSelectedRowCount() > 0) {
-                    // Si hay filas seleccionadas, habilitar el botón de guardar
                     jButton2.setEnabled(true);
                 } else {
-                    // Si no hay filas seleccionadas, deshabilitar el botón de guardar
                     jButton2.setEnabled(false);
                 }
             }
@@ -58,7 +58,6 @@ public class AsociarPaqueteViaje extends javax.swing.JFrame {
         
         cargarListaPaquetes();
         
-        // Deshabilitar el botón de guardar inicialmente
         jButton2.setEnabled(false);
     }
 
@@ -162,11 +161,25 @@ public class AsociarPaqueteViaje extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-    int[] selectedRows = jTable1.getSelectedRows();
+     int[] selectedRows = jTable1.getSelectedRows();
+    
+    if (selectedRows.length == 0) {
+        JOptionPane.showMessageDialog(this, "Por favor, seleccione al menos un paquete.", "Alerta", JOptionPane.WARNING_MESSAGE);
+        return;
+    }
 
-    // Hacer algo con las filas seleccionadas
     for (int selectedRow : selectedRows) {
-        // Obtener el código de paquete de la fila seleccionada
+        Integer codigoPaquete = (Integer) jTable1.getValueAt(selectedRow, 0);
+
+        String estadoPaquete = obtenerEstadoPaquete(codigoPaquete);
+
+        if ("EN CAMINO".equals(estadoPaquete)) {
+            JOptionPane.showMessageDialog(this, "El paquete seleccionado ya está en camino y no se puede asociar al viaje.", "Alerta", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+    }
+
+    for (int selectedRow : selectedRows) {
         Integer codigoPaquete = (Integer) jTable1.getValueAt(selectedRow, 0);
 
         // Resto del código para asociar el paquete al viaje
@@ -178,17 +191,15 @@ public class AsociarPaqueteViaje extends javax.swing.JFrame {
         ControladoraViaje controladoraViaje = new ControladoraViaje();
         Viaje viaje = controladoraViaje.obtenerViajePorId(idViaje);
 
-        // Guardar la asociación en la base de datos
         viajePaquete.setPaquete(paquete);
         viajePaquete.setViaje(viaje);
         ControladoraViajePaquete ctrlViajePaquete = new ControladoraViajePaquete();
         ctrlViajePaquete.crearviajepaquete(viajePaquete);
 
-        // Cambiar el estado del paquete a "EN CAMINO"
         paquete.setEstado("EN CAMINO");
         ctrlPaquete.actualizarEstadoPaquete(paquete);
 
-        // Eliminar la fila asociada al paquete de la JTable
+        // Eliminar la fila correspondiente de la tabla
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
         model.removeRow(selectedRow);
     }
@@ -202,41 +213,39 @@ public class AsociarPaqueteViaje extends javax.swing.JFrame {
     );
 
     if (confirmacion == JOptionPane.NO_OPTION) {
-        // Si elige NO, ir a la pantalla ViajeIGU
-        new ViajeIGU(rolUsuario).setVisible(true);
+        new Viajes(rolUsuario).setVisible(true);
         dispose();
     } else {
-        // Si elige YES, cargar nuevamente la lista de paquetes y actualizar la JTable
         cargarListaPaquetes();
-        // Actualizar la JTable con la nueva lista de paquetes
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
         model.fireTableDataChanged();
-        // Puedes agregar lógica adicional aquí si es necesario
     }
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-     ViajeIGU atras = new ViajeIGU(rolUsuario);
+     ViajeVehiculo atras = new ViajeVehiculo(vehiculoId, rolUsuario);
      atras.setVisible(true);
      dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
      private void cargarListaPaquetes() {
-    // Obtener todos los paquetes en estado "Pendiente"
     List<Paquete> paquetesPendientes = ctrlPaquete.filtrarPaquetesPorEstado("PENDIENTE");
 
-    // Obtener todos los paquetes en estado "Devuelto"
     List<Paquete> paquetesDevueltos = ctrlPaquete.filtrarPaquetesPorEstado("Devuelto");
 
-    // Fusionar ambas listas
+    List<Paquete> paquetesEnCamino = ctrlPaquete.obtenerPaquetesEnCaminoPorViaje(idViaje);
+
     paquetesPendientes.addAll(paquetesDevueltos);
+    paquetesPendientes.addAll(paquetesEnCamino);
 
     // Crear un modelo de tabla personalizado
     DefaultTableModel modelo = new DefaultTableModel();
     modelo.addColumn("Código Paquete");
     modelo.addColumn("Descripción");
     modelo.addColumn("Estado");
+        modelo.addColumn("Domicilio de Retiro");
+
     modelo.addColumn("Domicilio de Entrega");
-    modelo.addColumn("Fecha Recibido");
+    modelo.addColumn("Fecha");
 
     // Limpiar el modelo de la tabla
     jTable1.setModel(modelo);
@@ -248,17 +257,27 @@ public class AsociarPaqueteViaje extends javax.swing.JFrame {
             paquete.getCodigo_paquete(),
             paquete.getDescripcion(),
             paquete.getEstado(),
+            paquete.getDomicilioRetiro(),
             paquete.getDomicilioEntrega(),
-            paquete.getFechaRecibido() // Asumo que tienes un método getFechaRecibido(), ajusta según tu implementación
+            paquete.getFechaRecibido() 
         };
 
         modelo.addRow(fila);
     }
 }
+
     /**
      * @param args the command line arguments
      */
+    private String obtenerEstadoPaquete(int codigoPaquete) {
+    List<Paquete> paquetes = ctrlPaquete.filtrarPaquetesPorCodigo(codigoPaquete);
     
+    if (!paquetes.isEmpty()) {
+        return paquetes.get(0).getEstado(); 
+    } else {
+        return ""; 
+    }
+}
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;

@@ -24,6 +24,8 @@ public class GestionarEntrega extends javax.swing.JFrame {
    public static Vehiculo vehiculoSeleccionado;
    private List<Vehiculo> vehiculos;
     private  String rolUsuario;
+    private int idViaje;
+        private int vehiculoID;
     /**
      * Creates new form GestionarEntrega
      */
@@ -32,6 +34,7 @@ public class GestionarEntrega extends javax.swing.JFrame {
         this.rolUsuario = rolUsuario;
         mostrarTodosLosVehiculos();
         inicializarVentana();
+        this.vehiculoID = vehiculoID;
 
          Ingresarpatente.getDocument().addDocumentListener(new javax.swing.event.DocumentListener() {
         @Override
@@ -238,8 +241,8 @@ public class GestionarEntrega extends javax.swing.JFrame {
         if (hayPaquetesEnCamino) {
             // Hay paquetes en camino, oculta la ventana actual y muestra la ventana ConfirmarEntrega
             this.setVisible(false);
-            ConfirmarEntrega confirmarEntrega = new ConfirmarEntrega(rolUsuario);
-            confirmarEntrega.setVisible(true);
+        //   ConfirmarEntrega confirmarEntrega = new ConfirmarEntrega(rolUsuario);
+          //  confirmarEntrega.setVisible(true);
         } else {
             // No hay paquetes en camino, mostrar mensaje y no cerrar la ventana actual
             JOptionPane.showMessageDialog(this, "Este vehículo no tiene paquetes ", "Sin Paquetes en Camino", JOptionPane.INFORMATION_MESSAGE);

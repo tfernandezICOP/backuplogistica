@@ -1328,6 +1328,187 @@ public void guardarUsuario(Usuario usuario) {
             em.close();
         }
     }
+ public List<Viaje> obtenerViajesActivosPorVehiculo(int vehiculoID) {
+    EntityManager em = emf.createEntityManager();
+    TypedQuery<Viaje> query = em.createQuery("SELECT v FROM Viaje v WHERE v.vehiculo.vehiculoID = :vehiculoID AND v.estado != 'Baja'", Viaje.class);
+    query.setParameter("vehiculoID", vehiculoID);
+    List<Viaje> viajes = query.getResultList();
+    em.close();
+    return viajes;
+}
 
+ 
+ public List<Viaje> obtenerTodosLosViajes() {
+        EntityManager em = emf.createEntityManager();
+        TypedQuery<Viaje> query = em.createQuery("SELECT v FROM Viaje v", Viaje.class);
+        List<Viaje> viajes = query.getResultList();
+        em.close();
+        return viajes;
+    }
+ 
+  public List<Paquete> obtenerPaquetesEnCaminoPorViaje(int idViaje) {
+        EntityManager entityManager = emf.createEntityManager(); // Inicializa entityManager correctamente
+        TypedQuery<Paquete> query = entityManager.createQuery(
+            "SELECT vp.paquete FROM ViajePaquete vp " +
+            "WHERE vp.viaje.viajeID = :idViaje " +
+            "AND vp.paquete.estado = 'EN CAMINO'",
+            Paquete.class
+        );
+        query.setParameter("idViaje", idViaje);
+        return query.getResultList();
+    }
+  public void actualizarEstadoViaje(int idViaje, String nuevoEstado) {
+        EntityManager em = emf.createEntityManager();
+        EntityTransaction tx = em.getTransaction();
+
+        try {
+            tx.begin();
+            Viaje viaje = em.find(Viaje.class, idViaje);
+            viaje.setEstado(nuevoEstado);
+            tx.commit();
+        } catch (Exception e) {
+            if (tx != null && tx.isActive()) {
+                tx.rollback();
+            }
+            e.printStackTrace();
+        } finally {
+            em.close();
+        }
+    }
+  public List<Viaje> obtenerViajesActivos() {
+        EntityManager entityManager = emf.createEntityManager(); 
+        
+    return entityManager.createQuery("SELECT v FROM Viaje v WHERE v.estado != 'Baja'", Viaje.class).getResultList();
+}
+public List<Paquete> obtenerPaquetesPorEstadoYViaje(int idViaje) {
+        EntityManager entityManager = emf.createEntityManager();
+        
+        // Consulta para obtener los paquetes asociados a un viaje dado su ID
+        TypedQuery<Paquete> query = entityManager.createQuery("SELECT vp.paquete FROM ViajePaquete vp WHERE vp.viaje.viajeID = :idViaje", Paquete.class);
+        query.setParameter("idViaje", idViaje);
+        
+        // Obtener la lista de paquetes asociados al viaje
+        List<Paquete> paquetes = query.getResultList();
+        
+        entityManager.close();
+        
+        return paquetes;
+    }
+public void actualizarCliente(Cliente cliente) {
+        EntityManager em = emf.createEntityManager();
+        EntityTransaction tx = em.getTransaction();
+
+        try {
+            tx.begin();
+            // Buscar el cliente en la base de datos por su ID y actualizar sus atributos
+            Cliente clienteActualizado = em.find(Cliente.class, cliente.getClienteID());
+            clienteActualizado.setNombre(cliente.getNombre());
+            clienteActualizado.setApellido(cliente.getApellido());
+            clienteActualizado.setNro_documento(cliente.getNro_documento());
+            clienteActualizado.setNro_telefono(cliente.getNro_telefono());
+            clienteActualizado.setCorreoElectronico(cliente.getCorreoElectronico());
+            clienteActualizado.setDireccion(cliente.getDireccion());
+            // Realizar la actualización
+            em.merge(clienteActualizado);
+            tx.commit();
+            System.out.println("Cliente actualizado correctamente en la base de datos.");
+        } catch (Exception e) {
+            if (tx != null && tx.isActive()) {
+                tx.rollback();
+            }
+            e.printStackTrace();
+        } finally {
+            em.close();
+        }
+    }
+
+public void guardarVehiculoModificado(Vehiculo vehiculo) {
+   EntityManager em = emf.createEntityManager();
+    EntityTransaction tx = em.getTransaction();
+
+    try {
+        tx.begin();
+        em.merge(vehiculo); 
+        tx.commit();
+    } catch (Exception ex) {
+        if (tx != null && tx.isActive()) {
+            tx.rollback();
+        }
+        ex.printStackTrace();
+        // Manejar la excepción apropiadamente
+    } finally {
+        em.close();
+        emf.close();
+    }
+}
+
+ public void actualizarModelo(int marcaID, String nuevoModelo) {
+        EntityManager em = emf.createEntityManager();
+        EntityTransaction tx = null;
+        try {
+            tx = em.getTransaction();
+            tx.begin();
+
+            Marca marca = em.find(Marca.class, marcaID);
+            marca.setModelo(nuevoModelo);
+
+            em.merge(marca);
+
+            tx.commit();
+        } catch (Exception e) {
+            if (tx != null && tx.isActive()) {
+                tx.rollback();
+            }
+            e.printStackTrace();
+        } finally {
+            em.close();
+        }
+    }
+
+    public void actualizarTipo(int marcaID, String nuevoTipo) {
+        EntityManager em = emf.createEntityManager();
+        EntityTransaction tx = null;
+        try {
+            tx = em.getTransaction();
+            tx.begin();
+
+            Marca marca = em.find(Marca.class, marcaID);
+            marca.setTipo(nuevoTipo);
+
+            em.merge(marca);
+
+            tx.commit();
+        } catch (Exception e) {
+            if (tx != null && tx.isActive()) {
+                tx.rollback();
+            }
+            e.printStackTrace();
+        } finally {
+            em.close();
+        }
+    }
+    
+    public List<Viaje> obtenerViajesPorEstadoYVehiculo(String estado, int vehiculoID) {
+        EntityManager em = emf.createEntityManager();
+        try {
+            TypedQuery<Viaje> query = em.createQuery("SELECT v FROM Viaje v WHERE v.estado = :estado AND v.vehiculo.vehiculoID = :vehiculoID", Viaje.class);
+            query.setParameter("estado", estado);
+            query.setParameter("vehiculoID", vehiculoID);
+            return query.getResultList();
+        } finally {
+            em.close();
+        }
+    }
+    
+     public List<Paquete> obtenerPaquetesPorViaje(int viajeID) {
+        EntityManager em = emf.createEntityManager();
+        try {
+            TypedQuery<Paquete> query = em.createQuery("SELECT vp.paquete FROM ViajePaquete vp WHERE vp.viaje.viajeID = :viajeID", Paquete.class);
+            query.setParameter("viajeID", viajeID);
+            return query.getResultList();
+        } finally {
+            em.close();
+        }
+    }
 }
 
