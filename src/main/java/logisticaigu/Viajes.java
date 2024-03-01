@@ -210,24 +210,22 @@ public class Viajes extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextField1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-int filaSeleccionada = jTable1.getSelectedRow();
+  int filaSeleccionada = jTable1.getSelectedRow();
     if (filaSeleccionada != -1) {
         int vehiculoID = (int) jTable1.getValueAt(filaSeleccionada, 0);
+        String modelo = (String) jTable1.getValueAt(filaSeleccionada, 1);
+        String patente = (String) jTable1.getValueAt(filaSeleccionada, 2);
         
-        // Verificar si el vehículo tiene viajes asociados
-        boolean tieneViajesAsociados = controladoraviaje.obtenerViajesActivosPorVehiculo(vehiculoID).isEmpty();
-
-        if (tieneViajesAsociados) {
-            JOptionPane.showMessageDialog(this, "El vehículo seleccionado no tiene viajes asociados.", "Error", JOptionPane.ERROR_MESSAGE);
-        } else {
-            ViajeVehiculo viajeVehiculo = new ViajeVehiculo(vehiculoID, rolUsuario);
+        if (modelo != null && !modelo.isEmpty() && patente != null && !patente.isEmpty()) {
+            ViajeVehiculo viajeVehiculo = new ViajeVehiculo(vehiculoID, modelo, patente, rolUsuario);
             viajeVehiculo.setVisible(true);
             dispose();
+        } else {
+            JOptionPane.showMessageDialog(this, "El vehículo seleccionado no tiene modelo o patente válidos.", "Error", JOptionPane.ERROR_MESSAGE);
         }
     } else {
         JOptionPane.showMessageDialog(this, "Por favor, seleccione un vehículo.");
     }
-    
         }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed

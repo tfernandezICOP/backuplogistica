@@ -1347,16 +1347,16 @@ public void guardarUsuario(Usuario usuario) {
     }
  
   public List<Paquete> obtenerPaquetesEnCaminoPorViaje(int idViaje) {
-        EntityManager entityManager = emf.createEntityManager(); // Inicializa entityManager correctamente
-        TypedQuery<Paquete> query = entityManager.createQuery(
-            "SELECT vp.paquete FROM ViajePaquete vp " +
-            "WHERE vp.viaje.viajeID = :idViaje " +
-            "AND vp.paquete.estado = 'EN CAMINO'",
-            Paquete.class
-        );
-        query.setParameter("idViaje", idViaje);
-        return query.getResultList();
-    }
+    EntityManager entityManager = emf.createEntityManager(); // Inicializa entityManager correctamente
+    TypedQuery<Paquete> query = entityManager.createQuery(
+        "SELECT DISTINCT vp.paquete FROM ViajePaquete vp " + 
+        "WHERE vp.viaje.viajeID = :idViaje " +
+        "AND vp.paquete.estado = 'EN CAMINO'",
+        Paquete.class
+    );
+    query.setParameter("idViaje", idViaje);
+    return query.getResultList();
+}
   public void actualizarEstadoViaje(int idViaje, String nuevoEstado) {
         EntityManager em = emf.createEntityManager();
         EntityTransaction tx = em.getTransaction();
@@ -1500,15 +1500,32 @@ public void guardarVehiculoModificado(Vehiculo vehiculo) {
         }
     }
     
-     public List<Paquete> obtenerPaquetesPorViaje(int viajeID) {
-        EntityManager em = emf.createEntityManager();
-        try {
-            TypedQuery<Paquete> query = em.createQuery("SELECT vp.paquete FROM ViajePaquete vp WHERE vp.viaje.viajeID = :viajeID", Paquete.class);
-            query.setParameter("viajeID", viajeID);
-            return query.getResultList();
-        } finally {
-            em.close();
-        }
+    public List<Paquete> obtenerPaquetesPorViaje(int viajeID) {
+    EntityManager em = emf.createEntityManager();
+    try {
+        TypedQuery<Paquete> query = em.createQuery("SELECT DISTINCT vp.paquete FROM ViajePaquete vp WHERE vp.viaje.viajeID = :viajeID", Paquete.class);
+        query.setParameter("viajeID", viajeID);
+        return query.getResultList();
+    } finally {
+        em.close();
     }
+}
+
+    public List<Paquete> obtenerPaquetesPlanificadosPorViaje(int viajeID) {
+    EntityManager em = emf.createEntityManager();
+    try {
+        TypedQuery<Paquete> query = em.createQuery(
+                "SELECT DISTINCT vp.paquete FROM ViajePaquete vp WHERE vp.viaje.viajeID = :idViaje AND vp.paquete.estado = 'PLANIFICADO'", Paquete.class);
+        query.setParameter("idViaje", viajeID);
+        return query.getResultList();
+    } finally {
+        em.close();
+    }
+}
+
+
+
+
+
 }
 

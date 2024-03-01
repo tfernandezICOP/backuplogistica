@@ -29,12 +29,17 @@ public class ConfirmarEntrega extends javax.swing.JFrame {
     ControladoraVehiculo controladoraVehiculo = new ControladoraVehiculo();
     private int idViaje;
     private int vehiculoId;
+    private String modelo;
+    private String patente;
+
     private ControladoraViaje controladoraviaje = new ControladoraViaje();
-    public ConfirmarEntrega(int vehiculoId ,int idViaje, String rolUsuario) {
+    public ConfirmarEntrega(int vehiculoId ,String modelo, String patente,int idViaje, String rolUsuario) {
          initComponents();
         this.rolUsuario = rolUsuario;
-        this.idViaje = idViaje; // Asignar el idViaje recibido
-        this.vehiculoId = vehiculoId; // Asignar el vehiculoId recibido
+        this.idViaje = idViaje; 
+        this.vehiculoId = vehiculoId;
+        this.patente = patente;
+        this.modelo=modelo;
         abrirConfirmarEntrega();
          jTextField1.getDocument().addDocumentListener(new javax.swing.event.DocumentListener() {
         @Override
@@ -265,7 +270,7 @@ public class ConfirmarEntrega extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        ViajeVehiculoEntrega atras = new ViajeVehiculoEntrega(vehiculoId, rolUsuario);
+        ViajeVehiculoEntrega atras = new ViajeVehiculoEntrega(vehiculoId,modelo, patente, rolUsuario);
         atras.setVisible(true);
         dispose();
       }//GEN-LAST:event_jButton1ActionPerformed
@@ -277,55 +282,78 @@ public class ConfirmarEntrega extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
-  
 public void abrirConfirmarEntrega() {
-        try {
-            if (idViaje > 0) {
-                // Obtener los paquetes "EN CAMINO" para el viaje seleccionado
-                paquetesEnCamino = controladoraPaquete.obtenerPaquetesEnCaminoPorViaje(idViaje);
-                if (!paquetesEnCamino.isEmpty()) {
-                    mostrarPaquetes(paquetesEnCamino);
-                    setVisible(true);
-                } else {
-                    // Mostrar un mensaje indicando que no hay paquetes "EN CAMINO" para el viaje seleccionado
-                    JOptionPane.showMessageDialog(this, "No hay paquetes 'EN CAMINO' para el viaje seleccionado", "Sin Paquetes", JOptionPane.INFORMATION_MESSAGE);
-                }
+    try {
+        if (idViaje > 0) {
+            System.out.println("ID del Viaje: " + idViaje); 
+            paquetesEnCamino = controladoraPaquete.obtenerPaquetesEnCaminoPorViaje(idViaje);
+            System.out.println("Cantidad de paquetes en camino: " + paquetesEnCamino.size()); 
+            if (!paquetesEnCamino.isEmpty()) {
+                mostrarPaquetes(paquetesEnCamino);
+                setVisible(true);
             } else {
-                // Mostrar un mensaje indicando que no se ha seleccionado ningún viaje
-                JOptionPane.showMessageDialog(this, "Por favor, seleccione un viaje", "Viaje no seleccionado", JOptionPane.WARNING_MESSAGE);
+                // Limpiar la tabla si no hay paquetes en camino para el viaje seleccionado
+                DefaultTableModel modelo = (DefaultTableModel) jTable1.getModel();
+                modelo.setRowCount(0);
+                // Mostrar un mensaje indicando que no hay paquetes "EN CAMINO" para el viaje seleccionado
+                JOptionPane.showMessageDialog(this, "No hay paquetes 'EN CAMINO' para el viaje seleccionado", "Sin Paquetes", JOptionPane.INFORMATION_MESSAGE);
             }
-        } catch (Exception ex) {
-            ex.printStackTrace(); // Imprimir el stack trace en la consola
-            // Aquí puedes agregar un mensaje de error o manejar la excepción de acuerdo a tu lógica de la aplicación
+        } else {
+            // Mostrar un mensaje indicando que no se ha seleccionado ningún viaje
+            JOptionPane.showMessageDialog(this, "Por favor, seleccione un viaje", "Viaje no seleccionado", JOptionPane.WARNING_MESSAGE);
         }
+    } catch (Exception ex) {
+        ex.printStackTrace(); // Imprimir el stack trace en la consola
+        // Aquí puedes agregar un mensaje de error o manejar la excepción de acuerdo a tu lógica de la aplicación
     }
+}
 
-    public void mostrarPaquetes(List<Paquete> paquetes) {
-        DefaultTableModel modelo = (DefaultTableModel) jTable1.getModel();
-        modelo.setRowCount(0); // Limpiar la tabla
 
-        for (Paquete paquete : paquetes) {
+
+  public void mostrarPaquetes(List<Paquete> paquetes) {
+    DefaultTableModel modelo = (DefaultTableModel) jTable1.getModel();
+    modelo.setRowCount(0); 
+    for (Paquete paquete : paquetes) {
+        if ("EN CAMINO".equals(paquete.getEstado())) {
             modelo.addRow(new Object[]{
-                    paquete.getCodigo_paquete(),
-                    paquete.getDescripcion(),
-                    paquete.getDomicilioEntrega(),
-                    paquete.getEstado()
+                paquete.getCodigo_paquete(),
+                paquete.getDescripcion(),
+                paquete.getDomicilioEntrega(),
+                paquete.getEstado()
             });
         }
     }
-
-
-
-
-public List<Paquete> filtrarPaquetesEnCamino(List<Paquete> paquetes) {
-    List<Paquete> paquetesEnCamino = new ArrayList<>();
-    for (Paquete paquete : paquetes) {
-        if ("EN CAMINO".equals(paquete.getEstado())) {
-            paquetesEnCamino.add(paquete);
-        }
-    }
-    return paquetesEnCamino;
+    System.out.println("Cantidad de paquetes mostrados: " + modelo.getRowCount()); // Depuración
 }
+
+
+
+
+
+
+
+private void filtrarPaquetes() {
+    String codigoPaqueteTexto = jTextField1.getText();
+
+    if (!codigoPaqueteTexto.isEmpty()) {
+        List<Paquete> paquetesFiltrados = new ArrayList<>();
+        if (paquetesEnCamino != null) {
+            for (Paquete paquete : paquetesEnCamino) {
+                // Cambia la comparación para que busque coincidencias parciales del código de paquete
+                if (String.valueOf(paquete.getCodigo_paquete()).contains(codigoPaqueteTexto)) {
+                    paquetesFiltrados.add(paquete);
+                }
+            }
+            mostrarPaquetes(paquetesFiltrados);
+            System.out.println("Cantidad de paquetes filtrados: " + paquetesFiltrados.size()); // Depuración
+        } else {
+            System.out.println("La lista de paquetes está vacía o no ha sido inicializada."); // Depuración
+        }
+    } else {
+        mostrarPaquetes(paquetesEnCamino);
+    }
+}
+
 /*public void mostrarPaquetes(List<Paquete> paquetes) {
     this.paquetesEnCamino = paquetes; // Actualiza la lista de paquetes en camino
     DefaultTableModel modelo = (DefaultTableModel) jTable1.getModel();
@@ -342,26 +370,7 @@ public List<Paquete> filtrarPaquetesEnCamino(List<Paquete> paquetes) {
 }
 
  */ 
- private void filtrarPaquetes() {
-    String codigoPaqueteTexto = jTextField1.getText();
-
-    if (!codigoPaqueteTexto.isEmpty()) {
-        List<Paquete> paquetesFiltrados = new ArrayList<>();
-        if (paquetesEnCamino != null) {
-            for (Paquete paquete : paquetesEnCamino) {
-                // Cambia la comparación para que busque coincidencias parciales del código de paquete
-                if (String.valueOf(paquete.getCodigo_paquete()).contains(codigoPaqueteTexto)) {
-                    paquetesFiltrados.add(paquete);
-                }
-            }
-            mostrarPaquetes(paquetesFiltrados);
-        } else {
-            System.out.println("La lista de paquetes está vacía o no ha sido inicializada.");
-        }
-    } else {
-        mostrarPaquetes(paquetesEnCamino);
-    }
-}
+ 
 
 private boolean todosPaquetesEntregadosODevolucionesRealizadas(int idViaje) {
     List<Paquete> paquetes = controladoraPaquete.obtenerPaquetesEnCaminoPorViaje(idViaje);

@@ -206,11 +206,12 @@ public class HistorialViajes extends javax.swing.JFrame {
        int filaSeleccionada = jTable1.getSelectedRow();
     if (filaSeleccionada != -1) {
         int vehiculoID = (int) jTable1.getValueAt(filaSeleccionada, 0);
-
+        String modelo = (String) jTable1.getValueAt(filaSeleccionada, 1);
+        String patente = (String) jTable1.getValueAt(filaSeleccionada, 2);
         List<Viaje> viajesBaja = controladoraviaje.obtenerViajesPorEstadoYVehiculo("Baja", vehiculoID);
 
         if (!viajesBaja.isEmpty()) {
-            VehiculoViajeHistorial viajeVehiculo = new VehiculoViajeHistorial(vehiculoID, rolUsuario);
+            VehiculoViajeHistorial viajeVehiculo = new VehiculoViajeHistorial(vehiculoID,modelo,patente, rolUsuario);
             viajeVehiculo.setVisible(true);
             dispose();
         } else {

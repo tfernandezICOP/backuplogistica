@@ -5,6 +5,7 @@
 package logisticalogica;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -47,5 +48,13 @@ public class Provincia implements Serializable {
         this.nombre = nombre;
     }
     
-    
+     private List<Localidad> localidades;
+
+    public List<Localidad> getLocalidades() {
+        return localidades;
+    }
+
+    public void setLocalidades(List<Localidad> localidades) {
+        this.localidades = localidades;
+}
 }

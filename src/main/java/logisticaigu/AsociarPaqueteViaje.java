@@ -28,7 +28,8 @@ public class AsociarPaqueteViaje extends javax.swing.JFrame {
   ControladoraPaquete ctrlPaquete = new ControladoraPaquete();
     private int idViaje;
         private int vehiculoId;
-
+private String modelo;
+private String patente;
         private Vehiculo vehiculoSeleccionado; // Add this line
 
      private DefaultListModel<String> listModel = new DefaultListModel<>();
@@ -36,13 +37,13 @@ public class AsociarPaqueteViaje extends javax.swing.JFrame {
     /**
      * Creates new form AsociarPaqueteViaje
      */
-    public AsociarPaqueteViaje(int vehiculoId ,int idViaje, String rolUsuario) {
+    public AsociarPaqueteViaje(int vehiculoId ,String modelo,String patente,int idViaje, String rolUsuario) {
         initComponents();
                 this.vehiculoId = vehiculoId;
 
         this.rolUsuario = rolUsuario;
         this.idViaje = idViaje;
-        this.vehiculoSeleccionado = vehiculoSeleccionado; // Add this line
+        this.vehiculoSeleccionado = vehiculoSeleccionado; 
 
         
         cargarListaPaquetes();
@@ -161,45 +162,57 @@ public class AsociarPaqueteViaje extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-     int[] selectedRows = jTable1.getSelectedRows();
-    
+   int[] selectedRows = jTable1.getSelectedRows();
+
     if (selectedRows.length == 0) {
         JOptionPane.showMessageDialog(this, "Por favor, seleccione al menos un paquete.", "Alerta", JOptionPane.WARNING_MESSAGE);
         return;
     }
 
-    for (int selectedRow : selectedRows) {
-        Integer codigoPaquete = (Integer) jTable1.getValueAt(selectedRow, 0);
-
-        String estadoPaquete = obtenerEstadoPaquete(codigoPaquete);
-
-        if ("EN CAMINO".equals(estadoPaquete)) {
-            JOptionPane.showMessageDialog(this, "El paquete seleccionado ya está en camino y no se puede asociar al viaje.", "Alerta", JOptionPane.WARNING_MESSAGE);
-            return;
-        }
-    }
+    ControladoraViaje controladoraViaje = new ControladoraViaje();
+    Viaje viaje = controladoraViaje.obtenerViajePorId(idViaje);
 
     for (int selectedRow : selectedRows) {
         Integer codigoPaquete = (Integer) jTable1.getValueAt(selectedRow, 0);
-
-        // Resto del código para asociar el paquete al viaje
-        ViajePaquete viajePaquete = new ViajePaquete();
 
         ControladoraPersistencia controladoraPersistencia = new ControladoraPersistencia();
         Paquete paquete = controladoraPersistencia.obtenerPaquetePorCodigo(codigoPaquete);
 
-        ControladoraViaje controladoraViaje = new ControladoraViaje();
-        Viaje viaje = controladoraViaje.obtenerViajePorId(idViaje);
+        // Impresión del origen y destino del paquete
+        System.out.println("Origen del paquete: " + paquete.getOrigen().getNombre() + ", " + paquete.getLocalidadOrigen().getNombre());
+        System.out.println("Destino del paquete: " + paquete.getDestino().getNombre() + ", " + paquete.getLocalidadDestino().getNombre());
+        
+        // Impresión del origen y destino del viaje
+        System.out.println("Origen del viaje: " + viaje.getOrigen().getNombre() + ", " + viaje.getLocalidadOrigen().getNombre());
+        System.out.println("Destino del viaje: " + viaje.getDestino().getNombre() + ", " + viaje.getLocalidadDestino().getNombre());
 
+        boolean coincideOrigen = paquete.getOrigen().getNombre().equalsIgnoreCase(viaje.getOrigen().getNombre().trim()) && paquete.getLocalidadOrigen().getNombre().equalsIgnoreCase(viaje.getLocalidadOrigen().getNombre().trim());
+        boolean coincideDestino = paquete.getDestino().getNombre().equalsIgnoreCase(viaje.getDestino().getNombre().trim()) && paquete.getLocalidadDestino().getNombre().equalsIgnoreCase(viaje.getLocalidadDestino().getNombre().trim());
+
+
+        if (!coincideOrigen || !coincideDestino) {
+            int confirmacion = JOptionPane.showConfirmDialog(
+                    this,
+                    "El origen o destino del paquete no coincide con el origen o destino del viaje. ¿Seguro que desea continuar?",
+                    "Confirmar",
+                    JOptionPane.YES_NO_OPTION
+            );
+
+            if (confirmacion == JOptionPane.NO_OPTION) {
+                System.out.println("El usuario ha cancelado la acción."); // Depuración en la consola
+                return;
+            }
+        }
+
+        ViajePaquete viajePaquete = new ViajePaquete();
         viajePaquete.setPaquete(paquete);
         viajePaquete.setViaje(viaje);
         ControladoraViajePaquete ctrlViajePaquete = new ControladoraViajePaquete();
         ctrlViajePaquete.crearviajepaquete(viajePaquete);
 
-        paquete.setEstado("EN CAMINO");
+        paquete.setEstado("PLANIFICADO");
         ctrlPaquete.actualizarEstadoPaquete(paquete);
 
-        // Eliminar la fila correspondiente de la tabla
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
         model.removeRow(selectedRow);
     }
@@ -223,48 +236,56 @@ public class AsociarPaqueteViaje extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-     ViajeVehiculo atras = new ViajeVehiculo(vehiculoId, rolUsuario);
+     ViajeVehiculo atras = new ViajeVehiculo(vehiculoId,modelo, patente, rolUsuario);
      atras.setVisible(true);
      dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
-     private void cargarListaPaquetes() {
+    private void cargarListaPaquetes() {
     List<Paquete> paquetesPendientes = ctrlPaquete.filtrarPaquetesPorEstado("PENDIENTE");
-
     List<Paquete> paquetesDevueltos = ctrlPaquete.filtrarPaquetesPorEstado("Devuelto");
-
-    List<Paquete> paquetesEnCamino = ctrlPaquete.obtenerPaquetesEnCaminoPorViaje(idViaje);
-
+    
+    // Unir las listas de paquetes pendientes y devueltos
     paquetesPendientes.addAll(paquetesDevueltos);
-    paquetesPendientes.addAll(paquetesEnCamino);
 
-    // Crear un modelo de tabla personalizado
     DefaultTableModel modelo = new DefaultTableModel();
     modelo.addColumn("Código Paquete");
     modelo.addColumn("Descripción");
     modelo.addColumn("Estado");
-        modelo.addColumn("Domicilio de Retiro");
-
+    modelo.addColumn("Domicilio de Retiro");
     modelo.addColumn("Domicilio de Entrega");
-    modelo.addColumn("Fecha");
+    modelo.addColumn("Fecha Recibido");
+    modelo.addColumn("Provincia Origen");
+    modelo.addColumn("Localidad Origen");
+    modelo.addColumn("Provincia Destino");
+    modelo.addColumn("Localidad Destino");
+    modelo.addColumn("Emisor");
+    modelo.addColumn("Receptor");
 
-    // Limpiar el modelo de la tabla
     jTable1.setModel(modelo);
 
-    // Agregar los paquetes al modelo de la tabla
     for (Paquete paquete : paquetesPendientes) {
-        // Asumo que los campos son objetos, ajusta según tu implementación
+        String nombreApellidoEmisor = paquete.getEmisor() != null ? paquete.getEmisor().getNombre() + " " + paquete.getEmisor().getApellido() : "";
+        String nombreApellidoReceptor = paquete.getReceptor() != null ? paquete.getReceptor().getNombre() + " " + paquete.getReceptor().getApellido() : "";
+
         Object[] fila = new Object[]{
             paquete.getCodigo_paquete(),
             paquete.getDescripcion(),
             paquete.getEstado(),
             paquete.getDomicilioRetiro(),
             paquete.getDomicilioEntrega(),
-            paquete.getFechaRecibido() 
+            paquete.getFechaRecibido(),
+            paquete.getOrigen().getNombre(),
+            paquete.getLocalidadOrigen().getNombre(),
+            paquete.getDestino().getNombre(),
+            paquete.getLocalidadDestino().getNombre(),
+            nombreApellidoEmisor,
+            nombreApellidoReceptor
         };
 
         modelo.addRow(fila);
     }
 }
+
 
     /**
      * @param args the command line arguments

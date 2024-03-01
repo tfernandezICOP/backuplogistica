@@ -54,5 +54,7 @@ public class Proyectofinallogistica {
     /*Menu menu = new Menu();
     menu.setVisible(true);
      */
+    
+    PaqueteJpaController paquete = new PaqueteJpaController();
     }
 }

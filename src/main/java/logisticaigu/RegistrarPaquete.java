@@ -4,15 +4,20 @@
  */
 package logisticaigu;
 
+import Controladoras.ControladoraLocalidad;
 import Controladoras.ControladoraPaquete;
+import Controladoras.ControladoraProvincia;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.List;
 import javax.swing.JOptionPane;
 import logisticalogica.Cliente;
+import logisticalogica.Localidad;
 import logisticalogica.Paquete;
+import logisticalogica.Provincia;
 
 /**
  *
@@ -23,19 +28,88 @@ public class RegistrarPaquete extends javax.swing.JFrame {
     private Paquete paquete;
     private Paquete paqueteTemporal; // Agregar una variable para almacenar el paqueteTemporal
     private String rolUsuario; 
+    private ControladoraLocalidad controladoralocalidad;
+    private ControladoraProvincia controladoraprovincia;
+        private List<Provincia> provincias ;
+
     /**
      * Creates new form RegistrarEnvio
      */
     public RegistrarPaquete(String rolUsuario) {
         initComponents();
+        controladoraprovincia = new ControladoraProvincia();
+    controladoralocalidad = new ControladoraLocalidad();
         controladoraPaquete = new ControladoraPaquete();
         this.rolUsuario = rolUsuario; 
-
+        llenarComboBoxProvincias();
+    llenarComboBoxProvinciasDestino(); 
+    jComboBox1.addActionListener(new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            String nombreProvincia = (String) jComboBox1.getSelectedItem();
+            Provincia provinciaSeleccionada = null;
+            for (Provincia provincia : provincias) {
+                if (provincia.getNombre().equals(nombreProvincia)) {
+                    provinciaSeleccionada = provincia;
+                    break;
+                }
+            }
+            llenarComboBoxLocalidades(provinciaSeleccionada);
+        }
+    });
+    jComboBox3.addActionListener(new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            String nombreProvincia = (String) jComboBox3.getSelectedItem();
+            Provincia provinciaSeleccionada = null;
+            for (Provincia provincia : provincias) {
+                if (provincia.getNombre().equals(nombreProvincia)) {
+                    provinciaSeleccionada = provincia;
+                    break;
+                }
+            }
+            llenarComboBoxLocalidadesDestino(provinciaSeleccionada);
+        }
+    });
     }
     public void setPaqueteTemporal(Paquete paqueteTemporal) {
         this.paqueteTemporal = paqueteTemporal;
         
     }
+    
+    private void llenarComboBoxProvincias() {
+         provincias = controladoraprovincia.obtenerTodasLasProvincias();
+        for (Provincia provincia : provincias) {
+            jComboBox1.addItem(provincia.getNombre());
+        }
+        
+    }
+    
+    // Método para llenar el JComboBox de localidades
+    private void llenarComboBoxLocalidades(Provincia provincia) {
+        jComboBox2.removeAllItems(); // Limpiar el JComboBox de localidades antes de agregar nuevos elementos
+        List<Localidad> localidades = controladoralocalidad.obtenerLocalidadesPorProvincia(provincia);
+        for (Localidad localidad : localidades) {
+            jComboBox2.addItem(localidad.getNombre());
+        }
+    }
+   private void llenarComboBoxProvinciasDestino() {
+    // Limpia los elementos previos si existen
+    jComboBox3.removeAllItems();
+    for (Provincia provincia : provincias) {
+        jComboBox3.addItem(provincia.getNombre());
+    }
+}
+
+private void llenarComboBoxLocalidadesDestino(Provincia provincia) {
+    jComboBox4.removeAllItems();
+    if (provincia != null) {
+        List<Localidad> localidades = controladoralocalidad.obtenerLocalidadesPorProvincia(provincia);
+        for (Localidad localidad : localidades) {
+            jComboBox4.addItem(localidad.getNombre());
+        }
+    }
+}
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -54,6 +128,14 @@ public class RegistrarPaquete extends javax.swing.JFrame {
         jButton2 = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
         jTextField3 = new javax.swing.JTextField();
+        jComboBox1 = new javax.swing.JComboBox<>();
+        jComboBox2 = new javax.swing.JComboBox<>();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jComboBox3 = new javax.swing.JComboBox<>();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        jComboBox4 = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -97,6 +179,18 @@ public class RegistrarPaquete extends javax.swing.JFrame {
 
         jTextField3.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
 
+        jLabel5.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
+        jLabel5.setText("Localidad Origen:");
+
+        jLabel4.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
+        jLabel4.setText("Provincia Origen:");
+
+        jLabel6.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
+        jLabel6.setText("Provincia Destino:");
+
+        jLabel7.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
+        jLabel7.setText("Localidad Destino:");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -113,16 +207,39 @@ public class RegistrarPaquete extends javax.swing.JFrame {
                                 .addGap(100, 100, 100)
                                 .addComponent(jButton1))))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(707, 707, 707)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel1)
-                            .addComponent(jLabel3))
-                        .addGap(100, 100, 100)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jTextField1)
-                            .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField3, javax.swing.GroupLayout.Alignment.TRAILING))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(707, 707, 707)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jLabel1)
+                                            .addComponent(jLabel3)
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addGap(27, 27, 27)
+                                                .addComponent(jLabel2)))
+                                        .addGap(100, 100, 100)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addComponent(jTextField1)
+                                            .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(jTextField3, javax.swing.GroupLayout.Alignment.TRAILING)))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jLabel6)
+                                            .addComponent(jLabel7))
+                                        .addGap(109, 109, 109)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jComboBox3, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(jComboBox4, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(725, 725, 725)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel4)
+                                    .addComponent(jLabel5))
+                                .addGap(99, 99, 99)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jComboBox2, 0, 240, Short.MAX_VALUE)
+                                    .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -131,19 +248,38 @@ public class RegistrarPaquete extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(Registroenvio)
-                .addGap(172, 172, 172)
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jComboBox1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(36, 36, 36)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(59, 59, 59)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(28, 28, 28)
+                        .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(119, 119, 119)
+                    .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jComboBox4, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(116, 116, 116)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 396, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 306, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -165,13 +301,64 @@ public class RegistrarPaquete extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        String domicilioentrega= jTextField3.getText();
-        String domicilio = jTextField1.getText();
+   String domicilioEntrega = jTextField3.getText();
+    String domicilio = jTextField1.getText();
     String descripcion = jTextField2.getText();
 
     // Verificar si ambos campos contienen datos
     if (!domicilio.isEmpty() && !descripcion.isEmpty()) {
-        paqueteTemporal = inicializarPaquete(domicilioentrega,domicilio, descripcion);
+        // Obtener la provincia de origen seleccionada del combo box
+        String nombreProvinciaOrigen = (String) jComboBox1.getSelectedItem();
+        Provincia provinciaOrigen = null;
+        for (Provincia provincia : provincias) {
+            if (provincia.getNombre().equals(nombreProvinciaOrigen)) {
+                provinciaOrigen = provincia;
+                break;
+            }
+        }
+
+        // Obtener la localidad de origen seleccionada del combo box
+        String nombreLocalidadOrigen = (String) jComboBox2.getSelectedItem();
+        Localidad localidadOrigen = null;
+        if (provinciaOrigen != null) {
+            List<Localidad> localidadesOrigen = controladoralocalidad.obtenerLocalidadesPorProvincia(provinciaOrigen);
+            for (Localidad localidad : localidadesOrigen) {
+                if (localidad.getNombre().equals(nombreLocalidadOrigen)) {
+                    localidadOrigen = localidad;
+                    break;
+                }
+            }
+        }
+
+        // Obtener la provincia de destino seleccionada del combo box
+        String nombreProvinciaDestino = (String) jComboBox3.getSelectedItem();
+        Provincia provinciaDestino = null;
+        for (Provincia provincia : provincias) {
+            if (provincia.getNombre().equals(nombreProvinciaDestino)) {
+                provinciaDestino = provincia;
+                break;
+            }
+        }
+
+        // Obtener la localidad de destino seleccionada del combo box
+        String nombreLocalidadDestino = (String) jComboBox4.getSelectedItem();
+        Localidad localidadDestino = null;
+        if (provinciaDestino != null) {
+            List<Localidad> localidadesDestino = controladoralocalidad.obtenerLocalidadesPorProvincia(provinciaDestino);
+            for (Localidad localidad : localidadesDestino) {
+                if (localidad.getNombre().equals(nombreLocalidadDestino)) {
+                    localidadDestino = localidad;
+                    break;
+                }
+            }
+        }
+
+        paqueteTemporal = inicializarPaquete(domicilioEntrega, domicilio, descripcion);
+        // Guardar provincias y localidades en el paquete temporal
+        paqueteTemporal.setOrigen(provinciaOrigen);
+        paqueteTemporal.setLocalidadOrigen(localidadOrigen);
+        paqueteTemporal.setDestino(provinciaDestino);
+        paqueteTemporal.setLocalidadDestino(localidadDestino);
 
         // Añade mensajes de depuración
         System.out.println("PaqueteTemporal en RegistrarEnvio:");
@@ -234,9 +421,17 @@ public Paquete inicializarPaquete(String domicilioretiro, String domicilio, Stri
     private javax.swing.JLabel Registroenvio;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JComboBox<String> jComboBox2;
+    private javax.swing.JComboBox<String> jComboBox3;
+    private javax.swing.JComboBox<String> jComboBox4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;

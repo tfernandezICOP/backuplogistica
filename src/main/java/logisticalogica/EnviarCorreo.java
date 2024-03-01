@@ -13,8 +13,8 @@ import java.util.logging.Logger;
 import javax.mail.*;
 import javax.mail.internet.*;
 public class EnviarCorreo {
-    private static String username = "totoloco392@gmail.com"; // Coloca tu correo electrónico aquí
-    private final String password = "utbqaaakffvqrwlf"; // Coloca tu contraseña aquí
+    private static String username = "encomiedaspatria@gmail.com"; 
+    private final String password = "ixnkvwkgykjyuwth"; 
     private String EmailTo;
     private String subject;
     private String content;

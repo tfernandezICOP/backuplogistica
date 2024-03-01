@@ -20,6 +20,8 @@ import logisticalogica.Viaje;
 public class ViajeVehiculoEntrega extends javax.swing.JFrame {
 private Viaje viaje;
     private int vehiculoID;
+    String modelo;
+    String patente;
 private ControladoraPaquete controladoraPaquete;
     /**
      * Creates new form ViajeVehiculoEntrega
@@ -27,15 +29,19 @@ private ControladoraPaquete controladoraPaquete;
     
 private String rolUsuario;
    private ControladoraViaje controladoraviaje;
-    public ViajeVehiculoEntrega(int vehiculoID , String rolUsuario) {
+    public ViajeVehiculoEntrega(int vehiculoID ,String modelo, String patente, String rolUsuario) {
         initComponents();
         System.out.println("Vehículo ID: " + vehiculoID);
           this.vehiculoID = vehiculoID;
+           this.modelo = modelo;
+    this.patente = patente;
           this.controladoraPaquete = new ControladoraPaquete();
         this.rolUsuario = rolUsuario;
         this.viaje = new Viaje();
         this.controladoraviaje = new ControladoraViaje();
         llenarTabla();
+        jLabel1.setText(modelo); 
+    jLabel2.setText(patente);   
     }
 
     /**
@@ -52,6 +58,8 @@ private String rolUsuario;
         jTable1 = new javax.swing.JTable();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -82,35 +90,45 @@ private String rolUsuario;
             }
         });
 
+        jLabel1.setText("jLabel1");
+
+        jLabel2.setText("jLabel2");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(648, Short.MAX_VALUE)
-                .addComponent(jButton1)
-                .addGap(18, 18, 18)
-                .addComponent(jButton2)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addGap(0, 661, Short.MAX_VALUE)
+                        .addComponent(jButton1)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButton2))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 829, Short.MAX_VALUE))
                 .addContainerGap())
-            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanel1Layout.createSequentialGroup()
-                    .addContainerGap()
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 829, Short.MAX_VALUE)
-                    .addContainerGap()))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel1)
+                .addGap(37, 37, 37)
+                .addComponent(jLabel2)
+                .addGap(78, 78, 78))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(488, Short.MAX_VALUE)
+                .addContainerGap(40, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel2))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
                     .addComponent(jButton2))
                 .addGap(15, 15, 15))
-            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanel1Layout.createSequentialGroup()
-                    .addGap(49, 49, 49)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(50, Short.MAX_VALUE)))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -133,7 +151,7 @@ private String rolUsuario;
     if (idViajeSeleccionado != -1) {
         // Verificar si el viaje seleccionado tiene paquetes "EN CAMINO" asociados
         if (hayPaquetesEnCamino(idViajeSeleccionado)) {
-            ConfirmarEntrega confirmaentrega = new ConfirmarEntrega(vehiculoID, idViajeSeleccionado, rolUsuario);
+            ConfirmarEntrega confirmaentrega = new ConfirmarEntrega(vehiculoID, modelo,patente,idViajeSeleccionado, rolUsuario);
             confirmaentrega.setVisible(true);
             dispose();
         } else {
@@ -145,8 +163,8 @@ private String rolUsuario;
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        Viajes viajes = new Viajes(rolUsuario);
-        viajes.setVisible(true);
+        ViajesEntrega atras = new ViajesEntrega(rolUsuario);
+        atras.setVisible(true);
         dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
 
@@ -191,6 +209,8 @@ private boolean hayPaquetesEnCamino(int idViaje) {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;

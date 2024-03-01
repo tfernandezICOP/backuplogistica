@@ -48,6 +48,10 @@ public class ControladoraPaquete {
            public List<Paquete> obtenerPaquetesPorViaje(int viajeID) {
            return controlpersis.obtenerPaquetesPorViaje(viajeID);
            }
+           
+           public List<Paquete> obtenerPaquetesPlanificadosPorViaje(int idViaje) {
+           return controlpersis.obtenerPaquetesPlanificadosPorViaje(idViaje);
+           }     
 }
 
 

@@ -97,6 +97,11 @@
             <artifactId>jcalendar</artifactId>
             <version>1.4</version>
         </dependency>
+        <dependency>
+            <groupId>itext5</groupId>
+            <artifactId>generarpdf</artifactId>
+            <version>5.5.12</version>
+        </dependency>
     </dependencies>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

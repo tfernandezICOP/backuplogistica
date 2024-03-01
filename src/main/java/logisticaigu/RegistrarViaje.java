@@ -43,7 +43,7 @@ public class RegistrarViaje extends javax.swing.JFrame {
     this.vehiculoSeleccionado = vehiculoSeleccionado;
     this.rolUsuario = rolUsuario;
     llenarComboBoxProvincias();
-    llenarComboBoxProvinciasDestino(); // Llenar jComboBox3 con todas las provincias
+    llenarComboBoxProvinciasDestino(); 
     jComboBox1.addActionListener(new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -168,6 +168,12 @@ private void llenarComboBoxLocalidadesDestino(Provincia provincia) {
 
         jLabel6.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
         jLabel6.setText("Localidad Destino:");
+
+        jComboBox3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox3ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -349,6 +355,10 @@ private void llenarComboBoxLocalidadesDestino(Provincia provincia) {
     private void jCalendar1PropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_jCalendar1PropertyChange
         // TODO add your handling code here:
     }//GEN-LAST:event_jCalendar1PropertyChange
+
+    private void jComboBox3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox3ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jComboBox3ActionPerformed
 
     /**
      * @param args the command line arguments
