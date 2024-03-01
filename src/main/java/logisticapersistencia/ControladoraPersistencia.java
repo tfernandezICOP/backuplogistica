@@ -1054,6 +1054,20 @@ public List<Cliente> filtrarClientesPorEstado(String estado) {
         em.close();
     }
 }
+public List<Cliente> ObtenerclientesActivos() {
+    EntityManager em = getEntityManager();
+
+    try {
+        // Crea la consulta JPQL para obtener los clientes activos de forma única
+        TypedQuery<Cliente> query = em.createQuery("SELECT DISTINCT c FROM Cliente c WHERE c.estado = 'Activo'", Cliente.class);
+
+        // Ejecuta la consulta y devuelve el resultado
+        return query.getResultList();
+    } finally {
+        em.close();
+    }
+}
+
 
 public void darDeBajaVehiculo(Integer vehiculoID) {
         EntityManager em = getEntityManager();

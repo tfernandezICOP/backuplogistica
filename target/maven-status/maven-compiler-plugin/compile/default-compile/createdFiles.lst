@@ -18,6 +18,7 @@ Controladoras\ControladoraLocalidad.class
 logisticapersistencia\UsuarioJpaController.class
 logisticaigu\ClientesTotales$9.class
 logisticaigu\ViajesPaqueteEncamino$2.class
+logisticaigu\ConsultadorEstadoPaquete$3.class
 logisticaigu\ConfirmarEntrega$4.class
 logisticaigu\RegistrarUsuario.class
 logisticaigu\RegistrarMantenimiento$4.class
@@ -33,7 +34,6 @@ logisticaigu\ViajeIGU$3.class
 logisticaigu\SeleccionVehiculoPD$5.class
 logisticaigu\BuscarClienteReceptor$4.class
 logisticaigu\BuscarClientes$5.class
-logisticaigu\ConsultarEstadoPaquetes$3.class
 logisticaigu\Menu$3.class
 logisticalogica\ViajePaquete.class
 logisticaigu\MantenimientoVehiculoSeleccionado.class
@@ -109,6 +109,7 @@ logisticaigu\RegistrarViaje$4.class
 logisticaigu\VehiculosTotales$5.class
 logisticaigu\ObtenerPaqueteEnVehiculo$2.class
 logisticaigu\ConfirmarEntrega.class
+logisticaigu\ConsultadorEstadoPaquete$2.class
 logisticaigu\ParteDiarioIGU$1.class
 logisticaigu\ViajeVehiculo.class
 logisticalogica\Mantenimiento_.class
@@ -131,6 +132,7 @@ logisticaigu\ViajesEntrega$6.class
 logisticalogica\Empleado_.class
 logisticaigu\AvisoMantenimiento$3.class
 logisticalogica\Empleado.class
+logisticaigu\ConsultadorEstadoPaquete$5.class
 logisticaigu\RegistrarClienteRecep$2.class
 logisticaigu\RegistrarViaje$6.class
 logisticaigu\RegistrarCliente2$1.class
@@ -155,6 +157,7 @@ logisticaigu\TipoMantenimiento$5.class
 logisticaigu\VehiculoViajeHistorial$2.class
 logisticaigu\RegistrarViaje$5.class
 logisticaigu\RegistrarMarcaVehiculo$2.class
+logisticaigu\ConsultadorEstadoPaquete$4.class
 logisticaigu\Menu$12.class
 logisticaigu\ViajeVehiculo$1.class
 logisticaigu\RegistrarPaquete$1.class
@@ -178,7 +181,6 @@ logisticaigu\ViajesEntrega$3.class
 logisticalogica\Provincia_.class
 logisticaigu\GestionarEntrega$3.class
 logisticaigu\AsociarPaqueteViaje$2.class
-logisticaigu\ConsultarEstadoPaquetes$6.class
 logisticaigu\GestionarEntrega.class
 logisticaigu\Viajes$4.class
 logisticaigu\PaquetesEncamino$1.class
@@ -198,6 +200,7 @@ logisticaigu\BuscarClientes$2.class
 logisticaigu\GestionarEntrega$4.class
 logisticaigu\HistorialPaquete.class
 logisticaigu\BuscarClientes$9.class
+logisticaigu\ConsultadorEstadoPaquete$1.class
 logisticaigu\AsociarPaqueteViaje$1.class
 logisticaigu\VehiculosConMantenimiento$4.class
 logisticaigu\ViajesPaqueteEncamino.class
@@ -208,14 +211,12 @@ logisticaigu\ConfirmarEntrega$2.class
 logisticalogica\Viaje_.class
 logisticaigu\ParteDiarioIGU$2.class
 logisticaigu\VehiculosTotales$3.class
-logisticaigu\ConsultarEstadoPaquetes$7.class
 logisticaigu\ClientesTotales$1.class
 logisticaigu\EditarVehiculo$6.class
 logisticaigu\HistorialViajes$5.class
 logisticaigu\PaquetesEncamino$6.class
 logisticaigu\ViajeVehiculo$2.class
 logisticaigu\RegistrarVehiculo$1.class
-logisticaigu\ConsultarEstadoPaquetes$1.class
 Controladoras\ControladoraPaquete.class
 logisticalogica\Paquete_.class
 logisticalogica\Provincia.class
@@ -238,14 +239,13 @@ logisticapersistencia\ControladoraPersistencia.class
 logisticaigu\RegistrarVehiculo$2.class
 logisticaigu\Viajes$5.class
 logisticapersistencia\ClienteJpaController.class
-logisticaigu\ConsultarEstadoPaquetes$5.class
 logisticaigu\GestionarEntrega$2.class
 logisticaigu\PaquetesEncamino$3.class
 Controladoras\ControladoraVehiculo.class
 logisticaigu\EditarVehiculo$3.class
-logisticaigu\ConsultarEstadoPaquetes$2.class
 logisticaigu\HojaDeRutaPaquetes$1.class
 logisticalogica\DetalleMantenimiento.class
+logisticaigu\ConsultadorEstadoPaquete.class
 logisticaigu\Viajes$2.class
 logisticaigu\AsociarPaqueteViaje$3.class
 logisticaigu\BuscarClienteReceptor$5.class
@@ -288,7 +288,6 @@ logisticaigu\HojaDeRuta.class
 logisticaigu\RegistrarVehiculo$4.class
 logisticapersistencia\LocalidadJpaController.class
 Controladoras\ControladoraDetalleMante.class
-logisticaigu\ConsultarEstadoPaquetes.class
 logisticaigu\EditarVehiculo$1.class
 logisticaigu\RegistrarCliente.class
 logisticaigu\RegistrarMantenimiento$2.class
@@ -297,7 +296,6 @@ logisticalogica\ParteDiario.class
 logisticaigu\ViajeIGU.class
 logisticaigu\RegistrarViaje.class
 logisticaigu\BuscarClienteReceptor$6.class
-logisticaigu\ConsultarEstadoPaquetes$4.class
 logisticapersistencia\ProvinciaJpaController.class
 logisticaigu\MantenimientoVehiculoSeleccionado$2.class
 logisticaigu\RegistrarMarca$2.class

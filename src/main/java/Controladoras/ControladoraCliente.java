@@ -57,4 +57,7 @@ public class ControladoraCliente {
    public void actualizarCliente(Cliente cliente) {
        controlpersis.actualizarCliente(cliente);
    }
+   public List<Cliente> ObtenerclientesActivos() {
+return controlpersis.ObtenerclientesActivos();
+        }
 }

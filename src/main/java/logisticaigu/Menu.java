@@ -18,9 +18,7 @@ import javax.swing.UIManager;
  */
 public class Menu extends javax.swing.JFrame {
     private String rolUsuario;
-    /**
-     * Creates new form Menu2
-     */
+    
     public Menu(String rolUsuario) {
        initComponents();
         this.rolUsuario = rolUsuario;
@@ -402,7 +400,7 @@ private void personalizarVentanaSegunRol() {
     private void ConsultarestadopaqueteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ConsultarestadopaqueteActionPerformed
         
         
-        ConsultarEstadoPaquetes consultapaquete = new ConsultarEstadoPaquetes(rolUsuario);
+        ConsultadorEstadoPaquete consultapaquete = new ConsultadorEstadoPaquete(rolUsuario);
         consultapaquete.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_ConsultarestadopaqueteActionPerformed
