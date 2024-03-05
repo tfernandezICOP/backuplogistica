@@ -7,12 +7,17 @@ package logisticaigu;
 import Controladoras.ControladoraPaquete;
 import Controladoras.ControladoraViaje;
 import Controladoras.ControladoraViajePaquete;
+import java.awt.Font;
 import java.util.List;
 import javax.swing.DefaultListModel;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.ListSelectionModel;
+import javax.swing.SwingConstants;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import logisticalogica.Paquete;
 import logisticalogica.Vehiculo;
@@ -25,27 +30,33 @@ import logisticapersistencia.ControladoraPersistencia;
  * @author ULTRA
  */
 public class AsociarPaqueteViaje extends javax.swing.JFrame {
-  ControladoraPaquete ctrlPaquete = new ControladoraPaquete();
+    ControladoraPaquete ctrlPaquete = new ControladoraPaquete();
     private int idViaje;
-        private int vehiculoId;
-private String modelo;
-private String patente;
-        private Vehiculo vehiculoSeleccionado; // Add this line
-
-     private DefaultListModel<String> listModel = new DefaultListModel<>();
-     private String rolUsuario;
+    private int vehiculoId;
+    private String modelo;
+    private String patente;
+    private Vehiculo vehiculoSeleccionado; // Add this line
+    private DefaultListModel<String> listModel = new DefaultListModel<>();
+    private String rolUsuario;
     /**
      * Creates new form AsociarPaqueteViaje
      */
     public AsociarPaqueteViaje(int vehiculoId ,String modelo,String patente,int idViaje, String rolUsuario) {
         initComponents();
-                this.vehiculoId = vehiculoId;
-
+        this.vehiculoId = vehiculoId;
         this.rolUsuario = rolUsuario;
         this.idViaje = idViaje;
-        this.vehiculoSeleccionado = vehiculoSeleccionado; 
-
+        this.vehiculoSeleccionado = vehiculoSeleccionado;
+        setExtendedState(JFrame.MAXIMIZED_BOTH); // Abre el JFrame en pantalla completa
         
+        // Crear un renderizador personalizado para los encabezados de las columnas
+        DefaultTableCellRenderer headerRenderer = new DefaultTableCellRenderer();
+        headerRenderer.setHorizontalAlignment(SwingConstants.LEFT); // Alinear a la izquierda horizontalmente
+        headerRenderer.setVerticalAlignment(SwingConstants.CENTER); // Centrar verticalmente
+        headerRenderer.setFont(new Font("Arial", Font.PLAIN, 18)); // Establecer la fuente a Arial 18
+        // Aplicar el renderizador personalizado a los encabezados de las columnas
+        jTable1.getTableHeader().setDefaultRenderer(headerRenderer);
+   
         cargarListaPaquetes();
         jTable1.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
             public void valueChanged(ListSelectionEvent event) {
@@ -57,13 +68,9 @@ private String patente;
             }
         });
         
-        cargarListaPaquetes();
-        
+        cargarListaPaquetes();    
         jButton2.setEnabled(false);
     }
-
-
-   
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -85,7 +92,7 @@ private String patente;
 
         jLabel1.setFont(new java.awt.Font("Arial", 0, 36)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("Paquetes");
+        jLabel1.setText("Designar ruta - Seleccionar paquete");
 
         jButton1.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
         jButton1.setText("Volver");
@@ -103,7 +110,7 @@ private String patente;
             }
         });
 
-        jTable1.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
+        jTable1.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
@@ -123,14 +130,15 @@ private String patente;
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jButton2)
-                        .addGap(100, 100, 100)
-                        .addComponent(jButton1))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 1888, Short.MAX_VALUE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1334, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButton2)
+                .addGap(100, 100, 100)
+                .addComponent(jButton1)
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -139,11 +147,11 @@ private String patente;
                 .addContainerGap()
                 .addComponent(jLabel1)
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 875, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 548, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
@@ -151,7 +159,9 @@ private String patente;
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -162,10 +172,15 @@ private String patente;
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-   int[] selectedRows = jTable1.getSelectedRows();
+    int[] selectedRows = jTable1.getSelectedRows();
 
     if (selectedRows.length == 0) {
-        JOptionPane.showMessageDialog(this, "Por favor, seleccione al menos un paquete.", "Alerta", JOptionPane.WARNING_MESSAGE);
+        // Crear un JLabel para personalizar el mensaje
+        JLabel messageLabel = new JLabel("Por favor, seleccione al menos un paquete.");
+        // Establecer la fuente del JLabel
+        messageLabel.setFont(new Font("Arial", Font.PLAIN, 18));
+        // Mostrar el cuadro de diálogo de advertencia con el JLabel personalizado y el título personalizado
+        JOptionPane.showMessageDialog(this, messageLabel, "Alerta", JOptionPane.WARNING_MESSAGE);
         return;
     }
 
@@ -189,14 +204,23 @@ private String patente;
         boolean coincideOrigen = paquete.getOrigen().getNombre().equalsIgnoreCase(viaje.getOrigen().getNombre().trim()) && paquete.getLocalidadOrigen().getNombre().equalsIgnoreCase(viaje.getLocalidadOrigen().getNombre().trim());
         boolean coincideDestino = paquete.getDestino().getNombre().equalsIgnoreCase(viaje.getDestino().getNombre().trim()) && paquete.getLocalidadDestino().getNombre().equalsIgnoreCase(viaje.getLocalidadDestino().getNombre().trim());
 
-
         if (!coincideOrigen || !coincideDestino) {
-            int confirmacion = JOptionPane.showConfirmDialog(
-                    this,
-                    "El origen o destino del paquete no coincide con el origen o destino del viaje. ¿Seguro que desea continuar?",
-                    "Confirmar",
-                    JOptionPane.YES_NO_OPTION
-            );
+           JLabel nocoincide = new JLabel("<html>El origen o destino del paquete no coincide con el origen o destino del viaje.<br>¿Seguro que desea continuar?</html>");
+        // Establecer la fuente del JLabel
+        nocoincide.setFont(new Font("Arial", Font.PLAIN, 18));
+
+        Object[] options = {"Sí", "No"};
+
+        int confirmacion = JOptionPane.showOptionDialog(
+        this,
+        nocoincide,
+        "Confirmar",
+        JOptionPane.YES_NO_OPTION,
+        JOptionPane.QUESTION_MESSAGE,
+        null, // Sin ícono personalizado
+        options, // Las opciones personalizadas
+        options[1] // Opción predeterminada (No)
+);
 
             if (confirmacion == JOptionPane.NO_OPTION) {
                 System.out.println("El usuario ha cancelado la acción."); // Depuración en la consola
@@ -217,13 +241,21 @@ private String patente;
         model.removeRow(selectedRow);
     }
 
-    // Preguntar si desea seguir asociando paquetes
-    int confirmacion = JOptionPane.showConfirmDialog(
-            this,
-            "¿Desea seguir asociando paquetes a este vehículo?",
-            "Confirmar",
-            JOptionPane.YES_NO_OPTION
-    );
+    JLabel paquevehiculo = new JLabel("¿Desea seguir asociando paquetes a este vehículo?");
+     paquevehiculo.setFont(new Font("Arial", Font.PLAIN, 18));
+
+    String[] options = {"Sí", "No"};
+
+    int confirmacion = JOptionPane.showOptionDialog(
+        this,
+        paquevehiculo,
+        "Confirmar",
+        JOptionPane.YES_NO_OPTION,
+        JOptionPane.QUESTION_MESSAGE,
+        null,
+        options,
+        options[0] // Opción predeterminada ("Sí")
+);
 
     if (confirmacion == JOptionPane.NO_OPTION) {
         new Viajes(rolUsuario).setVisible(true);
@@ -236,7 +268,7 @@ private String patente;
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-     ViajeVehiculo atras = new ViajeVehiculo(vehiculoId,modelo, patente, rolUsuario);
+     Menu atras = new Menu(rolUsuario);
      atras.setVisible(true);
      dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
@@ -253,7 +285,7 @@ private String patente;
     modelo.addColumn("Estado");
     modelo.addColumn("Domicilio de Retiro");
     modelo.addColumn("Domicilio de Entrega");
-    modelo.addColumn("Fecha Recibido");
+    modelo.addColumn("Fecha Registro Paquete");
     modelo.addColumn("Provincia Origen");
     modelo.addColumn("Localidad Origen");
     modelo.addColumn("Provincia Destino");

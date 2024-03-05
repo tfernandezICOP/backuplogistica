@@ -6,12 +6,16 @@ package logisticaigu;
 
 import Controladoras.ControladoraMarca;
 import Controladoras.ControladoraVehiculo;
+import java.awt.Font;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Random;
 import java.util.Set;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import logisticalogica.Marca;
 import logisticalogica.Vehiculo;
 
@@ -33,6 +37,7 @@ private Object ventanaQueLlama;
     public RegistrarMarcaVehiculo(Object ventanaQueLlama, String rolUsuario) {
         initComponents();
         inicializarNumerosDisponibles();
+        setExtendedState(JFrame.MAXIMIZED_BOTH); // Abre el JFrame en pantalla completa
         controladoravehiculo = new ControladoraVehiculo();
         this.rolUsuario = rolUsuario;
         this.ventanaQueLlama = ventanaQueLlama;
@@ -61,6 +66,7 @@ private Object ventanaQueLlama;
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jComboBox1 = new javax.swing.JComboBox<>();
+        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -72,6 +78,7 @@ private Object ventanaQueLlama;
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel3.setText("Tipo:");
 
+        jComboBox2.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
         jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         jComboBox2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -79,7 +86,8 @@ private Object ventanaQueLlama;
             }
         });
 
-        jButton1.setText("Registrar Marca");
+        jButton1.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
+        jButton1.setText("Registrar marca");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
@@ -122,6 +130,7 @@ private Object ventanaQueLlama;
             }
         });
 
+        jComboBox1.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         jComboBox1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -129,69 +138,73 @@ private Object ventanaQueLlama;
             }
         });
 
+        jLabel1.setFont(new java.awt.Font("Arial", 0, 36)); // NOI18N
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel1.setText("Registrar vehiculo");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(219, 219, 219)
-                                        .addComponent(jLabel3))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(211, 211, 211)
-                                        .addComponent(jLabel2)))
-                                .addGap(29, 29, 29)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jComboBox2, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(jLabel4)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
-                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 1334, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(192, 192, 192)
-                                .addComponent(jLabel5)
+                                .addComponent(jButton1)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(44, 44, 44)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jButton2)
-                        .addGap(100, 100, 100)
-                        .addComponent(jButton3)))
-                .addContainerGap())
+                                .addComponent(jButton2)
+                                .addGap(100, 100, 100)
+                                .addComponent(jButton3))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(365, 365, 365)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel2)
+                                    .addComponent(jLabel3))
+                                .addGap(304, 304, 304)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel4)
+                                    .addComponent(jLabel5))
+                                .addGap(100, 100, 100)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(94, 94, 94)
+                .addContainerGap()
+                .addComponent(jLabel1)
+                .addGap(100, 100, 100)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(31, 31, 31)
+                    .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(60, 60, 60)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(41, 41, 41)
+                .addGap(60, 60, 60)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 48, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 60, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(69, 69, 69)
+                .addGap(104, 104, 104)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
@@ -232,7 +245,13 @@ private void llenarComboBox() {
 
     if (modelo != null && !modelo.isEmpty()) {
         if (controladoramarca.marcaExiste(modelo)) {
-            JOptionPane.showMessageDialog(this, "El modelo ingresado ya tiene marcas registradas.", "Error", JOptionPane.ERROR_MESSAGE);
+        // Crear un JLabel para personalizar el mensaje
+        JLabel marcaregistrada = new JLabel("El modelo ingresado ya tiene marcas registradas.");
+        // Establecer la fuente del JLabel
+        marcaregistrada.setFont(new Font("Arial", Font.PLAIN, 18));
+
+        // Mostrar el cuadro de diálogo de error con el JLabel personalizado
+        JOptionPane.showMessageDialog(this, marcaregistrada, "Error", JOptionPane.ERROR_MESSAGE);
             return; 
         }
         
@@ -252,14 +271,26 @@ private void llenarComboBox() {
             }
         }
         
-        JOptionPane.showMessageDialog(this, "Marca registrada exitosamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+        // Crear un JLabel para personalizar el mensaje
+        JLabel exitomarcaregistrada = new JLabel("Marca registrada exitosamente.");
+        // Establecer la fuente del JLabel
+        exitomarcaregistrada.setFont(new Font("Arial", Font.PLAIN, 18));
+
+        // Mostrar el cuadro de diálogo de información con el JLabel personalizado
+        JOptionPane.showMessageDialog(this, exitomarcaregistrada, "Éxito", JOptionPane.INFORMATION_MESSAGE);
         
         jComboBox2.addItem(modelo);
         jComboBox2.setSelectedItem(modelo);
         
         llenarComboBox();
     } else {
-        JOptionPane.showMessageDialog(this, "Debe ingresar un nombre de modelo válido.", "Error", JOptionPane.ERROR_MESSAGE);
+        // Crear un JLabel para personalizar el mensaje
+        JLabel modelovalido = new JLabel("Debe ingresar un nombre de modelo válido.");
+        // Establecer la fuente del JLabel
+        modelovalido.setFont(new Font("Arial", Font.PLAIN, 18));
+
+        // Mostrar el cuadro de diálogo de error con el JLabel personalizado
+        JOptionPane.showMessageDialog(this, modelovalido, "Error", JOptionPane.ERROR_MESSAGE);
     }
        }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -279,7 +310,13 @@ private void llenarComboBox() {
     if (!capacidadCargaStr.isEmpty() && !patente.isEmpty()) {
         // Verificar si ya existe un vehículo con la misma patente
         if (controladoravehiculo.existeVehiculoConPatente(patente)) {
-            JOptionPane.showMessageDialog(this, "Ya existe un vehículo registrado con la misma patente.", "Error", JOptionPane.ERROR_MESSAGE);
+            // Crear un JLabel para personalizar el mensaje
+            JLabel mismapatente = new JLabel("Ya existe un vehículo registrado con la misma patente.");
+            // Establecer la fuente del JLabel
+            mismapatente.setFont(new Font("Arial", Font.PLAIN, 18));
+
+            // Mostrar el cuadro de diálogo de error con el JLabel personalizado
+            JOptionPane.showMessageDialog(this, mismapatente, "Error", JOptionPane.ERROR_MESSAGE);
             return; // Salir del método sin guardar el vehículo
         }
 
@@ -314,7 +351,13 @@ private void llenarComboBox() {
                 System.out.println("Vehículo guardado exitosamente. ID: " + nuevoVehiculo.getVehiculoID()); // Mensaje de depuración
 
                 // Mostrar mensaje de éxito
-                JOptionPane.showMessageDialog(this, "Vehículo guardado exitosamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+                // Crear un JLabel para personalizar el mensaje
+                JLabel vehiculoguardado = new JLabel("Vehículo guardado exitosamente.");
+                // Establecer la fuente del JLabel
+                vehiculoguardado.setFont(new Font("Arial", Font.PLAIN, 18));
+
+                // Mostrar el cuadro de diálogo de información con el JLabel personalizado
+                JOptionPane.showMessageDialog(this, vehiculoguardado, "Éxito", JOptionPane.INFORMATION_MESSAGE);
 
                 // Verificar el tipo de ventana que llama a MarcaIGU
                 if (ventanaQueLlama instanceof ViajeIGU) {
@@ -329,13 +372,31 @@ private void llenarComboBox() {
                 // Cierra la ventana actual
                 dispose();
             } else {
-                JOptionPane.showMessageDialog(this, "No se encontró la marca seleccionada.", "Error", JOptionPane.ERROR_MESSAGE);
+                // Crear un JLabel para personalizar el mensaje
+                JLabel marcanoencontrada = new JLabel("No se encontró la marca seleccionada.");
+                // Establecer la fuente del JLabel
+                marcanoencontrada.setFont(new Font("Arial", Font.PLAIN, 18));
+
+                // Mostrar el cuadro de diálogo de error con el JLabel personalizado
+                JOptionPane.showMessageDialog(this, marcanoencontrada, "Error", JOptionPane.ERROR_MESSAGE);
             }
         } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(this, "La capacidad de carga debe ser un número entero válido.", "Error", JOptionPane.ERROR_MESSAGE);
+                // Crear un JLabel para personalizar el mensaje
+                JLabel numerovalidocarga = new JLabel("La capacidad de carga debe ser un número entero válido.");
+                // Establecer la fuente del JLabel
+                numerovalidocarga.setFont(new Font("Arial", Font.PLAIN, 18));
+
+                // Mostrar el cuadro de diálogo de error con el JLabel personalizado
+                JOptionPane.showMessageDialog(this, numerovalidocarga, "Error", JOptionPane.ERROR_MESSAGE);
         }
     } else {
-        JOptionPane.showMessageDialog(this, "Por favor, completa todos los campos.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+        // Crear un JLabel para personalizar el mensaje
+        JLabel completacampos = new JLabel("Por favor, completa todos los campos.");
+        // Establecer la fuente del JLabel
+        completacampos.setFont(new Font("Arial", Font.PLAIN, 18));
+
+        // Mostrar el cuadro de diálogo de advertencia con el JLabel personalizado
+        JOptionPane.showMessageDialog(this, completacampos, "Advertencia", JOptionPane.WARNING_MESSAGE);
     }
     }//GEN-LAST:event_jButton2ActionPerformed
 
@@ -361,7 +422,13 @@ private void llenarComboBox() {
 
 
 private String ingresarModelo() {
-    return JOptionPane.showInputDialog(this, "Ingrese el modelo:", "Registrar Modelo", JOptionPane.QUESTION_MESSAGE);
+    // Crear un JLabel para personalizar el mensaje
+    JLabel ingresemodelo = new JLabel("Ingrese el modelo:");
+    // Establecer la fuente del JLabel
+    ingresemodelo.setFont(new Font("Arial", Font.PLAIN, 18));
+
+    // Mostrar el cuadro de diálogo de entrada con el JLabel personalizado
+    return JOptionPane.showInputDialog(this, ingresemodelo, "Registrar Modelo", JOptionPane.QUESTION_MESSAGE);
 }
 
 
@@ -401,7 +468,17 @@ private void actualizarTipos() {
 
   private String seleccionarTipo() {
     String[] tipos = {"Camion", "Camioneta", "SUV", "Automovil"};
-    return (String) JOptionPane.showInputDialog(this, "Seleccione el tipo:", "Registrar Tipo", JOptionPane.QUESTION_MESSAGE, null, tipos, tipos[0]);
+    // Crear un JLabel para personalizar el mensaje
+    JLabel selecciontipo = new JLabel("Seleccione el tipo:");
+    // Establecer la fuente del JLabel
+    selecciontipo.setFont(new Font("Arial", Font.PLAIN, 18));
+
+    // Crear un JPanel para contener el JLabel y el cuadro de selección
+    JPanel panel = new JPanel();
+    panel.add(selecciontipo);
+
+    // Mostrar el cuadro de diálogo de selección con el JPanel personalizado
+    return (String) JOptionPane.showInputDialog(this, panel, "Registrar Tipo", JOptionPane.QUESTION_MESSAGE, null, tipos, tipos[0]);
 }
 private void inicializarNumerosDisponibles() {
         numerosDisponibles = new HashSet<>();
@@ -465,6 +542,7 @@ private void inicializarNumerosDisponibles() {
     private javax.swing.JButton jButton3;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JComboBox<String> jComboBox2;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;

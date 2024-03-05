@@ -8,11 +8,15 @@ import Controladoras.ControladoraMantenimiento;
 import Controladoras.ControladoraMantenimientoRealizado;
 import Controladoras.ControladoraParteDiario;
 import Controladoras.ControladoraVehiculo;
+import java.awt.Font;
 import java.util.List;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.SwingConstants;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import logisticalogica.MantenimientoRealizado;
 import logisticalogica.ParteDiario;
@@ -23,26 +27,34 @@ import logisticalogica.Vehiculo;
  * @author ULTRA
  */
 public  class AvisoMantenimiento extends javax.swing.JFrame {
- private ControladoraMantenimiento controladoramante = new ControladoraMantenimiento();
+    private ControladoraMantenimiento controladoramante = new ControladoraMantenimiento();
     private ControladoraVehiculo controladoravehiculo = new ControladoraVehiculo();
     private Vehiculo vehiculoseleccionado;
     private ControladoraMantenimientoRealizado controladoramanterealizado = new ControladoraMantenimientoRealizado();
     private ControladoraParteDiario controladoraPD = new ControladoraParteDiario();
-     private List<ParteDiario> parteDiarioList;
-        private String rolUsuario;
+    private List<ParteDiario> parteDiarioList;
+    private String rolUsuario;
 
     /**
      * Creates new form AvisoMantenimiento
      */
     public AvisoMantenimiento(String rolUsuario) {
         initComponents();
-                    JOptionPane.showMessageDialog(this, "¡Bienvenido, " + rolUsuario + "!");
-
+        setExtendedState(JFrame.MAXIMIZED_BOTH); // Abre el JFrame en pantalla completa
         actualizarTablaAvisoMantenimiento();
-            this.rolUsuario = rolUsuario;
-// Llama al método para actualizar la tabla al crear la ventana
+        this.rolUsuario = rolUsuario;
+        // Llama al método para actualizar la tabla al crear la ventana
+        
+        // Crear un renderizador personalizado para los encabezados de las columnas
+        DefaultTableCellRenderer headerRenderer = new DefaultTableCellRenderer();
+        headerRenderer.setHorizontalAlignment(SwingConstants.LEFT); // Alinear a la izquierda horizontalmente
+        headerRenderer.setVerticalAlignment(SwingConstants.CENTER); // Centrar verticalmente
+        headerRenderer.setFont(new Font("Arial", Font.PLAIN, 18)); // Establecer la fuente a Arial 18
+        
+        // Aplicar el renderizador personalizado a los encabezados de las columnas
+        jTable1.getTableHeader().setDefaultRenderer(headerRenderer);
 
- jTable1.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+        jTable1.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
         @Override
         public void valueChanged(ListSelectionEvent e) {
             // Verificar si se ha seleccionado una fila en la tabla
@@ -77,7 +89,7 @@ public  class AvisoMantenimiento extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jTable1.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        jTable1.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null, null},
@@ -93,7 +105,7 @@ public  class AvisoMantenimiento extends javax.swing.JFrame {
 
         jLabel1.setFont(new java.awt.Font("Arial", 0, 36)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("Avisos de Mantenimiento");
+        jLabel1.setText("Aviso de mantenimiento");
 
         jButton1.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
         jButton1.setText("Aceptar");
@@ -116,17 +128,16 @@ public  class AvisoMantenimiento extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 1894, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jButton1)
-                        .addGap(30, 30, 30)
-                        .addComponent(jButton2))
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jScrollPane2)))
-                .addContainerGap())
+                        .addComponent(jButton1)
+                        .addGap(100, 100, 100)
+                        .addComponent(jButton2))
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 1334, Short.MAX_VALUE)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -134,12 +145,12 @@ public  class AvisoMantenimiento extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jLabel1)
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 860, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 548, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -167,21 +178,38 @@ public  class AvisoMantenimiento extends javax.swing.JFrame {
         // Obtener el vehículo correspondiente a partir del ID en la base de datos
         vehiculoseleccionado = controladoravehiculo.obtenerVehiculoPorID(idVehiculoSeleccionado);
 
-        // Mostrar un cuadro de diálogo de confirmación
-        int opcion = JOptionPane.showConfirmDialog(this, "¿Estás seguro que quieres seleccionar el vehículo con patente " + vehiculoseleccionado.getPatente() + "?", "Confirmar selección", JOptionPane.YES_NO_OPTION);
+        // Crear el mensaje con la patente del vehículo seleccionado
+        String mensaje = "¿Estás seguro que quieres seleccionar el vehículo con patente " + vehiculoseleccionado.getPatente() + "?";
 
+        // Crear un JLabel para personalizar el mensaje
+        JLabel selecvehiculopatente = new JLabel(mensaje);
+        // Establecer la fuente del JLabel
+        selecvehiculopatente.setFont(new Font("Arial", Font.PLAIN, 18));
+
+        // Crear un array de objetos para personalizar los botones del JOptionPane
+        Object[] options = {"Si", "No"};
+
+        // Mostrar el cuadro de diálogo de confirmación con el JLabel personalizado, las opciones de botones modificadas y el título personalizado
+        int opcion = JOptionPane.showOptionDialog(this, selecvehiculopatente, "Confirmar selección", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
+        
         // Verificar la opción seleccionada por el usuario
         if (opcion == JOptionPane.YES_OPTION) {
             // Resto del código para mostrar la ventana ConfirmarMantenimiento y cerrar la ventana actual
             ConfirmarMantenimiento confirmarMantenimientoFrame = new ConfirmarMantenimiento(vehiculoseleccionado, rolUsuario); // Pasar el rolUsuario
             confirmarMantenimientoFrame.setVisible(true);
-
             // Cerrar la ventana actual
             this.dispose();
         }
     } else {
         // Mostrar un mensaje si no se ha seleccionado ninguna fila válida
-        JOptionPane.showMessageDialog(this, "Seleccione un vehículo primero", "Error", JOptionPane.ERROR_MESSAGE);
+        // Crear un JLabel para personalizar el mensaje
+        JLabel selecvehiculo = new JLabel("Seleccione un vehículo primero");
+        // Establecer la fuente del JLabel
+        selecvehiculo.setFont(new Font("Arial", Font.PLAIN, 18));
+
+        // Mostrar el cuadro de diálogo de error con el JLabel personalizado y el título personalizado
+        JOptionPane.showMessageDialog(this, selecvehiculo, "Error", JOptionPane.ERROR_MESSAGE);
+
     }
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -256,7 +284,6 @@ public void mostrarVentana() {
         mostrarVehiculosEnTabla(); // Llama al método para actualizar la tabla cada vez que se muestra la ventana
         setVisible(true);
     }
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;

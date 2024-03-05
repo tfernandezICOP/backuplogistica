@@ -5,11 +5,16 @@
 package logisticaigu;
 
 import Controladoras.ControladoraVehiculo;
+import java.awt.Font;
 import java.util.List;
 import java.util.stream.Collectors;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.SwingConstants;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import static logisticaigu.RegistrarMantenimiento.vehiculoSeleccionado;
 import logisticalogica.Paquete;
@@ -21,22 +26,32 @@ import logisticalogica.Vehiculo;
  */
 public class GestionarEntrega extends javax.swing.JFrame {
     ControladoraVehiculo controladoraVehiculo = new ControladoraVehiculo();
-   public static Vehiculo vehiculoSeleccionado;
-   private List<Vehiculo> vehiculos;
+    public static Vehiculo vehiculoSeleccionado;
+    private List<Vehiculo> vehiculos;
     private  String rolUsuario;
     private int idViaje;
-        private int vehiculoID;
+    private int vehiculoID;
     /**
      * Creates new form GestionarEntrega
      */
     public GestionarEntrega(String rolUsuario) {
         initComponents();
+        setExtendedState(JFrame.MAXIMIZED_BOTH); // Abre el JFrame en pantalla completa
         this.rolUsuario = rolUsuario;
         mostrarTodosLosVehiculos();
         inicializarVentana();
         this.vehiculoID = vehiculoID;
+        
+        // Crear un renderizador personalizado para los encabezados de las columnas
+        DefaultTableCellRenderer headerRenderer = new DefaultTableCellRenderer();
+        headerRenderer.setHorizontalAlignment(SwingConstants.LEFT); // Alinear a la izquierda horizontalmente
+        headerRenderer.setVerticalAlignment(SwingConstants.CENTER); // Centrar verticalmente
+        headerRenderer.setFont(new Font("Arial", Font.PLAIN, 18)); // Establecer la fuente a Arial 18
+        
+        // Aplicar el renderizador personalizado a los encabezados de las columnas
+        tablafiltrar.getTableHeader().setDefaultRenderer(headerRenderer);
 
-         Ingresarpatente.getDocument().addDocumentListener(new javax.swing.event.DocumentListener() {
+        Ingresarpatente.getDocument().addDocumentListener(new javax.swing.event.DocumentListener() {
         @Override
         public void insertUpdate(javax.swing.event.DocumentEvent evt) {
             filtrarPorPatente();
@@ -107,7 +122,7 @@ public class GestionarEntrega extends javax.swing.JFrame {
 
         jLabel1.setFont(new java.awt.Font("Arial", 0, 36)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("Gestionar Entrega");
+        jLabel1.setText("Gestionar entrega");
 
         jButton1.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
         jButton1.setText("Volver");
@@ -145,7 +160,7 @@ public class GestionarEntrega extends javax.swing.JFrame {
             }
         });
 
-        tablafiltrar.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        tablafiltrar.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         tablafiltrar.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
@@ -166,13 +181,11 @@ public class GestionarEntrega extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 1888, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel3)
                         .addGap(18, 18, 18)
                         .addComponent(Ingresarmarca, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 656, Short.MAX_VALUE)
                         .addComponent(jLabel4)
                         .addGap(18, 18, 18)
                         .addComponent(Ingresarpatente, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -180,7 +193,12 @@ public class GestionarEntrega extends javax.swing.JFrame {
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(jButton2)
                         .addGap(100, 100, 100)
-                        .addComponent(jButton1)))
+                        .addComponent(jButton1))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 1334, Short.MAX_VALUE)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -195,7 +213,7 @@ public class GestionarEntrega extends javax.swing.JFrame {
                     .addComponent(Ingresarmarca, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 792, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 480, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -245,7 +263,13 @@ public class GestionarEntrega extends javax.swing.JFrame {
           //  confirmarEntrega.setVisible(true);
         } else {
             // No hay paquetes en camino, mostrar mensaje y no cerrar la ventana actual
-            JOptionPane.showMessageDialog(this, "Este vehículo no tiene paquetes ", "Sin Paquetes en Camino", JOptionPane.INFORMATION_MESSAGE);
+            // Crear un JLabel para personalizar el mensaje
+            JLabel vehiculosinpaquetes = new JLabel("Este vehículo no tiene paquetes");
+            // Establecer la fuente del JLabel
+            vehiculosinpaquetes.setFont(new Font("Arial", Font.PLAIN, 18));
+
+            // Mostrar el cuadro de diálogo de información con el JLabel personalizado y el título personalizado
+            JOptionPane.showMessageDialog(this, vehiculosinpaquetes, "Sin Paquetes en Camino", JOptionPane.INFORMATION_MESSAGE);
         }
     } else {
         // No se ha seleccionado ningún vehículo, mostrar un mensaje de error o manejar la situación según sea necesario
@@ -303,8 +327,6 @@ private void filtrarPorModelo() {
         });
     }
 
-
-
 private void mostrarTodosLosVehiculos() {
     // Asignar los vehículos obtenidos a la lista de vehículos de la clase
     vehiculos = controladoraVehiculo.obtenerTodosLosVehiculos();
@@ -312,8 +334,6 @@ private void mostrarTodosLosVehiculos() {
     vehiculos = vehiculos.stream().filter(v -> "Activo".equalsIgnoreCase(v.getEstado())).collect(Collectors.toList());
     mostrarVehiculosEnTabla(vehiculos);
 }
-
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField Ingresarmarca;

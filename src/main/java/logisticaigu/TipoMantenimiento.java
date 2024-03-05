@@ -5,15 +5,20 @@
 package logisticaigu;
 
 import Controladoras.ControladoraDetalleMante;
+import java.awt.Font;
+import java.awt.GridLayout;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import logisticalogica.DetalleMantenimiento;
 import logisticalogica.Mantenimiento;
@@ -34,17 +39,26 @@ public class TipoMantenimiento extends javax.swing.JFrame {
      * Creates new form TipoMantenimiento
      */
     public TipoMantenimiento(MantenimientoRealizado mantenimientoRealizado, String rolUsuario) {
-  initComponents();
+        initComponents();
+        setExtendedState(JFrame.MAXIMIZED_BOTH); // Abre el JFrame en pantalla completa
         this.mantenimientoRealizado = mantenimientoRealizado; // Asigna el valor recibido al atributo de la clase
         this.rolUsuario = rolUsuario;
-                    JOptionPane.showMessageDialog(this, "¡Bienvenido, " + rolUsuario + "!");
+        
+        // Crear un renderizador personalizado para los encabezados de las columnas
+        DefaultTableCellRenderer headerRenderer = new DefaultTableCellRenderer();
+        headerRenderer.setHorizontalAlignment(SwingConstants.CENTER); // Alinear al centro horizontalmente
+        headerRenderer.setVerticalAlignment(SwingConstants.CENTER); // Centrar verticalmente
+        headerRenderer.setFont(new Font("Arial", Font.PLAIN, 18)); // Establecer la fuente a Arial 18
+        
+        // Aplicar el renderizador personalizado a los encabezados de las columnas
+        jTable1.getTableHeader().setDefaultRenderer(headerRenderer);
 
         ControladoraDetalleMante controladoraDetalleMante = new ControladoraDetalleMante();
         // Obtener todos los detalles de mantenimiento
         detallemante = controladoraDetalleMante.obtenerDetallesMantenimiento();
 
         // Actualizar la tabla con los detalles de mantenimiento obtenidos
-        actualizarTabla();
+        actualizarTabla();               
 
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -62,10 +76,6 @@ public class TipoMantenimiento extends javax.swing.JFrame {
         }
     });
     }
-
-
-   
-
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -106,7 +116,7 @@ public class TipoMantenimiento extends javax.swing.JFrame {
             }
         });
 
-        jTable1.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        jTable1.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null},
@@ -132,20 +142,18 @@ public class TipoMantenimiento extends javax.swing.JFrame {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1888, Short.MAX_VALUE)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jButton3)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jButton2)
-                                .addGap(100, 100, 100)
-                                .addComponent(jButton1)))))
-                .addContainerGap())
+                        .addComponent(jButton3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 818, Short.MAX_VALUE)
+                        .addComponent(jButton2)
+                        .addGap(100, 100, 100)
+                        .addComponent(jButton1))
+                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -153,13 +161,13 @@ public class TipoMantenimiento extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jLabel1)
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 860, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 548, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -193,7 +201,19 @@ public class TipoMantenimiento extends javax.swing.JFrame {
 
         if (detalleSeleccionado != null) {
             // Mostrar un mensaje de confirmación para asegurar que el usuario quiere seleccionar este tipo de servicio
-            int opcionConfirmacion = JOptionPane.showConfirmDialog(this, "¿Estás seguro de seleccionar el tipo de servicio: " + detalleSeleccionado.getTipoServicio() + "?", "Confirmación", JOptionPane.YES_NO_OPTION);
+            // Crear el mensaje con el tipo de servicio
+            String mensaje = "¿Estás seguro de seleccionar el tipo de servicio: " + detalleSeleccionado.getTipoServicio() + "?";
+
+            // Crear un JLabel para personalizar el mensaje y establecer la fuente
+            JLabel selectipservicio = new JLabel(mensaje);
+            selectipservicio.setFont(new Font("Arial", Font.PLAIN, 18));
+
+            // Crear un array de objetos para personalizar los botones del JOptionPane
+            Object[] options = {"Si", "No"};
+
+            // Mostrar el cuadro de diálogo de confirmación con el JLabel personalizado y las opciones de botones modificadas
+            int opcionConfirmacion = JOptionPane.showOptionDialog(this, selectipservicio, "Confirmación", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
+            
             if (opcionConfirmacion == JOptionPane.YES_OPTION) {
                 // Crear un nuevo detalle de mantenimiento
                 DetalleMantenimiento nuevoDetalleMantenimiento = new DetalleMantenimiento();
@@ -209,9 +229,25 @@ public class TipoMantenimiento extends javax.swing.JFrame {
                 controladoraDetalleMante.guardarTipoMantenimiento(nuevoDetalleMantenimiento);
 
                 // Mostrar un mensaje de éxito
-                JOptionPane.showMessageDialog(this, "Detalle de mantenimiento asociado exitosamente");
+                // Crear un JLabel para personalizar el mensaje
+                JLabel manteasociado = new JLabel("Detalle de mantenimiento asociado exitosamente");
+                // Establecer la fuente del JLabel
+                manteasociado.setFont(new Font("Arial", Font.PLAIN, 18));
 
-                int opcion = JOptionPane.showConfirmDialog(this, "¿Desea agregar otro tipo de servicio?", "Agregar Otro Tipo de Servicio", JOptionPane.YES_NO_OPTION);
+                // Mostrar el cuadro de diálogo de información con el JLabel personalizado
+                JOptionPane.showMessageDialog(this, manteasociado);
+
+                // Crear un JLabel para personalizar el mensaje
+                JLabel agregarservi = new JLabel("¿Desea agregar otro tipo de servicio?");
+                // Establecer la fuente del JLabel
+                agregarservi.setFont(new Font("Arial", Font.PLAIN, 18));
+                
+                // Crear un array de objetos para personalizar los botones del JOptionPane
+                //Object[] options = {"Si", "No"};
+
+                // Mostrar el cuadro de diálogo de confirmación con el JLabel personalizado y las opciones de botones modificadas
+                int opcion = JOptionPane.showOptionDialog(this, agregarservi, "Agregar otro tipo de servicio", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
+                
                 if (opcion == JOptionPane.NO_OPTION) {
                     // Si elige "No", entonces mostrar el menú principal
                     Menu menu = new Menu(rolUsuario);
@@ -220,15 +256,31 @@ public class TipoMantenimiento extends javax.swing.JFrame {
                 }
             } else {
                 // Mostrar un mensaje indicando que la operación ha sido cancelada
-                JOptionPane.showMessageDialog(this, "Operación cancelada.");
+                // Crear un JLabel para personalizar el mensaje
+                JLabel opecancelada = new JLabel("Operación cancelada.");
+                // Establecer la fuente del JLabel
+                opecancelada.setFont(new Font("Arial", Font.PLAIN, 18));
+
+                // Mostrar el cuadro de diálogo de información con el JLabel personalizado
+                JOptionPane.showMessageDialog(this, opecancelada);
             }
         } else {
             // Mostrar un mensaje de error si no se encontró el detalle de mantenimiento correspondiente al tipo de servicio seleccionado
-            JOptionPane.showMessageDialog(this, "No se encontró el detalle de mantenimiento correspondiente al tipo de servicio seleccionado", "Error", JOptionPane.ERROR_MESSAGE);
+            // Crear un JLabel para personalizar el mensaje
+            JLabel noencuentradetallemante = new JLabel("No se encontró el detalle de mantenimiento correspondiente al tipo de servicio seleccionado");
+            // Establecer la fuente del JLabel
+            noencuentradetallemante.setFont(new Font("Arial", Font.PLAIN, 18));
+            // Mostrar el cuadro de diálogo de error con el JLabel personalizado y el título personalizado
+            JOptionPane.showMessageDialog(this, noencuentradetallemante, "Error", JOptionPane.ERROR_MESSAGE);
         }
     } else {
         // Mostrar un mensaje de error si no se seleccionó ninguna fila en la tabla
-        JOptionPane.showMessageDialog(this, "Por favor, seleccione un detalle de mantenimiento", "Error", JOptionPane.ERROR_MESSAGE);
+        // Crear un JLabel para personalizar el mensaje
+        JLabel detallemante = new JLabel("Por favor, seleccione un detalle de mantenimiento");
+        // Establecer la fuente del JLabel
+        detallemante.setFont(new Font("Arial", Font.PLAIN, 18));
+        // Mostrar el cuadro de diálogo de error con el JLabel personalizado y el título personalizado
+        JOptionPane.showMessageDialog(this, detallemante, "Error", JOptionPane.ERROR_MESSAGE);
     }
     }//GEN-LAST:event_jButton2ActionPerformed
 
@@ -248,7 +300,20 @@ public class TipoMantenimiento extends javax.swing.JFrame {
         panel.add(tipoServicioField);
 
         // Mostrar el JOptionPane personalizado para ingresar el tipo de servicio
-        int result = JOptionPane.showConfirmDialog(this, panel, "Ingrese el Tipo de Servicio", JOptionPane.OK_CANCEL_OPTION);
+        // Crear un panel para personalizar el mensaje
+        JPanel panel2 = new JPanel();
+        panel2.setLayout(new GridLayout(1, 1)); // Se puede ajustar según sea necesario
+
+        // Crear un JLabel para el mensaje y establecer la fuente
+        JLabel ingreseservicio = new JLabel("Ingrese el tipo de servicio");
+        ingreseservicio.setFont(new Font("Arial", Font.PLAIN, 18));
+
+        // Agregar el JLabel al panel
+        panel2.add(ingreseservicio);
+
+        // Mostrar el cuadro de diálogo con el panel personalizado
+        int result = JOptionPane.showConfirmDialog(this, panel, "Ingrese el tipo de servicio", JOptionPane.OK_CANCEL_OPTION);
+        
         if (result == JOptionPane.OK_OPTION) {
             String tipoServicio = tipoServicioField.getText().trim();
             if (!tipoServicio.isEmpty()) {
@@ -266,15 +331,23 @@ public class TipoMantenimiento extends javax.swing.JFrame {
                 actualizarTabla();
 
                 // Mostrar un mensaje de éxito
-                JOptionPane.showMessageDialog(this, "Detalle de mantenimiento guardado exitosamente");
-                
-                
+                // Crear un JLabel para personalizar el mensaje
+                JLabel detallemanteguardado = new JLabel("Detalle de mantenimiento guardado exitosamente");
+                // Establecer la fuente del JLabel
+                detallemanteguardado.setFont(new Font("Arial", Font.PLAIN, 18));
+                // Mostrar el cuadro de diálogo de información con el JLabel personalizado
+                JOptionPane.showMessageDialog(this, detallemanteguardado);
+                                
             } else {
                 // Mostrar un mensaje de error si el campo está vacío
-                JOptionPane.showMessageDialog(this, "Ingrese el Tipo de Servicio", "Error", JOptionPane.ERROR_MESSAGE);
+                // Crear un JLabel para personalizar el mensaje
+                JLabel tiposervicio = new JLabel("Ingrese el tipo de servicio");
+                // Establecer la fuente del JLabel
+                tiposervicio.setFont(new Font("Arial", Font.PLAIN, 18));
+                // Mostrar el cuadro de diálogo de error con el JLabel personalizado
+                JOptionPane.showMessageDialog(this, tiposervicio, "Error", JOptionPane.ERROR_MESSAGE);
             }
         }
-    
     }//GEN-LAST:event_jButton3ActionPerformed
 
    private void actualizarTabla() {
@@ -292,15 +365,8 @@ public class TipoMantenimiento extends javax.swing.JFrame {
             tiposServicioSet.add(detalle.getTipoServicio());
         }
     }
-
     jTable1.setModel(modelo);
 }
-   
-
-
-
-
-
    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
@@ -311,6 +377,5 @@ public class TipoMantenimiento extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
     // End of variables declaration//GEN-END:variables
-
-    
+   
 }

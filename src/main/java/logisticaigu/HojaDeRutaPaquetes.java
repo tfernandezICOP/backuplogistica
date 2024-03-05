@@ -5,6 +5,7 @@
 package logisticaigu;
 
 import Controladoras.ControladoraPaquete;
+import com.itextpdf.text.BaseColor;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
 import logisticalogica.Paquete;
@@ -12,6 +13,7 @@ import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Element;
 import com.itextpdf.text.Font;
+import com.itextpdf.text.Image;
 import com.itextpdf.text.PageSize;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.Phrase;
@@ -20,7 +22,13 @@ import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Collections;
+import java.util.Comparator;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableCellRenderer;
 
 
 
@@ -36,12 +44,26 @@ public class HojaDeRutaPaquetes extends javax.swing.JFrame {
     private int viajeID;
     private ControladoraPaquete ctrlPaquete;
     private String rolUsuario;
-    public HojaDeRutaPaquetes(int viajeID, String rolUsuario) {
+    private String modeloVehiculo;
+    private String patenteVehiculo;
+    public HojaDeRutaPaquetes(int viajeID,String modeloVehiculo, String patenteVehiculo, String rolUsuario) {
         initComponents();
         this.viajeID = viajeID;
         this.rolUsuario = rolUsuario;
+        this.modeloVehiculo = modeloVehiculo;
+        this.patenteVehiculo = patenteVehiculo;
         this.ctrlPaquete = new ControladoraPaquete();
         cargarPaquetesPlanificados();
+        setExtendedState(JFrame.MAXIMIZED_BOTH); // Abre el JFrame en pantalla completa
+
+        // Crear un renderizador personalizado para los encabezados de las columnas
+        DefaultTableCellRenderer headerRenderer = new DefaultTableCellRenderer();
+        headerRenderer.setHorizontalAlignment(SwingConstants.LEFT); // Alinear a la izquierda horizontalmente
+        headerRenderer.setVerticalAlignment(SwingConstants.CENTER); // Centrar verticalmente
+        headerRenderer.setFont(new java.awt.Font("Arial", java.awt.Font.PLAIN, 18)); // Establecer la fuente a Arial 18
+        // Aplicar el renderizador personalizado a los encabezados de las columnas
+        jTable1.getTableHeader().setDefaultRenderer(headerRenderer);
+        
     }
 
     /**
@@ -58,9 +80,11 @@ public class HojaDeRutaPaquetes extends javax.swing.JFrame {
         jTable1 = new javax.swing.JTable();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        jTable1.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null, null, null},
@@ -69,11 +93,12 @@ public class HojaDeRutaPaquetes extends javax.swing.JFrame {
                 {null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "Nro de Paquete", "Origen", "Domicilio Origen", "Destino", "Domicilio Destino", "Emisor", "Receptor", "Descripcion"
+                "N° Paquete", "Origen", "Domicilio Origen", "Destino", "Domicilio Destino", "Emisor", "Receptor", "Descripcion"
             }
         ));
         jScrollPane1.setViewportView(jTable1);
 
+        jButton1.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
         jButton1.setText("Volver");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -81,33 +106,44 @@ public class HojaDeRutaPaquetes extends javax.swing.JFrame {
             }
         });
 
-        jButton2.setText("Descargar");
+        jButton2.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
+        jButton2.setText("Descargar PDF");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
             }
         });
 
+        jLabel1.setFont(new java.awt.Font("Arial", 0, 36)); // NOI18N
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel1.setText("Hoja de ruta - Paquetes");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap(787, Short.MAX_VALUE)
-                .addComponent(jButton2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton1))
-            .addComponent(jScrollPane1)
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 1334, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(jButton2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton1))
+                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(65, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addContainerGap()
+                .addComponent(jLabel1)
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 543, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2))
+                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(11, 11, 11))
         );
 
@@ -119,9 +155,7 @@ public class HojaDeRutaPaquetes extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
@@ -134,58 +168,123 @@ public class HojaDeRutaPaquetes extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-    Document documento = new Document(PageSize.A4.rotate());
+      Document documento = new Document(PageSize.A4.rotate());
     try {
         String ruta = System.getProperty("user.home") + "/Desktop/HojaDeRuta.pdf";
         PdfWriter.getInstance(documento, new FileOutputStream(ruta));
         documento.open();
-        
+        Image logo = Image.getInstance("C:\\Users\\ULTRA\\Downloads\\c84c0eb8add148d089791e382f332189.png"); // Reemplaza con la ruta real de tu logo
+        logo.scaleToFit(200, 100); // Ajusta el tamaño del logo
+        logo.setAlignment(Element.ALIGN_LEFT); // Alinea el logo a la izquierda
+        documento.add(logo);
+         Paragraph vehiculoInfo = new Paragraph("Vehículo: " + modeloVehiculo + "\nPatente: " + patenteVehiculo);
+        vehiculoInfo.setAlignment(Element.ALIGN_LEFT); 
+        documento.add(vehiculoInfo);
         // Título del documento
         Font fontTitulo = new Font(Font.FontFamily.TIMES_ROMAN, 20, Font.BOLD);
-        Paragraph titulo = new Paragraph("Encomiendas Patria Hoja de Ruta", fontTitulo);
+        Paragraph titulo = new Paragraph("Encomiendas Patria - Hoja de Ruta", fontTitulo);
         titulo.setAlignment(Element.ALIGN_CENTER);
         documento.add(titulo);
         
         // Separador
         documento.add(new Paragraph("\n"));
         
-        PdfPTable tabla = new PdfPTable(8);
-        tabla.setWidthPercentage(100);
-        tabla.setSpacingBefore(10f);
-        tabla.setSpacingAfter(10f);
+        // Tabla para los datos del origen
+        PdfPTable tablaOrigen = new PdfPTable(4);
+        tablaOrigen.setWidthPercentage(100);
+        tablaOrigen.setSpacingBefore(10f);
+        tablaOrigen.setSpacingAfter(10f);
         
-        PdfPCell[] cells = new PdfPCell[8];
-        String[] headers = {"Numero de Paquete", "Provincia Origen", "Localidad Origen", "Provincia Destino", "Localidad Destino", "Emisor", "Receptor", "Descripcion"};
+        // Título de la tabla de origen
+        Font fontTituloOrigen = new Font(Font.FontFamily.TIMES_ROMAN, 16, Font.BOLD);
+        PdfPCell celdaTituloOrigen = new PdfPCell(new Phrase("Origen del Paquete", fontTituloOrigen));
+        celdaTituloOrigen.setColspan(4);
+        celdaTituloOrigen.setHorizontalAlignment(Element.ALIGN_CENTER);
+        celdaTituloOrigen.setBackgroundColor(new BaseColor(200, 200, 200)); // Color de fondo para el título
+        tablaOrigen.addCell(celdaTituloOrigen);
         
-        // Encabezados de la tabla
-        Font fontHeader = new Font(Font.FontFamily.TIMES_ROMAN, 12, Font.BOLD);
-        for (int i = 0; i < headers.length; i++) {
-            cells[i] = new PdfPCell(new Phrase(headers[i], fontHeader));
-            cells[i].setHorizontalAlignment(Element.ALIGN_CENTER);
-            tabla.addCell(cells[i]);
+        String[] headersOrigen = {"Numero de Paquete", "Origen", "Domicilio retiro", "Emisor"};
+        for (String header : headersOrigen) {
+            PdfPCell cell = new PdfPCell(new Phrase(header));
+            cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+            tablaOrigen.addCell(cell);
+        }
+        
+        // Tabla para los datos del destino
+        PdfPTable tablaDestino = new PdfPTable(5); // Se ha cambiado el número de columnas a 5
+        tablaDestino.setWidthPercentage(100);
+        tablaDestino.setSpacingBefore(10f);
+        tablaDestino.setSpacingAfter(10f);
+        
+        // Título de la tabla de destino
+        Font fontTituloDestino = new Font(Font.FontFamily.TIMES_ROMAN, 16, Font.BOLD);
+        PdfPCell celdaTituloDestino = new PdfPCell(new Phrase("Destino del Paquete", fontTituloDestino));
+        celdaTituloDestino.setColspan(5); // Ajuste del colspan al nuevo número de columnas
+        celdaTituloDestino.setHorizontalAlignment(Element.ALIGN_CENTER);
+        celdaTituloDestino.setBackgroundColor(new BaseColor(200, 200, 200)); // Color de fondo para el título
+        tablaDestino.addCell(celdaTituloDestino);
+        
+        String[] headersDestino = {"Numero de Paquete", "Destino", "Domicilio entrega", "Receptor", "Descripcion"};
+        for (String header : headersDestino) {
+            PdfPCell cell = new PdfPCell(new Phrase(header));
+            cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+            tablaDestino.addCell(cell);
         }
 
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
 
         for (int i = 0; i < model.getRowCount(); i++) {
-            for (int j = 0; j < model.getColumnCount(); j++) {
-                tabla.addCell(model.getValueAt(i, j).toString());
-            }
+            // Datos del origen
+            tablaOrigen.addCell(model.getValueAt(i, 0).toString());
+            tablaOrigen.addCell(model.getValueAt(i, 1).toString());
+            tablaOrigen.addCell(model.getValueAt(i, 2).toString());
+            tablaOrigen.addCell(model.getValueAt(i, 5).toString());
+            
+            // Datos del destino
+            tablaDestino.addCell(model.getValueAt(i, 0).toString());
+            tablaDestino.addCell(model.getValueAt(i, 3).toString());
+            tablaDestino.addCell(model.getValueAt(i, 4).toString());
+            tablaDestino.addCell(model.getValueAt(i, 6).toString());
+            tablaDestino.addCell(model.getValueAt(i, 7).toString());
         }
 
-        documento.add(tabla);
+        documento.add(tablaOrigen);
+        documento.add(tablaDestino);
         documento.close();
-        JOptionPane.showMessageDialog(null, "PDF creado correctamente en el escritorio.", "Información", JOptionPane.INFORMATION_MESSAGE);
+        // Crear un JLabel para personalizar el mensaje
+        JLabel pdfcreado = new JLabel("PDF creado correctamente en el escritorio.");
+        // Establecer la fuente del JLabel
+        pdfcreado.setFont(new java.awt.Font("Arial", java.awt.Font.PLAIN, 18));
+        // Mostrar el cuadro de diálogo de información con el JLabel personalizado y el título personalizado
+        JOptionPane.showMessageDialog(null, pdfcreado, "Información", JOptionPane.INFORMATION_MESSAGE);
     } catch (DocumentException | IOException e) {
-        JOptionPane.showMessageDialog(null, "Error al crear el PDF: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        // Crear un JLabel para personalizar el mensaje
+        JLabel errorpdf = new JLabel("Error al crear el PDF: " + e.getMessage());
+        // Establecer la fuente del JLabel
+        errorpdf.setFont(new java.awt.Font("Arial", java.awt.Font.PLAIN, 18));
+        // Mostrar el cuadro de diálogo de error con el JLabel personalizado y el título personalizado
+        JOptionPane.showMessageDialog(null, errorpdf, "Error", JOptionPane.ERROR_MESSAGE);
     }
     }//GEN-LAST:event_jButton2ActionPerformed
 
  private void cargarPaquetesPlanificados() {
     List<Paquete> paquetesPlanificados = ctrlPaquete.obtenerPaquetesPlanificadosPorViaje(viajeID);
 
-    DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+    // Ordenar los paquetes por la localidad y provincia del origen
+    Collections.sort(paquetesPlanificados, new Comparator<Paquete>() {
+        @Override
+        public int compare(Paquete p1, Paquete p2) {
+            // Comparar las localidades
+            int localidadComparison = p1.getLocalidadOrigen().getNombre().compareTo(p2.getLocalidadOrigen().getNombre());
+            if (localidadComparison != 0) {
+                return localidadComparison;
+            }
+            // Si las localidades son iguales, comparar las provincias
+            return p1.getOrigen().getNombre().compareTo(p2.getOrigen().getNombre());
+        }
+    });
 
+    DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
     model.setRowCount(0);
 
     for (Paquete paquete : paquetesPlanificados) {
@@ -207,12 +306,13 @@ public class HojaDeRutaPaquetes extends javax.swing.JFrame {
             paquete.getDescripcion()
         });
     }
-}
+ }
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;

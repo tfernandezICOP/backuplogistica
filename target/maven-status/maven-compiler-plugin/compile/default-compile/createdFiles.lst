@@ -14,6 +14,7 @@ logisticapersistencia\EmpleadoJpaController.class
 Controladoras\ControladoraClienteBaja.class
 logisticaigu\ViajeVehiculoEntrega$1.class
 logisticaigu\EditarVehiculo$4.class
+logisticaigu\VehiculosConMantenimiento$6.class
 Controladoras\ControladoraLocalidad.class
 logisticapersistencia\UsuarioJpaController.class
 logisticaigu\ClientesTotales$9.class
@@ -27,6 +28,7 @@ logisticalogica\Usuario_.class
 logisticapersistencia\RolUsuarioJpaController.class
 logisticaigu\Viajes$1.class
 logisticalogica\Vehiculo.class
+logisticaigu\ConsultarEstadoPaquete$5.class
 logisticaigu\RegistrarVehiculo$3.class
 logisticaigu\ClientesTotales$3.class
 logisticaigu\RegistrarMarcaVehiculo$4.class
@@ -90,8 +92,10 @@ logisticalogica\EmpleadoViaje_.class
 logisticaigu\RegistrarMarcaVehiculo$5.class
 Controladoras\ControladoraRolUsuario.class
 logisticaigu\Menu$4.class
+logisticaigu\ConsultarEstadoPaquete$4.class
 logisticaigu\RegistrarCliente$2.class
 logisticalogica\ViajePaquete_.class
+logisticaigu\HistorialPaquete$3.class
 logisticaigu\Menu.class
 Controladoras\ControladoraMantenimiento.class
 logisticaigu\BuscarClientes$4.class
@@ -134,7 +138,6 @@ logisticaigu\AvisoMantenimiento$3.class
 logisticalogica\Empleado.class
 logisticaigu\ConsultadorEstadoPaquete$5.class
 logisticaigu\RegistrarClienteRecep$2.class
-logisticaigu\RegistrarViaje$6.class
 logisticaigu\RegistrarCliente2$1.class
 logisticaigu\RegistrarUsuario$1.class
 logisticapersistencia\exceptions\NonexistentEntityException.class
@@ -143,6 +146,7 @@ logisticalogica\Marca_.class
 logisticaigu\RegistrarCliente2$2.class
 logisticaigu\MarcaIGU$2.class
 logisticaigu\AsociarPaqueteViaje.class
+logisticaigu\ConsultarEstadoPaquete.class
 logisticaigu\SeleccionVehiculoPD$3.class
 logisticaigu\TipoMantenimiento.class
 logisticaigu\VehiculosTotales$7.class
@@ -150,8 +154,10 @@ logisticaigu\Menu$11.class
 logisticaigu\BuscarClientes$6.class
 logisticalogica\EnviarCorreo.class
 logisticaigu\RegistrarMarcaVehiculo.class
+logisticaigu\RegistrarCliente$3.class
 logisticaigu\GestionarEntrega$7.class
 logisticaigu\ViajesEntrega$5.class
+logisticaigu\RegistrarUsuario$2.class
 logisticaigu\ObtenerPaqueteEnVehiculo$3.class
 logisticaigu\TipoMantenimiento$5.class
 logisticaigu\VehiculoViajeHistorial$2.class
@@ -163,6 +169,7 @@ logisticaigu\ViajeVehiculo$1.class
 logisticaigu\RegistrarPaquete$1.class
 logisticapersistencia\MantenimientoRealizadoJpaController.class
 logisticaigu\RegistrarMantenimiento$1.class
+logisticaigu\ConsultadorEstadoPaquete$6.class
 logisticaigu\ObtenerPaqueteEnVehiculo.class
 logisticapersistencia\MantenimientoJpaController.class
 Controladoras\ControladoraMantenimientoRealizado.class
@@ -214,14 +221,19 @@ logisticaigu\VehiculosTotales$3.class
 logisticaigu\ClientesTotales$1.class
 logisticaigu\EditarVehiculo$6.class
 logisticaigu\HistorialViajes$5.class
+logisticaigu\ConsultarEstadoPaquete$2.class
 logisticaigu\PaquetesEncamino$6.class
 logisticaigu\ViajeVehiculo$2.class
 logisticaigu\RegistrarVehiculo$1.class
+logisticaigu\ConsultadorEstadoPaquete$7.class
 Controladoras\ControladoraPaquete.class
 logisticalogica\Paquete_.class
 logisticalogica\Provincia.class
 logisticaigu\ConfirmarEntrega$1.class
 Controladoras\ControladoraMarca.class
+logisticaigu\HistorialPaquete$2.class
+logisticaigu\ConsultarEstadoPaquete$3.class
+logisticaigu\HojaDeRutaPaquetes$3.class
 logisticaigu\MarcaIGU.class
 logisticalogica\EmpleadoViaje.class
 logisticaigu\TipoMantenimiento$2.class
@@ -236,6 +248,7 @@ logisticalogica\RolUsuario_.class
 logisticaigu\Menu$1.class
 logisticaigu\MarcaIGU$6.class
 logisticapersistencia\ControladoraPersistencia.class
+logisticaigu\ConsultarEstadoPaquete$1.class
 logisticaigu\RegistrarVehiculo$2.class
 logisticaigu\Viajes$5.class
 logisticapersistencia\ClienteJpaController.class
@@ -258,6 +271,7 @@ logisticaigu\HistorialViajes$2.class
 logisticaigu\VehiculosTotales$2.class
 logisticaigu\BuscarClientes$1.class
 logisticaigu\HistorialViajes.class
+logisticaigu\Menu$16.class
 logisticaigu\RegistrarPaquete$2.class
 logisticaigu\ConfirmarEntrega$3.class
 logisticaigu\RegistrarMantenimiento.class

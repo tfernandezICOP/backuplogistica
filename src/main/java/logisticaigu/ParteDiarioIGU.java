@@ -7,9 +7,12 @@ package logisticaigu;
 import Controladoras.ControladoraMantenimiento;
 import Controladoras.ControladoraMantenimientoRealizado;
 import Controladoras.ControladoraParteDiario;
+import java.awt.Font;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import logisticalogica.Mantenimiento;
 import logisticalogica.MantenimientoRealizado;
@@ -30,6 +33,7 @@ public class ParteDiarioIGU extends javax.swing.JFrame {
      */
     public ParteDiarioIGU(Vehiculo vehiculoSeleccionado, String rolUsuario) {
          initComponents();
+         setExtendedState(JFrame.MAXIMIZED_BOTH); // Abre el JFrame en pantalla completa
     this.vehiculoSeleccionado = vehiculoSeleccionado; 
     this.controladoraMante = controladoraMante;  // Inicializar la controladoraMante
     this.rolUsuario = rolUsuario;
@@ -61,7 +65,7 @@ public class ParteDiarioIGU extends javax.swing.JFrame {
 
         jLabel1.setFont(new java.awt.Font("Arial", 0, 36)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("Parte diario");
+        jLabel1.setText("Registrar parte diario - Ingresar fecha y kilometros");
 
         jLabel2.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
         jLabel2.setText("Fecha:");
@@ -87,6 +91,7 @@ public class ParteDiarioIGU extends javax.swing.JFrame {
             }
         });
 
+        jCalendar1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         jCalendar1.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
             public void propertyChange(java.beans.PropertyChangeEvent evt) {
                 jCalendar1PropertyChange(evt);
@@ -98,17 +103,15 @@ public class ParteDiarioIGU extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(0, 1573, Short.MAX_VALUE)
                         .addComponent(jButton1)
                         .addGap(100, 100, 100)
-                        .addComponent(jButton2)))
-                .addContainerGap())
+                        .addComponent(jButton2))
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 1334, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(0, 12, Short.MAX_VALUE))
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(750, 750, 750)
+                .addGap(425, 425, 425)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel3)
@@ -116,9 +119,9 @@ public class ParteDiarioIGU extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel2)
                         .addGap(182, 182, 182)))
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jCalendar1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jTextField1)
+                    .addComponent(jCalendar1, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -126,19 +129,17 @@ public class ParteDiarioIGU extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1)
+                .addGap(100, 100, 100)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jCalendar1, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(200, 200, 200)
-                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(200, 200, 200))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jCalendar1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(145, 145, 145)))
+                        .addGap(66, 66, 66)
+                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(100, 100, 100)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 396, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 134, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -189,7 +190,14 @@ private void guardarParteDiario() {
         // Verificar si se proporcionaron los kilómetros recorridos
         String kmRecorridosText = jTextField1.getText().trim();
         if (kmRecorridosText.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Por favor, ingresa los kilómetros recorridos.", "Error", JOptionPane.ERROR_MESSAGE);
+            // Crear un JLabel para personalizar el mensaje
+            JLabel kmrecorridos = new JLabel("Por favor, ingresa los kilómetros recorridos.");
+            // Establecer la fuente del JLabel
+            kmrecorridos.setFont(new Font("Arial", Font.PLAIN, 18));
+
+            // Mostrar el mensaje de diálogo con el JLabel personalizado
+            JOptionPane.showMessageDialog(this, kmrecorridos, "Error", JOptionPane.ERROR_MESSAGE);
+
             return; // Detener el proceso si los kilómetros no están presentes
         }
 
@@ -197,7 +205,13 @@ private void guardarParteDiario() {
         try {
             kmRecorridos = Integer.parseInt(kmRecorridosText);
         } catch (NumberFormatException ex) {
-            JOptionPane.showMessageDialog(this, "Por favor, ingresa una cantidad válida para los kilómetros recorridos.", "Error", JOptionPane.ERROR_MESSAGE);
+            // Crear un JLabel para personalizar el mensaje
+            JLabel kmrecorridosvalido = new JLabel("Por favor, ingresa una cantidad válida para los kilómetros recorridos.");
+            // Establecer la fuente del JLabel
+            kmrecorridosvalido.setFont(new Font("Arial", Font.PLAIN, 18));
+
+            // Mostrar el mensaje de diálogo con el JLabel personalizado
+            JOptionPane.showMessageDialog(this, kmrecorridosvalido, "Error", JOptionPane.ERROR_MESSAGE);
             return; // Detener el proceso si los kilómetros no son un número válido
         }
 
@@ -210,7 +224,13 @@ private void guardarParteDiario() {
             parteDiarioExistente.setFecha(fecha);
             parteDiarioExistente.setKm(kmTotales);
             controladoraPD.actualizarParteDiario(parteDiarioExistente);
-            JOptionPane.showMessageDialog(this, "Parte diario actualizado correctamente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+            // Crear un JLabel para personalizar el mensaje
+            JLabel partediarioact = new JLabel("Parte diario actualizado correctamente");
+            // Establecer la fuente del JLabel
+            partediarioact.setFont(new Font("Arial", Font.PLAIN, 18));
+
+            // Mostrar el mensaje de diálogo con el JLabel personalizado
+            JOptionPane.showMessageDialog(this, partediarioact, "Éxito", JOptionPane.INFORMATION_MESSAGE);
 
             // Verificar si se superaron los 10000 km y actualizar el mantenimiento
             Mantenimiento mantenimientoExistente = controladoraMante.obtenerMantenimientoExistente(vehiculoSeleccionado);
@@ -222,10 +242,22 @@ private void guardarParteDiario() {
                 int kmDesdeUltimoMantenimiento = obtenerKmDesdeUltimoMantenimiento();
                 if (kmDesdeUltimoMantenimiento > 10000) {
                     // Mostrar una alerta de mantenimiento
-                    JOptionPane.showMessageDialog(this, "El vehículo ha superado los 10000 km desde el último mantenimiento realizado. Se recomienda realizar un nuevo mantenimiento.", "Alerta de mantenimiento", JOptionPane.WARNING_MESSAGE);
-                }
+                    // Crear un JLabel para personalizar el mensaje
+                    JLabel realizarmante = new JLabel("El vehículo ha superado los 10000 km desde el último mantenimiento realizado. Se recomienda realizar un nuevo mantenimiento.");
+                    // Establecer la fuente del JLabel
+                    realizarmante.setFont(new Font("Arial", Font.PLAIN, 18));
 
-                JOptionPane.showMessageDialog(this, "Mantenimiento actualizado. Kilómetros totales: " + kmTotales, "Éxito", JOptionPane.INFORMATION_MESSAGE);
+                    // Mostrar el mensaje de diálogo con el JLabel personalizado
+                    JOptionPane.showMessageDialog(this, realizarmante, "Alerta de mantenimiento", JOptionPane.WARNING_MESSAGE);
+                }
+                // Crear un JLabel para personalizar el mensaje
+                String messageText = "Mantenimiento actualizado. Kilómetros totales: " + kmTotales;
+                JLabel manteactualizado = new JLabel(messageText);
+                // Establecer la fuente del JLabel
+                manteactualizado.setFont(new Font("Arial", Font.PLAIN, 18));
+
+                // Mostrar el mensaje de diálogo con el JLabel personalizado
+                JOptionPane.showMessageDialog(this, manteactualizado, "Éxito", JOptionPane.INFORMATION_MESSAGE);
             } else {
                 // Si no hay un mantenimiento existente, crear uno nuevo
                 generarMantenimiento(kmTotales);
@@ -237,17 +269,39 @@ private void guardarParteDiario() {
             nuevoParteDiario.setKm(kmRecorridos);
             nuevoParteDiario.setVehiculo(vehiculoSeleccionado);
             controladoraPD.guardarpartediario(nuevoParteDiario);
-            JOptionPane.showMessageDialog(this, "Parte diario guardado correctamente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+            // Crear un JLabel para personalizar el mensaje
+            JLabel partediarioguardado = new JLabel("Parte diario guardado correctamente");
+            // Establecer la fuente del JLabel
+            partediarioguardado.setFont(new Font("Arial", Font.PLAIN, 18));
+
+            // Mostrar el mensaje de diálogo con el JLabel personalizado
+            JOptionPane.showMessageDialog(this, partediarioguardado, "Éxito", JOptionPane.INFORMATION_MESSAGE);
 
             // Agregar un mensaje de confirmación para informar al usuario
-            JOptionPane.showMessageDialog(this, "Se ha creado un nuevo parte diario para el vehículo.", "Nuevo Parte Diario", JOptionPane.INFORMATION_MESSAGE);
+            // Crear un JLabel para personalizar el mensaje
+            JLabel partediariocreado = new JLabel("Se ha creado un nuevo parte diario para el vehículo.");
+            // Establecer la fuente del JLabel
+            partediariocreado.setFont(new Font("Arial", Font.PLAIN, 18));
+
+            // Mostrar el mensaje de diálogo con el JLabel personalizado
+            JOptionPane.showMessageDialog(this, partediariocreado, "Nuevo Parte Diario", JOptionPane.INFORMATION_MESSAGE);
 
             // Verificar si se superaron los 10000 km y generar un mantenimiento
             if (kmRecorridos > kmMantenimiento) {
                 generarMantenimiento(kmRecorridos);
             }
         }
-    int respuesta = JOptionPane.showConfirmDialog(this, "¿Desea seguir haciendo parte diario?", "Confirmación", JOptionPane.YES_NO_OPTION);
+    // Crear un JLabel para personalizar el mensaje
+    JLabel seguirpartediario = new JLabel("¿Desea seguir haciendo parte diario?");
+    // Establecer la fuente del JLabel
+    seguirpartediario.setFont(new Font("Arial", Font.PLAIN, 18));
+
+    // Especificar las opciones de los botones
+    Object[] options = {"Sí", "No"};
+
+    // Mostrar el cuadro de diálogo de confirmación con opciones personalizadas
+    int respuesta = JOptionPane.showOptionDialog(this, seguirpartediario, "Confirmación",
+        JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
 
     if (respuesta == JOptionPane.YES_OPTION) {
         // Si el usuario elige seguir, volver a la pantalla SeleccionVehiculoPD
@@ -264,11 +318,23 @@ private void guardarParteDiario() {
         
     } catch (NumberFormatException ex) {
         // Manejar error de conversión de número
-        JOptionPane.showMessageDialog(this, "Por favor, ingresa una cantidad válida para los kilómetros recorridos.", "Error", JOptionPane.ERROR_MESSAGE);
+        // Crear un JLabel para personalizar el mensaje
+        JLabel validarkm = new JLabel("Por favor, ingresa una cantidad válida para los kilómetros recorridos.");
+        // Establecer la fuente del JLabel
+        validarkm.setFont(new Font("Arial", Font.PLAIN, 18));
+
+        // Mostrar el mensaje de diálogo con el JLabel personalizado
+        JOptionPane.showMessageDialog(this, validarkm, "Error", JOptionPane.ERROR_MESSAGE);
     }
     catch (Exception ex) {
         // Manejar otros errores
-        JOptionPane.showMessageDialog(this, "Error al guardar el parte diario. Verifica los datos ingresados.", "Error", JOptionPane.ERROR_MESSAGE);
+        // Crear un JLabel para personalizar el mensaje
+        JLabel messageLabel = new JLabel("Error al guardar el parte diario. Verifica los datos ingresados.");
+        // Establecer la fuente del JLabel
+        messageLabel.setFont(new Font("Arial", Font.PLAIN, 18));
+
+        // Mostrar el mensaje de diálogo con el JLabel personalizado
+        JOptionPane.showMessageDialog(this, messageLabel, "Error", JOptionPane.ERROR_MESSAGE);
     }
 }
 
@@ -306,7 +372,12 @@ private void generarMantenimiento( int kmTotales) {
     controladoraMante.guardarmantenimiento(nuevoMantenimiento);
 
     // Mostrar una alerta
-    JOptionPane.showMessageDialog(this, "Se ha generado automáticamente un mantenimiento. Kilómetros totales: " + kmTotales, "Alerta de mantenimiento", JOptionPane.WARNING_MESSAGE);
+    // Crear un JLabel para personalizar el mensaje
+    JLabel manteauto = new JLabel("Se ha generado automáticamente un mantenimiento. Kilómetros totales: " + kmTotales);
+    // Establecer la fuente del JLabel
+    manteauto.setFont(new Font("Arial", Font.PLAIN, 18));
+    // Mostrar el cuadro de diálogo de advertencia con el JLabel personalizado y el título predeterminado
+    JOptionPane.showMessageDialog(this, manteauto, "Alerta de mantenimiento", JOptionPane.WARNING_MESSAGE);
 }
 
 

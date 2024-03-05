@@ -6,15 +6,21 @@ package logisticaigu;
 
 import Controladoras.ControladoraCliente;
 import Controladoras.ControladoraPaquete;
+import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.sql.Date;
 import java.util.List;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import logisticalogica.Cliente;
 import logisticalogica.Paquete;
@@ -25,13 +31,13 @@ import logisticalogica.Paquete;
  * @author ULTRA
  */
 public class BuscarClienteReceptor extends javax.swing.JFrame {
-     private ControladoraCliente controladoraCliente;
+    private ControladoraCliente controladoraCliente;
     private DefaultTableModel tableModel;
     private Paquete paquete; 
     private Paquete paqueteTemporal; // Asegúrate de tener este atributo en tu clase
     private ControladoraPaquete controladoraPaquete;
     private int idClienteEmisorSeleccionado;
-        private String clienteEmisorSeleccionado;
+    private String clienteEmisorSeleccionado;
 
     private RegistrarPaquete registrarEnvio;
     private String rolUsuario;
@@ -42,11 +48,11 @@ public class BuscarClienteReceptor extends javax.swing.JFrame {
      */
     public BuscarClienteReceptor(Paquete paqueteTemporal, String rolUsuario) {
 
-   initComponents();
-   this.rolUsuario = rolUsuario;
-     setLocationRelativeTo(null);
-                setExtendedState(JFrame.MAXIMIZED_BOTH); // Abre el JFrame en pantalla completa
-     this.paqueteTemporal = paqueteTemporal;
+    initComponents();
+    this.rolUsuario = rolUsuario;
+    setLocationRelativeTo(null);
+    setExtendedState(JFrame.MAXIMIZED_BOTH); // Abre el JFrame en pantalla completa
+    this.paqueteTemporal = paqueteTemporal;
     mostrarNombreClienteEmisor();
     tableModel = (DefaultTableModel) jTable1.getModel();
     controladoraCliente = new ControladoraCliente();
@@ -55,12 +61,20 @@ public class BuscarClienteReceptor extends javax.swing.JFrame {
     registrarEnvio = new RegistrarPaquete(rolUsuario); // Esto es un ejemplo, ajusta según tu implementación
     paquete = new Paquete();
     
+    // Crear un renderizador personalizado para los encabezados de las columnas
+    DefaultTableCellRenderer headerRenderer = new DefaultTableCellRenderer();
+    headerRenderer.setHorizontalAlignment(SwingConstants.LEFT); // Alinear a la izquierda horizontalmente
+    headerRenderer.setVerticalAlignment(SwingConstants.CENTER); // Centrar verticalmente
+    headerRenderer.setFont(new Font("Arial", Font.PLAIN, 18)); // Establecer la fuente a Arial 18
+    // Aplicar el renderizador personalizado a los encabezados de las columnas
+    jTable1.getTableHeader().setDefaultRenderer(headerRenderer);
+  
     // Inicializar campos del paquete
     paquete.setEstado("PENDIENTE");
     paquete.setFechaRecibido(new java.sql.Date(System.currentTimeMillis())); // Utiliza la fecha actual
     paquete.setFechaEntrega(null); // Establecer la fecha de entrega como null inicialmente
     
-     // Validación para el campo de número de documento
+    // Validación para el campo de número de documento
     ingresardocumento.addKeyListener(new KeyListener() {
         @Override
         public void keyTyped(KeyEvent e) {
@@ -120,10 +134,16 @@ public class BuscarClienteReceptor extends javax.swing.JFrame {
         this.idClienteEmisorSeleccionado = idClienteEmisorSeleccionado;
     }
     private void cargarClientesEnTabla() {
+    // Limpiar la tabla antes de cargar nuevos datos
     tableModel.setRowCount(0);
-    List<Cliente> clientesActivos = controladoraCliente.ObtenerclientesActivos();
+
+    // Obtener la lista de clientes activos
+    List<Cliente> clientesActivos = controladoraCliente.filtrarClientesPorEstado("Activo");
+
+    // Iterar sobre la lista de clientes activos y agregarlos a la tabla
     for (Cliente cliente : clientesActivos) {
         String nombreCompleto = cliente.getNombre() + " " + cliente.getApellido();
+
         Object[] rowData = {
             nombreCompleto,
             cliente.getNro_documento(),
@@ -134,8 +154,6 @@ public class BuscarClienteReceptor extends javax.swing.JFrame {
         tableModel.addRow(rowData);
     }
 }
-
-
 
     private void inicializarVentana() {
         jTable1.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
@@ -222,7 +240,19 @@ public class BuscarClienteReceptor extends javax.swing.JFrame {
             }
         } catch (NumberFormatException e) {
             // Manejo de error si el texto no es un número válido
-            JOptionPane.showMessageDialog(null, "Ingrese un número válido para el documento.");
+            // Crear un JPanel para contener el mensaje
+            JPanel panelMensaje = new JPanel();
+            panelMensaje.setLayout(new FlowLayout()); // Ajustar el layout si es necesario
+
+            // Crear un JLabel para el mensaje, estableciendo el mensaje, la fuente y el tamaño
+            JLabel numerovalido = new JLabel("Ingrese un número válido para el documento.");
+            numerovalido.setFont(new Font("Arial", Font.PLAIN, 18)); // Configurar la fuente Arial y tamaño 18
+
+            // Añadir la etiqueta al panel
+            panelMensaje.add(numerovalido);
+
+            // Mostrar el JOptionPane con el panel personalizado como contenido
+            JOptionPane.showMessageDialog(null, panelMensaje);
         }
     }
 }
@@ -254,6 +284,122 @@ public class BuscarClienteReceptor extends javax.swing.JFrame {
     }
 }
 
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
+     */
+         
+   
+public void seleccionarClienteReceptor() {
+    if (paqueteTemporal != null) {
+        // Obtén la fila seleccionada en la tabla
+        int filaSeleccionada = jTable1.getSelectedRow();
+
+        // Asegúrate de que haya una fila seleccionada
+        if (filaSeleccionada >= 0) {
+            // Obtén el cliente desde la fila seleccionada
+            Cliente clienteSeleccionado = obtenerClienteDesdeFilaSeleccionada(filaSeleccionada);
+
+            // Verifica si el cliente seleccionado está activo
+            if (clienteSeleccionado != null && clienteSeleccionado.getEstado().equals("Activo")) {
+                // El cliente está activo, procede con la selección               
+                // Mostrar confirmación antes de establecer el cliente receptor
+                
+                // Crear un JLabel para personalizar la fuente
+                JLabel message = new JLabel("<html>¿Deseas seleccionar al siguiente cliente como receptor?<br><br>" +
+                        "Nombre: " + clienteSeleccionado.getNombre() + "<br>" +
+                        "Apellido: " + clienteSeleccionado.getApellido() + "</html>");
+
+                // Establecer la fuente del JLabel
+                message.setFont(new Font("Arial", Font.PLAIN, 18));
+
+                // Crear un array de objetos para personalizar los botones del JOptionPane
+                Object[] options = {"Si", "No"};
+
+                // Mostrar un cuadro de confirmación antes de seleccionar al cliente receptor
+                int confirmacion = JOptionPane.showOptionDialog(this,
+                        message,
+                        "Confirmar selección", JOptionPane.YES_NO_OPTION,
+                        JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
+                
+                if (confirmacion == JOptionPane.YES_OPTION) {
+                    // El usuario confirmó la selección, establecer el cliente receptor en el paqueteTemporal
+                    paqueteTemporal.setReceptor(clienteSeleccionado);
+
+                    // Añade mensajes de depuración
+                    System.out.println("PaqueteTemporal en BuscarClienteReceptor:");
+                    mostrarInfoPaqueteTemporal(paqueteTemporal);
+
+                    // Actualizar estado y fecha de recibido
+                    paqueteTemporal.setEstado("PENDIENTE");
+                    paqueteTemporal.setFechaRecibido(new java.sql.Date(System.currentTimeMillis()));
+
+                    // Llamar al método para persistir el paquete en la base de datos
+                    persistirPaqueteEnBD();
+                    
+                // Crear un JLabel para personalizar la fuente
+                JLabel message2 = new JLabel("<html>¿Quieres seguir registrando paquetes?</html>");
+
+                // Establecer la fuente del JLabel
+                message2.setFont(new Font("Arial", Font.PLAIN, 18));
+     
+                int opcion = JOptionPane.showOptionDialog(this,
+                        message2,
+                        "Confirmar",JOptionPane.YES_NO_OPTION,
+                        JOptionPane.QUESTION_MESSAGE,null,
+                        
+                new Object[]{"Si", "No"},
+                "Si");
+
+                // Verificar la opción seleccionada
+                if (opcion == JOptionPane.YES_OPTION) {
+                // Si el usuario elige "Sí", cerrar la ventana actual
+                dispose();
+
+        // Abrir la pantalla para registrar un nuevo envío
+        registrarEnvio.mostrarVentana();
+    } else {
+        // Si el usuario elige "No", salir del programa
+        Menu menu = new Menu(rolUsuario);
+        menu.setVisible(true);
+        this.dispose();
+    }
+                } else {
+                    // El usuario optó por no confirmar la selección
+                    System.out.println("Selección del cliente cancelada.");
+                    return; // Puedes agregar más lógica aquí según tus necesidades
+                }
+            } else {
+                // El cliente no está activo, muestra un mensaje de error
+                // Crear un JLabel para personalizar el mensaje
+                JLabel clientenoactivo = new JLabel("El cliente seleccionado no está activo.");
+                // Establecer la fuente del JLabel
+                clientenoactivo.setFont(new Font("Arial", Font.PLAIN, 18));
+                // Mostrar el cuadro de diálogo de error con el JLabel personalizado y el título personalizado
+                JOptionPane.showMessageDialog(this, clientenoactivo, "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        } else {
+            // No se ha seleccionado ninguna fila en la tabla, mostrar mensaje de error
+            // Crear un JPanel para contener el mensaje
+            JPanel panelMensaje = new JPanel();
+            panelMensaje.setLayout(new FlowLayout()); // Ajustar el layout si es necesario
+
+            // Crear un JLabel para el mensaje, estableciendo el mensaje, la fuente y el tamaño
+            JLabel seleccliente = new JLabel("Por favor, selecciona un cliente.");
+            seleccliente.setFont(new Font("Arial", Font.PLAIN, 18)); // Configurar la fuente Arial y tamaño 18
+
+            // Añadir la etiqueta al panel
+            panelMensaje.add(seleccliente);
+
+            // Mostrar el JOptionPane con el panel personalizado como contenido
+            JOptionPane.showMessageDialog(this, panelMensaje, "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    } else {
+        System.out.println("El paquete es nulo. Verifica su inicialización.");
+    }
+}
+
 private void persistirPaqueteEnBD() {
     if (paqueteTemporal != null) {
         System.out.println("Código de paquete: " + paqueteTemporal.getCodigo_paquete());
@@ -282,41 +428,6 @@ private void persistirPaqueteEnBD() {
         // Puedes agregar mensajes de error, lanzar excepciones u otras acciones según tus necesidades
     }
 }
-
-
-
-private void seleccionarClienteReceptor() {
-        int filaSeleccionada = jTable1.getSelectedRow();
-        if (filaSeleccionada >= 0) {
-            Cliente clienteSeleccionado = obtenerClienteDesdeFilaSeleccionada(filaSeleccionada);
-            if (clienteSeleccionado != null) {
-                int opcion = JOptionPane.showConfirmDialog(null, "¿Deseas seleccionar al cliente: " + clienteSeleccionado.getNombre() + " " + clienteSeleccionado.getApellido() + "?", "Confirmación", JOptionPane.YES_NO_OPTION);
-                if (opcion == JOptionPane.YES_OPTION) {
-                    
-                    JOptionPane.showMessageDialog(null, "Cliente seleccionado correctamente: " + clienteSeleccionado.getNombre() + " " + clienteSeleccionado.getApellido());
-                    
-                    // Asignar el cliente seleccionado al paquete temporal
-                    paqueteTemporal.setReceptor(clienteSeleccionado);
-                    
-                    // Persistir el paquete en la base de datos
-                    persistirPaqueteEnBD();
-                } else {
-                    // Realizar acciones cuando el usuario selecciona "No"
-                    // Por ejemplo, limpiar la selección o realizar otras acciones necesarias
-                    JOptionPane.showMessageDialog(null, "No se ha seleccionado ningún cliente.");
-                }
-            } else {
-                JOptionPane.showMessageDialog(null, "No se ha seleccionado ningún cliente válido.");
-            }
-        } else {
-            JOptionPane.showMessageDialog(null, "No se ha seleccionado ninguna fila de cliente en la tabla.");
-        }
-    }
-
-
-
-
-
    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -338,7 +449,7 @@ private void seleccionarClienteReceptor() {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jTable1.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        jTable1.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null},
@@ -379,7 +490,7 @@ private void seleccionarClienteReceptor() {
         });
 
         botonAceptar.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
-        botonAceptar.setText("Seleccionar cliente");
+        botonAceptar.setText("Aceptar");
         botonAceptar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 botonAceptarActionPerformed(evt);
@@ -396,7 +507,7 @@ private void seleccionarClienteReceptor() {
 
         jLabel2.setFont(new java.awt.Font("Arial", 0, 36)); // NOI18N
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel2.setText("Buscar cliente receptor");
+        jLabel2.setText("Registrar Paquete - Seleccionar cliente receptor");
 
         jLabel1.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
         jLabel1.setText("Cliente Emisor:");
@@ -409,32 +520,29 @@ private void seleccionarClienteReceptor() {
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 218, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(271, 271, 271)
-                        .addComponent(Codpaquete)
-                        .addGap(219, 219, 219))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 1214, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(numerodocclienteemisor)
                                 .addGap(18, 18, 18)
-                                .addComponent(ingresardocumento, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(200, 200, 200)
+                                .addComponent(ingresardocumento, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(100, 100, 100)
                                 .addComponent(jLabel4)
                                 .addGap(18, 18, 18)
-                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 124, Short.MAX_VALUE)))
-                        .addContainerGap())
+                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(40, 40, 40)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(Codpaquete))))
+                        .addGap(0, 120, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jButton3)
-                        .addGap(316, 316, 316)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(botonAceptar)
-                        .addGap(98, 98, 98)
-                        .addComponent(jButton1)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addGap(100, 100, 100)
+                        .addComponent(jButton1)))
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -442,42 +550,33 @@ private void seleccionarClienteReceptor() {
                 .addContainerGap()
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(Codpaquete, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(12, 12, 12)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(ingresardocumento, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(numerodocclienteemisor, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(Codpaquete, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(botonAceptar, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(31, 31, 31)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(347, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 424, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(botonAceptar, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
@@ -488,9 +587,7 @@ private void seleccionarClienteReceptor() {
     }//GEN-LAST:event_ingresardocumentoActionPerformed
 
     private void botonAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAceptarActionPerformed
-      seleccionarClienteReceptor();
-    
-    
+      seleccionarClienteReceptor();      
 
     }//GEN-LAST:event_botonAceptarActionPerformed
 
@@ -505,17 +602,13 @@ private void seleccionarClienteReceptor() {
     RegistrarClienteRecep registrarclienterecep = new RegistrarClienteRecep(paqueteTemporal, rolUsuario);
         registrarclienterecep.setVisible(true);
         this.dispose();
-
-
         
     }//GEN-LAST:event_jButton3ActionPerformed
 
     /**
      * @param args the command line arguments
      */
-    // ... (otros métodos de la clase)
-
-   
+    // ... (otros métodos de la clase)  
 
 private void mostrarNombreClienteEmisor() {
     if (clienteEmisor != null) {
@@ -527,7 +620,6 @@ private void mostrarNombreClienteEmisor() {
 public void actualizarIDClienteEmisor(int idClienteEmisor) {
     jLabel1.setText("ID del Cliente Emisor: " + idClienteEmisor);
 }
-
 
 public void actualizarNombreApellidoClienteEmisor(String nombreApellidoClienteEmisor) {
     jLabel1.setText("Cliente Emisor: " + nombreApellidoClienteEmisor);

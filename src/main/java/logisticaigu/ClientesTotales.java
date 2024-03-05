@@ -5,16 +5,20 @@
 package logisticaigu;
 
 import Controladoras.ControladoraCliente;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.List;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.SwingConstants;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import logisticalogica.Cliente;
 
@@ -30,20 +34,28 @@ public class ClientesTotales extends javax.swing.JFrame {
     public ClientesTotales(String rolUsuario) {
         initComponents();
         this.rolUsuario = rolUsuario;
-         setLocationRelativeTo(null);
-                setExtendedState(JFrame.MAXIMIZED_BOTH); // Abre el JFrame en pantalla completa
+        setLocationRelativeTo(null);
+        setExtendedState(JFrame.MAXIMIZED_BOTH); // Abre el JFrame en pantalla completa
         controladoraCliente = new ControladoraCliente();
         tableModel = (DefaultTableModel) jTable1.getModel();
+        
+        // Crear un renderizador personalizado para los encabezados de las columnas
+        DefaultTableCellRenderer headerRenderer = new DefaultTableCellRenderer();
+        headerRenderer.setHorizontalAlignment(SwingConstants.LEFT); // Alinear a la izquierda horizontalmente
+        headerRenderer.setVerticalAlignment(SwingConstants.CENTER); // Centrar verticalmente
+        headerRenderer.setFont(new Font("Arial", Font.PLAIN, 18)); // Establecer la fuente a Arial 18
+        
+        // Aplicar el renderizador personalizado a los encabezados de las columnas
+        jTable1.getTableHeader().setDefaultRenderer(headerRenderer);
+        
         cargarClientesEnTabla();
         jTable1.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
         @Override
         public void valueChanged(ListSelectionEvent e) {
             // Verificar si hay una fila seleccionada en la tabla
             if (!jTable1.getSelectionModel().isSelectionEmpty()) {
-                // Habilitar el botón "Dar de baja"
                 jButton3.setEnabled(true);
             } else {
-                // Deshabilitar el botón "Dar de baja"
                 jButton3.setEnabled(false);
             }
         }
@@ -152,7 +164,7 @@ public class ClientesTotales extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jTable1.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        jTable1.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null, null},
@@ -161,14 +173,14 @@ public class ClientesTotales extends javax.swing.JFrame {
                 {null, null, null, null, null, null, null}
             },
             new String [] {
-                "ID", "Nombre y Apellido", "N° Documento", "N° Telefono", "Correo electronico", "Direccion", "Estado"
+                "ID Cliente", "Nombre y Apellido", "N° Documento", "N° Telefono", "Correo electronico", "Direccion", "Estado"
             }
         ));
         jScrollPane1.setViewportView(jTable1);
 
         jLabel1.setFont(new java.awt.Font("Arial", 0, 36)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("Clientes");
+        jLabel1.setText("Lista de clientes");
 
         numerodocclienteemisor.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
         numerodocclienteemisor.setText("N° Documento:");
@@ -204,7 +216,8 @@ public class ClientesTotales extends javax.swing.JFrame {
         jButton3.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
         jButton3.setText("Dar de baja");
 
-        jButton4.setText("Editar");
+        jButton4.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
+        jButton4.setText("Editar cliente");
         jButton4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton4ActionPerformed(evt);
@@ -222,20 +235,23 @@ public class ClientesTotales extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addComponent(numerodocclienteemisor)
                         .addGap(18, 18, 18)
-                        .addComponent(ingresardocumento, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(ingresardocumento, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel4)
                         .addGap(18, 18, 18)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1888, Short.MAX_VALUE)
+                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, 0))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jButton3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton4)
-                        .addGap(110, 110, 110)
-                        .addComponent(jButton2)
                         .addGap(100, 100, 100)
-                        .addComponent(jButton1)))
+                        .addComponent(jButton4)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton2)
+                        .addGap(97, 97, 97)
+                        .addComponent(jButton1))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1334, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -251,17 +267,15 @@ public class ClientesTotales extends javax.swing.JFrame {
                         .addComponent(ingresardocumento, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 792, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(26, 26, 26)
-                        .addComponent(jButton4)))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 480, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
 
@@ -300,7 +314,9 @@ public class ClientesTotales extends javax.swing.JFrame {
     int filaSeleccionada = jTable1.getSelectedRow();
 
     if (filaSeleccionada == -1) {
-        JOptionPane.showMessageDialog(null, "Seleccione un cliente para editar.");
+        JLabel clienteeditar = new JLabel("Seleccione un cliente para editar.");
+        clienteeditar.setFont(new Font("Arial", Font.PLAIN, 18));
+        JOptionPane.showMessageDialog(null, clienteeditar, "Mensaje", JOptionPane.INFORMATION_MESSAGE);
         return;
     }
     int idcliente = (int) jTable1.getValueAt(filaSeleccionada, 0);
@@ -330,13 +346,15 @@ public class ClientesTotales extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton4ActionPerformed
 
    
-private void darDeBajaCliente() {
+    private void darDeBajaCliente() {
     // Obtiene la fila seleccionada
     int filaSeleccionada = jTable1.getSelectedRow();
 
     // Verifica si hay una fila seleccionada
     if (filaSeleccionada == -1) {
-        JOptionPane.showMessageDialog(null, "Seleccione un cliente para dar de baja.");
+        JLabel clientebaja = new JLabel("Seleccione un cliente para dar de baja.");
+        clientebaja.setFont(new Font("Arial", Font.PLAIN, 18));
+        JOptionPane.showMessageDialog(null, clientebaja, "Mensaje", JOptionPane.INFORMATION_MESSAGE);
         return;
     }
 
@@ -350,7 +368,10 @@ private void darDeBajaCliente() {
             Integer clienteID = (Integer) clienteIDObj;
 
             // Pide confirmación al usuario
-            int opcion = JOptionPane.showConfirmDialog(null, "¿Está seguro de dar de baja al cliente?", "Confirmación", JOptionPane.YES_NO_OPTION);
+            JLabel mensajeConfirmacion = new JLabel("¿Está seguro de dar de baja al cliente?");
+            mensajeConfirmacion.setFont(new Font("Arial", Font.PLAIN, 18));
+            Object[] options = {"Si", "No"};
+            int opcion = JOptionPane.showOptionDialog(null, mensajeConfirmacion, "Mensaje", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
 
             if (opcion == JOptionPane.YES_OPTION) {
                 // Llama al método correspondiente de la controladora para dar de baja al cliente por ID
@@ -361,16 +382,17 @@ private void darDeBajaCliente() {
             }
         } catch (ClassCastException e) {
             // Manejo de error si la conversión no es posible
-            JOptionPane.showMessageDialog(null, "Error al convertir el ID del cliente a Integer.");
+            JLabel mensajeError = new JLabel("Error al convertir el ID del cliente a Integer.");
+            mensajeError.setFont(new Font("Arial", Font.PLAIN, 18));
+            JOptionPane.showMessageDialog(null, mensajeError, "Mensaje", JOptionPane.ERROR_MESSAGE);
         }
     } else {
         // Manejo de error si el valor es nulo
-        JOptionPane.showMessageDialog(null, "El ID del cliente es nulo.");
+        JLabel idnulo = new JLabel("El ID del cliente es nulo.");
+        idnulo.setFont(new Font("Arial", Font.PLAIN, 18));
+        JOptionPane.showMessageDialog(null, idnulo, "Mensaje", JOptionPane.ERROR_MESSAGE);
     }
 }
-
-
-
 
    private void cargarClientesEnTabla() {
     // Limpiar la tabla antes de cargar nuevos datos
@@ -395,38 +417,42 @@ private void darDeBajaCliente() {
     }
 }
 
-
     private void filtrarClientes() {
-        String numeroDocumentoStr = ingresardocumento.getText().trim();
+    String numeroDocumentoStr = ingresardocumento.getText().trim();
 
-        if (numeroDocumentoStr.isEmpty()) {
-            cargarClientesEnTabla(); // Si el campo de búsqueda está vacío, muestra todos los clientes
-        } else {
-            try {
-                int numeroDocumento = Integer.parseInt(numeroDocumentoStr);
+    if (numeroDocumentoStr.isEmpty()) {
+        cargarClientesEnTabla(); // Si el campo de búsqueda está vacío, muestra todos los clientes
+    } else {
+        try {
+            int numeroDocumento = Integer.parseInt(numeroDocumentoStr);
 
-                // Realizar la búsqueda de clientes según los valores ingresados
-                List<Cliente> clientes = controladoraCliente.filtrarClientesPorNumeroDocumento(numeroDocumento);
+            // Realizar la búsqueda de clientes según los valores ingresados
+            List<Cliente> clientes = controladoraCliente.filtrarClientesPorNumeroDocumento(numeroDocumento);
 
-                // Limpiar la tabla antes de cargar nuevos datos
-                tableModel.setRowCount(0);
+            // Limpiar la tabla antes de cargar nuevos datos
+            tableModel.setRowCount(0);
 
-                for (Cliente cliente : clientes) {
-                    String nombreCompleto = cliente.getNombre() + " " + cliente.getApellido();
+            for (Cliente cliente : clientes) {
+                String nombreCompleto = cliente.getNombre() + " " + cliente.getApellido();
 
-                    Object[] rowData = {
-                        nombreCompleto,
-                        cliente.getNro_documento(),
-                        cliente.getNro_telefono()
-                    };
-                    tableModel.addRow(rowData);
-                }
-            } catch (NumberFormatException e) {
-                // Manejo de error si el texto no es un número válido
-                JOptionPane.showMessageDialog(null, "Ingrese un número válido para el documento.");
+                Object[] rowData = {
+                    cliente.getClienteID(),
+                    nombreCompleto,
+                    cliente.getNro_documento(),
+                    cliente.getNro_telefono(),
+                    cliente.getCorreoElectronico(),
+                    cliente.getDireccion()
+                };
+                tableModel.addRow(rowData);
             }
+        } catch (NumberFormatException e) {
+            // Manejo de error si el texto no es un número válido
+            JLabel ingresenrovalido = new JLabel("Ingrese un número válido para el documento.");
+            ingresenrovalido.setFont(new Font("Arial", Font.PLAIN, 18));
+            JOptionPane.showMessageDialog(null, ingresenrovalido, "Mensaje", JOptionPane.ERROR_MESSAGE);
         }
     }
+}
 
     private void filtrarClientespornombreyape() {
         String nombre = jTextField1.getText().trim();

@@ -7,11 +7,16 @@ package logisticaigu;
 import Controladoras.ControladoraPaquete;
 import Controladoras.ControladoraVehiculo;
 import Controladoras.ControladoraViaje;
+import java.awt.Font;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.SwingConstants;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import static logisticaigu.GestionarEntrega.vehiculoSeleccionado;
 import logisticalogica.EnviarCorreo;
@@ -34,14 +39,24 @@ public class ConfirmarEntrega extends javax.swing.JFrame {
 
     private ControladoraViaje controladoraviaje = new ControladoraViaje();
     public ConfirmarEntrega(int vehiculoId ,String modelo, String patente,int idViaje, String rolUsuario) {
-         initComponents();
+        initComponents();
         this.rolUsuario = rolUsuario;
         this.idViaje = idViaje; 
         this.vehiculoId = vehiculoId;
         this.patente = patente;
         this.modelo=modelo;
         abrirConfirmarEntrega();
-         jTextField1.getDocument().addDocumentListener(new javax.swing.event.DocumentListener() {
+        setExtendedState(JFrame.MAXIMIZED_BOTH); // Abre el JFrame en pantalla completa
+
+        // Crear un renderizador personalizado para los encabezados de las columnas
+        DefaultTableCellRenderer headerRenderer = new DefaultTableCellRenderer();
+        headerRenderer.setHorizontalAlignment(SwingConstants.LEFT); // Alinear a la izquierda     horizontalmente
+        headerRenderer.setVerticalAlignment(SwingConstants.CENTER); // Centrar verticalmente
+        headerRenderer.setFont(new Font("Arial", Font.PLAIN, 18)); // Establecer la fuente a Arial 18  
+        // Aplicar el renderizador personalizado a los encabezados de las columnas
+        jTable1.getTableHeader().setDefaultRenderer(headerRenderer);
+    
+        jTextField1.getDocument().addDocumentListener(new javax.swing.event.DocumentListener() {
         @Override
         public void insertUpdate(javax.swing.event.DocumentEvent e) {
             filtrarPaquetes();
@@ -92,7 +107,7 @@ public class ConfirmarEntrega extends javax.swing.JFrame {
 
         jLabel1.setFont(new java.awt.Font("Arial", 0, 36)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("Confirmar Entrega");
+        jLabel1.setText("Gestionar entrega - Confirmar entrega");
 
         jLabel2.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
         jLabel2.setText("Codigo del paquete:");
@@ -120,7 +135,7 @@ public class ConfirmarEntrega extends javax.swing.JFrame {
             }
         });
 
-        jTable1.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        jTable1.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
@@ -138,23 +153,21 @@ public class ConfirmarEntrega extends javax.swing.JFrame {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+            .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1888, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addGap(18, 18, 18)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jButton2)
-                .addGap(102, 102, 102)
-                .addComponent(jButton1)
-                .addGap(55, 55, 55))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jButton2)
+                        .addGap(102, 102, 102)
+                        .addComponent(jButton1))
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(jScrollPane1)
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                            .addComponent(jLabel2)
+                            .addGap(18, 18, 18)
+                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 1334, Short.MAX_VALUE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -171,7 +184,7 @@ public class ConfirmarEntrega extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(297, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -192,19 +205,40 @@ public class ConfirmarEntrega extends javax.swing.JFrame {
    int filaSeleccionada = jTable1.getSelectedRow();
 
     if (filaSeleccionada == -1) {
-        JOptionPane.showMessageDialog(this, "Por favor, seleccione un paquete para confirmar la entrega", "Paquete no seleccionado", JOptionPane.WARNING_MESSAGE);
+        // Crear un JLabel para personalizar el mensaje
+        JLabel selecpaque = new JLabel("Por favor, seleccione un paquete para confirmar la entrega");
+        // Establecer la fuente del JLabel
+        selecpaque.setFont(new Font("Arial", Font.PLAIN, 18));
+        // Mostrar el cuadro de diálogo de advertencia con el JLabel personalizado
+        JOptionPane.showMessageDialog(this, selecpaque, "Paquete no seleccionado", JOptionPane.WARNING_MESSAGE);
     } else {
         Paquete paqueteSeleccionado = paquetesEnCamino.get(filaSeleccionada);
 
         // Mostrar un cuadro de diálogo de confirmación
-        int opcion = JOptionPane.showConfirmDialog(this, "¿Seguro que quieres seleccionar este paquete?\n\nCódigo del paquete: " + paqueteSeleccionado.getCodigo_paquete() + "\nDescripción: " + paqueteSeleccionado.getDescripcion(), "Confirmar Selección", JOptionPane.YES_NO_OPTION);
+        // Construir el mensaje con salto de línea y detalles del paquete
+        String message = "¿Seguro que quieres seleccionar este paquete?\n\n " +
+                 " Código del paquete: " + paqueteSeleccionado.getCodigo_paquete() + "\n" +
+                 " Descripción: " + paqueteSeleccionado.getDescripcion();
+
+       // Crear un JLabel para personalizar el mensaje con la fuente Arial de tamaño 18
+       JLabel selecestepaque = new JLabel(message);
+       selecestepaque.setFont(new Font("Arial", Font.PLAIN, 18));
+
+       // Mostrar el cuadro de diálogo de confirmación con el JLabel personalizado
+       int opcion = JOptionPane.showConfirmDialog(this, selecestepaque, "Confirmar Selección", JOptionPane.YES_NO_OPTION);
 
         if (opcion == JOptionPane.YES_OPTION) {
             // Array con las opciones del cuadro de diálogo
             Object[] opciones = {"Entregado", "Devuelto"};
+            
+            String mensaje2 = "Seleccione el estado del paquete:";
+            
+            // Crear un JLabel para personalizar el mensaje con la fuente Arial de tamaño 18
+            JLabel estadopaque = new JLabel(mensaje2);
+            estadopaque.setFont(new Font("Arial", Font.PLAIN, 18));
 
             // Mostrar cuadro de diálogo
-            int seleccion = JOptionPane.showOptionDialog(this, "Seleccione el estado del paquete:", "Confirmar Estado",
+            int seleccion = JOptionPane.showOptionDialog(this, estadopaque, "Confirmar Estado",
                     JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, opciones, opciones[0]);
 
             if (seleccion != JOptionPane.CLOSED_OPTION) {
@@ -229,10 +263,20 @@ public class ConfirmarEntrega extends javax.swing.JFrame {
                         enviarCorreo.sendEmail();
 
                         // Mostrar una alerta de que el correo electrónico ha sido enviado
-                        JOptionPane.showMessageDialog(this, "El correo electrónico ha sido enviado al cliente receptor.", "Correo electrónico enviado", JOptionPane.INFORMATION_MESSAGE);
+                        // Crear un JLabel para personalizar el mensaje
+                        JLabel correoenviado = new JLabel("El correo electrónico ha sido enviado al cliente receptor.");
+                        // Establecer la fuente del JLabel
+                        correoenviado.setFont(new Font("Arial", Font.PLAIN, 18));
+                        // Mostrar el cuadro de diálogo de información con el JLabel personalizado y el título personalizado
+                        JOptionPane.showMessageDialog(this, correoenviado, "Correo electrónico enviado", JOptionPane.INFORMATION_MESSAGE);
                     } else {
                         // Manejar el caso en el que el Receptor es nulo
-                        JOptionPane.showMessageDialog(this, "No se puede enviar el correo electrónico al cliente receptor porque el receptor del paquete es nulo.", "Error", JOptionPane.ERROR_MESSAGE);
+                        // Crear un JLabel para personalizar el mensaje
+                        JLabel noenviocorreo = new JLabel("No se puede enviar el correo electrónico al cliente receptor porque el receptor del paquete es nulo.");
+                        // Establecer la fuente del JLabel
+                        noenviocorreo.setFont(new Font("Arial", Font.PLAIN, 18));
+                        // Mostrar el cuadro de diálogo de error con el JLabel personalizado y el título personalizado
+                        JOptionPane.showMessageDialog(this, noenviocorreo, "Error", JOptionPane.ERROR_MESSAGE);
                     }
                 } else {
                     // Devuelto
@@ -250,7 +294,12 @@ public class ConfirmarEntrega extends javax.swing.JFrame {
                     enviarCorreoDevolucion.sendEmail();
 
                     // Mostrar una alerta de que el correo electrónico de devolución ha sido enviado
-                    JOptionPane.showMessageDialog(this, "Se ha enviado un correo electrónico al remitente informando la devolución del paquete.", "Correo electrónico enviado", JOptionPane.INFORMATION_MESSAGE);
+                    // Crear un JLabel para personalizar el mensaje
+                    JLabel correoremitente = new JLabel("Se ha enviado un correo electrónico al remitente informando la devolución del paquete.");
+                    // Establecer la fuente del JLabel
+                    correoremitente.setFont(new Font("Arial", Font.PLAIN, 18));
+                    // Mostrar el cuadro de diálogo de información con el JLabel personalizado y el título personalizado
+                    JOptionPane.showMessageDialog(this, correoremitente, "Correo electrónico enviado", JOptionPane.INFORMATION_MESSAGE);
                 }
 
                 controladoraPaquete.actualizarEstadoPaquete(paqueteSeleccionado);
@@ -296,11 +345,21 @@ public void abrirConfirmarEntrega() {
                 DefaultTableModel modelo = (DefaultTableModel) jTable1.getModel();
                 modelo.setRowCount(0);
                 // Mostrar un mensaje indicando que no hay paquetes "EN CAMINO" para el viaje seleccionado
-                JOptionPane.showMessageDialog(this, "No hay paquetes 'EN CAMINO' para el viaje seleccionado", "Sin Paquetes", JOptionPane.INFORMATION_MESSAGE);
+                // Crear un JLabel para personalizar el mensaje
+                JLabel nopaqueencamino = new JLabel("No hay paquetes 'EN CAMINO' para el viaje seleccionado.");
+                // Establecer la fuente del JLabel
+                nopaqueencamino.setFont(new Font("Arial", Font.PLAIN, 18));
+                // Mostrar el cuadro de diálogo de información con el JLabel personalizado y el título personalizado
+                JOptionPane.showMessageDialog(this, nopaqueencamino, "Sin Paquetes", JOptionPane.INFORMATION_MESSAGE);
             }
         } else {
             // Mostrar un mensaje indicando que no se ha seleccionado ningún viaje
-            JOptionPane.showMessageDialog(this, "Por favor, seleccione un viaje", "Viaje no seleccionado", JOptionPane.WARNING_MESSAGE);
+            // Crear un JLabel para personalizar el mensaje
+            JLabel seleccioneviaje = new JLabel("Por favor, seleccione un viaje.");
+            // Establecer la fuente del JLabel
+            seleccioneviaje.setFont(new Font("Arial", Font.PLAIN, 18));
+            // Mostrar el cuadro de diálogo de advertencia con el JLabel personalizado y el título personalizado
+            JOptionPane.showMessageDialog(this, seleccioneviaje, "Viaje no seleccionado", JOptionPane.WARNING_MESSAGE);
         }
     } catch (Exception ex) {
         ex.printStackTrace(); // Imprimir el stack trace en la consola
@@ -369,7 +428,7 @@ private void filtrarPaquetes() {
     }
 }
 
- */ 
+*/ 
  
 
 private boolean todosPaquetesEntregadosODevolucionesRealizadas(int idViaje) {
@@ -386,22 +445,34 @@ private void finalizarViajeSiNecesario() {
     int idViajeSeleccionado = obtenerIdViajeSeleccionado();
     if (idViajeSeleccionado != -1) {
         if (todosPaquetesEntregadosODevolucionesRealizadas(idViajeSeleccionado)) {
-            int opcion = JOptionPane.showConfirmDialog(this, "¿Desea finalizar el viaje?", "Finalizar Viaje", JOptionPane.YES_NO_OPTION);
-            if (opcion == JOptionPane.YES_OPTION) {
+            JLabel viajefinal = new JLabel("¿Desea finalizar el viaje?");
+             viajefinal.setFont(new Font("Arial", Font.PLAIN, 18));
+
+            int opcion = JOptionPane.showConfirmDialog(this, viajefinal, "Finalizar Viaje", JOptionPane.YES_NO_OPTION);            if (opcion == JOptionPane.YES_OPTION) {
                 // Actualizar estado del viaje a "Baja"
-                controladoraviaje.actualizarEstadoViaje(idViajeSeleccionado, "Baja");
-                JOptionPane.showMessageDialog(this, "El viaje ha sido finalizado.", "Viaje Finalizado", JOptionPane.INFORMATION_MESSAGE);
+                controladoraviaje.actualizarEstadoViaje(idViajeSeleccionado, "Finalizado");
+                // Crear un JLabel para personalizar el mensaje
+                JLabel viajefinalizado = new JLabel("El viaje ha sido finalizado.");
+                // Establecer la fuente del JLabel
+                viajefinalizado.setFont(new Font("Arial", Font.PLAIN, 18));
+                // Mostrar el cuadro de diálogo de información con el JLabel personalizado y el título personalizado
+                JOptionPane.showMessageDialog(this, viajefinalizado, "Viaje Finalizado", JOptionPane.INFORMATION_MESSAGE);
                 
-                // Cerrar el JFrame actual
-                dispose();
+                
                 
                 // Abrir el JFrame ViajesEntrega
-                ViajesEntrega viajesEntrega = new ViajesEntrega(rolUsuario);
-                viajesEntrega.setVisible(true);
+                Menu atras = new Menu(rolUsuario);
+                atras.setVisible(true);
+                dispose();
             }
         }
     } else {
-        JOptionPane.showMessageDialog(this, "Por favor, seleccione un viaje.", "Alerta", JOptionPane.WARNING_MESSAGE);
+        // Crear un JLabel para personalizar el mensaje
+        JLabel messageLabel = new JLabel("Por favor, seleccione un viaje.");
+        // Establecer la fuente del JLabel
+        messageLabel.setFont(new Font("Arial", Font.PLAIN, 18));
+        // Mostrar el cuadro de diálogo de advertencia con el JLabel personalizado y el título personalizado
+        JOptionPane.showMessageDialog(this, messageLabel, "Alerta", JOptionPane.WARNING_MESSAGE);
     }
 }
 

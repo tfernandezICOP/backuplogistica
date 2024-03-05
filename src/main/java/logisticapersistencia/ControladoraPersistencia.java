@@ -1392,7 +1392,7 @@ public void guardarUsuario(Usuario usuario) {
   public List<Viaje> obtenerViajesActivos() {
         EntityManager entityManager = emf.createEntityManager(); 
         
-    return entityManager.createQuery("SELECT v FROM Viaje v WHERE v.estado != 'Baja'", Viaje.class).getResultList();
+    return entityManager.createQuery("SELECT v FROM Viaje v WHERE v.estado != 'Finalizado'", Viaje.class).getResultList();
 }
 public List<Paquete> obtenerPaquetesPorEstadoYViaje(int idViaje) {
         EntityManager entityManager = emf.createEntityManager();

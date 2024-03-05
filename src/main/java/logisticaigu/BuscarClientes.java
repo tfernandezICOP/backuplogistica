@@ -5,14 +5,20 @@
 package logisticaigu;
 
 import Controladoras.ControladoraCliente;
+import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.List;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import logisticalogica.Cliente;
 import logisticalogica.Paquete;
@@ -29,17 +35,25 @@ public class BuscarClientes extends javax.swing.JFrame {
     private String rolUsuario;
 
     /**
-     * Creates new form BuscarClientes
-     */
-     public BuscarClientes(Paquete paqueteTemporal, String rolUsuario) {
-      initComponents();
-      this.rolUsuario = rolUsuario;
-         setLocationRelativeTo(null);
-                setExtendedState(JFrame.MAXIMIZED_BOTH); // Abre el JFrame en pantalla completa
+    * Creates new form BuscarClientes
+    */
+    public BuscarClientes(Paquete paqueteTemporal, String rolUsuario) {
+    initComponents();
+    this.rolUsuario = rolUsuario;
+    setLocationRelativeTo(null);
+    setExtendedState(JFrame.MAXIMIZED_BOTH); // Abre el JFrame en pantalla completa
     tableModel = (DefaultTableModel) jTable1.getModel();
     controladoraCliente = new ControladoraCliente(); // Inicializa controladoraCliente
     paquete = new Paquete(); // Inicialización del paquete
     this.paqueteTemporal = paqueteTemporal;
+    
+    // Crear un renderizador personalizado para los encabezados de las columnas
+    DefaultTableCellRenderer headerRenderer = new DefaultTableCellRenderer();
+    headerRenderer.setHorizontalAlignment(SwingConstants.LEFT); // Alinear a la izquierda     horizontalmente
+    headerRenderer.setVerticalAlignment(SwingConstants.CENTER); // Centrar verticalmente
+    headerRenderer.setFont(new Font("Arial", Font.PLAIN, 18)); // Establecer la fuente a Arial 18  
+    // Aplicar el renderizador personalizado a los encabezados de las columnas
+    jTable1.getTableHeader().setDefaultRenderer(headerRenderer);    
 
     cargarClientesEnTabla();
     inicializarVentana();
@@ -89,7 +103,6 @@ public class BuscarClientes extends javax.swing.JFrame {
         Codpaquete.setText("Cod paquete: " + String.valueOf(paqueteTemporal.getCodigo_paquete()));
     }
 }
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -136,7 +149,7 @@ public class BuscarClientes extends javax.swing.JFrame {
         });
 
         jButton2.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
-        jButton2.setText("Seleccionar cliente");
+        jButton2.setText("Aceptar");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
@@ -145,9 +158,9 @@ public class BuscarClientes extends javax.swing.JFrame {
 
         jLabel2.setFont(new java.awt.Font("Arial", 0, 36)); // NOI18N
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel2.setText("Buscar cliente emisor");
+        jLabel2.setText("Registrar Paquete - Seleccionar cliente emisor");
 
-        jTable1.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        jTable1.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null},
@@ -184,26 +197,29 @@ public class BuscarClientes extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(numerodocclienteemisor)
                         .addGap(18, 18, 18)
-                        .addComponent(ingresardocumento, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(200, 200, 200)
+                        .addComponent(ingresardocumento, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(100, 100, 100)
                         .addComponent(jLabel4)
                         .addGap(18, 18, 18)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 288, Short.MAX_VALUE)
-                        .addComponent(Codpaquete)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 282, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jButton3)
+                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton2)
-                        .addGap(100, 100, 100)
-                        .addComponent(jButton1)))
+                        .addComponent(Codpaquete)
+                        .addGap(230, 230, 230)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jButton3)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jButton2)
+                                .addGap(100, 100, 100)
+                                .addComponent(jButton1))
+                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 1334, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1334, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -221,8 +237,8 @@ public class BuscarClientes extends javax.swing.JFrame {
                         .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(Codpaquete, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 792, Short.MAX_VALUE)
-                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 480, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -241,7 +257,6 @@ public class BuscarClientes extends javax.swing.JFrame {
          
          seleccionarClienteEmisor();
 
-    
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -283,9 +298,7 @@ public class BuscarClientes extends javax.swing.JFrame {
         tableModel.addRow(rowData);
     }
 }
-
-    
-    
+   
      private void inicializarVentana() {
     jTable1.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
         public void valueChanged(ListSelectionEvent e) {
@@ -335,17 +348,13 @@ public class BuscarClientes extends javax.swing.JFrame {
         });
     }
 
-
     private Cliente obtenerClienteDesdeFilaSeleccionada(int filaSeleccionada) {
     int modelRow = jTable1.convertRowIndexToModel(filaSeleccionada);
     String nombreCompleto = (String) tableModel.getValueAt(modelRow, 0); // Suponiendo que el primer valor en la fila es el nombre completo
     return obtenerClienteDesdeNombreCompleto(nombreCompleto);
 }
      
-    
-     
-     
-     private void filtrarClientes() {
+    private void filtrarClientes() {
     String numeroDocumentoStr = ingresardocumento.getText().trim();
 
     if (numeroDocumentoStr.isEmpty()) {
@@ -372,12 +381,24 @@ public class BuscarClientes extends javax.swing.JFrame {
             }
         } catch (NumberFormatException e) {
             // Manejo de error si el texto no es un número válido
-            JOptionPane.showMessageDialog(null, "Ingrese un número válido para el documento.");
+            // Crear un JPanel para contener el mensaje
+            JPanel panelMensaje = new JPanel();
+            panelMensaje.setLayout(new FlowLayout()); // Ajustar el layout si es necesario
+
+            // Crear un JLabel para el mensaje, estableciendo el mensaje, la fuente y el tamaño
+            JLabel nrovalidodoc = new JLabel("Ingrese un número válido para el documento.");
+            nrovalidodoc.setFont(new Font("Arial", Font.PLAIN, 18)); // Configurar la fuente Arial y tamaño 18
+
+            // Añadir la etiqueta al panel
+            panelMensaje.add(nrovalidodoc);
+
+            // Mostrar el JOptionPane con el panel personalizado como contenido
+            JOptionPane.showMessageDialog(null, panelMensaje);
         }
     }
 }
 
-      private void filtrarClientespornombreyape() {
+    private void filtrarClientespornombreyape() {
     String nombre = jTextField1.getText().trim(); // Obtener el nombre desde el campo correspondiente
     String apellido = ingresardocumento.getText().trim(); // Obtener el apellido desde el campo de número de documento
 
@@ -422,7 +443,7 @@ public class BuscarClientes extends javax.swing.JFrame {
     this.dispose(); // Cerrar la ventana actual (BuscarClientes)
 }
 */
-      private void abrirBuscarClienteReceptor(Cliente clienteEmisorSeleccionado) {
+    private void abrirBuscarClienteReceptor(Cliente clienteEmisorSeleccionado) {
     BuscarClienteReceptor clienteReceptor = new BuscarClienteReceptor(paqueteTemporal, rolUsuario);
 
     // Establecer el paqueteTemporal en la nueva ventana
@@ -432,7 +453,6 @@ public class BuscarClientes extends javax.swing.JFrame {
         String nombreApellido = clienteEmisorSeleccionado.getNombre() + " " + clienteEmisorSeleccionado.getApellido();
         clienteReceptor.actualizarNombreApellidoClienteEmisor(nombreApellido);
     }
-
     paqueteTemporal.setEmisor(clienteEmisorSeleccionado);
 
     // Hacer visible la ventana BuscarClienteReceptor
@@ -440,9 +460,6 @@ public class BuscarClientes extends javax.swing.JFrame {
     this.dispose(); // Cerrar la ventana actual (BuscarClientes)
 }
 
-
-
-// Modificar el método para seleccionar el cliente emisor
 // Modificar el método para seleccionar el cliente emisor
 public void seleccionarClienteEmisor() {
     // Verificar si paqueteTemporal está declarado y tiene datos ingresados
@@ -457,7 +474,29 @@ public void seleccionarClienteEmisor() {
 
             // Asegúrate de que el cliente seleccionado no sea nulo
             if (clienteSeleccionado != null) {
+                
+                // Crear un JLabel para personalizar la fuente
+                JLabel message = new JLabel("<html>¿Deseas seleccionar al siguiente cliente como emisor?<br><br>" +
+                        "Nombre: " + clienteSeleccionado.getNombre() + "<br>" +
+                        "Apellido: " + clienteSeleccionado.getApellido() + "</html>");
+
+                // Establecer la fuente del JLabel
+                message.setFont(new Font("Arial", Font.PLAIN, 18));
+
+                // Crear un array de objetos para personalizar los botones del JOptionPane
+                Object[] options = {"Sí", "No"};
+
                 // Mostrar un cuadro de confirmación antes de seleccionar al cliente emisor
+                int confirmacion = JOptionPane.showOptionDialog(this,
+                        message,
+                        "Confirmar selección", JOptionPane.YES_NO_OPTION,
+                        JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
+
+                if (confirmacion == JOptionPane.YES_OPTION) {
+                    // El usuario confirmó la selección, establecer el cliente emisor en el paqueteTemporal
+                    paqueteTemporal.setEmisor(clienteSeleccionado);
+                
+                /*// Mostrar un cuadro de confirmación antes de seleccionar al cliente emisor
                 int confirmacion = JOptionPane.showConfirmDialog(this,
                         "¿Deseas seleccionar al siguiente cliente como emisor?\n\n" +
                         "Nombre: " + clienteSeleccionado.getNombre() + "\n" +
@@ -466,7 +505,7 @@ public void seleccionarClienteEmisor() {
 
                 if (confirmacion == JOptionPane.YES_OPTION) {
                     // El usuario confirmó la selección, establecer el cliente emisor en el paqueteTemporal
-                    paqueteTemporal.setEmisor(clienteSeleccionado);
+                    paqueteTemporal.setEmisor(clienteSeleccionado);*/
 
                     // Añade mensajes de depuración
                     System.out.println("PaqueteTemporal en BuscarClientes:");
@@ -483,15 +522,25 @@ public void seleccionarClienteEmisor() {
                 System.out.println("El cliente seleccionado es nulo.");
             }
         } else {
-            JOptionPane.showMessageDialog(this, "Por favor, selecciona un cliente.", "Error", JOptionPane.ERROR_MESSAGE);
+            // Crear un JPanel para contener el mensaje
+            JPanel panelMensaje = new JPanel();
+            panelMensaje.setLayout(new FlowLayout()); // Ajustar el layout si es necesario
+
+            // Crear un JLabel para el mensaje, estableciendo el mensaje, la fuente y el tamaño
+            JLabel selecliente = new JLabel("Por favor, selecciona un cliente.");
+            selecliente.setFont(new Font("Arial", Font.PLAIN, 18)); // Configurar la fuente Arial y tamaño 18
+
+            // Añadir la etiqueta al panel
+            panelMensaje.add(selecliente);
+
+            // Mostrar el JOptionPane con el panel personalizado como contenido
+            JOptionPane.showMessageDialog(this, panelMensaje, "Error", JOptionPane.ERROR_MESSAGE);
+
         }
     } else {
         System.out.println("El paquete es nulo o no tiene datos ingresados. Verifica su inicialización.");
     }
 }
-
-
-
 
  public void mostrarInfoPaqueteTemporal(Paquete paqueteTemporal) {
         if (paqueteTemporal != null) {

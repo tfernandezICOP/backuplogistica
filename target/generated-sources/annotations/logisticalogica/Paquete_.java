@@ -8,7 +8,7 @@ import logisticalogica.Cliente;
 import logisticalogica.Localidad;
 import logisticalogica.Provincia;
 
-@Generated(value="org.eclipse.persistence.internal.jpa.modelgen.CanonicalModelProcessor", date="2024-03-01T18:45:46", comments="EclipseLink-2.7.12.v20230209-rNA")
+@Generated(value="org.eclipse.persistence.internal.jpa.modelgen.CanonicalModelProcessor", date="2024-03-05T17:22:11", comments="EclipseLink-2.7.12.v20230209-rNA")
 @StaticMetamodel(Paquete.class)
 public class Paquete_ { 
 

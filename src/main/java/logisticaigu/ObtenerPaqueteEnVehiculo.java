@@ -7,11 +7,16 @@ package logisticaigu;
 import Controladoras.ControladoraPaquete;
 import Controladoras.ControladoraViaje;
 import Controladoras.ControladoraViajePaquete;
+import java.awt.Font;
 import java.util.List;
 import javax.swing.DefaultListModel;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.SwingConstants;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import logisticalogica.Paquete;
 import logisticalogica.Vehiculo;
@@ -40,13 +45,21 @@ String modelo;
      private String rolUsuario;
     public ObtenerPaqueteEnVehiculo(int vehiculoId ,String modelo,String patente,int idViaje, String rolUsuario) {
         initComponents();
-         this.vehiculoId = vehiculoId;
-         this.patente = patente;
-         this.modelo = modelo;
+        this.vehiculoId = vehiculoId;
+        this.patente = patente;
+        this.modelo = modelo;
         this.rolUsuario = rolUsuario;
         this.idViaje = idViaje;
         this.vehiculoSeleccionado = vehiculoSeleccionado; // Add this line
+        setExtendedState(JFrame.MAXIMIZED_BOTH); // Abre el JFrame en pantalla completa
 
+        // Crear un renderizador personalizado para los encabezados de las columnas
+        DefaultTableCellRenderer headerRenderer = new DefaultTableCellRenderer();
+        headerRenderer.setHorizontalAlignment(SwingConstants.LEFT); // Alinear a la izquierda     horizontalmente
+        headerRenderer.setVerticalAlignment(SwingConstants.CENTER); // Centrar verticalmente
+        headerRenderer.setFont(new Font("Arial", Font.PLAIN, 18)); // Establecer la fuente a Arial 18  
+        // Aplicar el renderizador personalizado a los encabezados de las columnas
+        jTable1.getTableHeader().setDefaultRenderer(headerRenderer);
         
         cargarListaPaquetes();
         jTable1.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
@@ -77,10 +90,11 @@ String modelo;
         jTable1 = new javax.swing.JTable();
         jButton2 = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jTable1.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
+        jTable1.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
@@ -110,46 +124,49 @@ String modelo;
             }
         });
 
+        jLabel1.setFont(new java.awt.Font("Arial", 0, 36)); // NOI18N
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel1.setText("Recoger Envío - Seleccionar paquete ");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 835, Short.MAX_VALUE)
-            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanel1Layout.createSequentialGroup()
-                    .addContainerGap()
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                            .addGap(0, 0, Short.MAX_VALUE)
-                            .addComponent(jButton2)
-                            .addGap(100, 100, 100)
-                            .addComponent(jButton1))
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 1888, Short.MAX_VALUE))
-                    .addContainerGap()))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jButton2)
+                        .addGap(100, 100, 100)
+                        .addComponent(jButton1))
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(jScrollPane1)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 1334, Short.MAX_VALUE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 553, Short.MAX_VALUE)
-            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanel1Layout.createSequentialGroup()
-                    .addContainerGap()
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 875, Short.MAX_VALUE)
-                    .addGap(18, 18, 18)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addContainerGap()))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel1)
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 548, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
@@ -159,7 +176,12 @@ String modelo;
      int[] selectedRows = jTable1.getSelectedRows();
 
     if (selectedRows.length == 0) {
-        JOptionPane.showMessageDialog(this, "Por favor, seleccione al menos un paquete.", "Alerta", JOptionPane.WARNING_MESSAGE);
+        // Crear un JLabel para personalizar el mensaje
+        JLabel selecunpaque = new JLabel("Por favor, seleccione al menos un paquete.");
+        // Establecer la fuente del JLabel
+        selecunpaque.setFont(new Font("Arial", Font.PLAIN, 18));
+        // Mostrar el cuadro de diálogo de advertencia con el JLabel personalizado y el título personalizado
+        JOptionPane.showMessageDialog(this, selecunpaque, "Alerta", JOptionPane.WARNING_MESSAGE);
         return;
     }
 
@@ -169,22 +191,34 @@ String modelo;
         String estadoPaquete = obtenerEstadoPaquete(codigoPaquete);
 
         if ("EN CAMINO".equals(estadoPaquete)) {
-            JOptionPane.showMessageDialog(this, "El paquete seleccionado ya está en camino y no se puede asociar al viaje.", "Alerta", JOptionPane.WARNING_MESSAGE);
+            // Crear un JLabel para personalizar el mensaje
+            JLabel paqueencamino = new JLabel("El paquete seleccionado ya está en camino y no se puede asociar al viaje.");
+            // Establecer la fuente del JLabel
+            paqueencamino.setFont(new Font("Arial", Font.PLAIN, 18));
+            // Mostrar el cuadro de diálogo de advertencia con el JLabel personalizado y el título personalizado
+            JOptionPane.showMessageDialog(this, paqueencamino, "Alerta", JOptionPane.WARNING_MESSAGE);
             return;
         }
     }
+    
+    // Crear un JLabel para personalizar el mensaje
+    JLabel cambiarestadopaque = new JLabel("Seleccione a qué estado cambiará el paquete:");
+    // Establecer la fuente del JLabel
+    cambiarestadopaque.setFont(new Font("Arial", Font.PLAIN, 18));
 
     Object[] options = {"EN CAMINO", "Devuelto"};
+    
+    // Mostrar el cuadro de diálogo de opción con el JLabel personalizado y el título personalizado
     int choice = JOptionPane.showOptionDialog(
-        this,
-        "Seleccione a qué estado cambiará el paquete:",
-        "Cambiar Estado de Paquete",
-        JOptionPane.YES_NO_OPTION,
-        JOptionPane.QUESTION_MESSAGE,
-        null,
-        options,
-        options[0]
-    );
+    this,
+    cambiarestadopaque,
+    "Cambiar estado de paquete",
+    JOptionPane.YES_NO_OPTION,
+    JOptionPane.QUESTION_MESSAGE,
+    null,
+    options,
+    options[0]
+);
 
     String nuevoEstado = "";
     if (choice == JOptionPane.YES_OPTION) {
@@ -222,11 +256,24 @@ String modelo;
     }
 
     // Preguntar si desea seguir asociando paquetes
-    int confirmacion = JOptionPane.showConfirmDialog(
-        this,
-        "¿Desea seguir asociando paquetes a este vehículo?",
-        "Confirmar",
-        JOptionPane.YES_NO_OPTION
+    // Crear un JLabel para personalizar el mensaje
+    JLabel asociarpaqueavehiculo = new JLabel("¿Desea seguir asociando paquetes a este vehículo?");
+    // Establecer la fuente del JLabel
+    asociarpaqueavehiculo.setFont(new Font("Arial", Font.PLAIN, 18));
+
+    // Array para personalizar los botones del cuadro de diálogo de confirmación
+    Object[] opciones = {"Si", "No"};
+
+    // Mostrar el cuadro de diálogo de confirmación con la JLabel personalizado y los botones personalizados
+    int confirmacion = JOptionPane.showOptionDialog(
+    this,
+    asociarpaqueavehiculo,
+    "Confirmar",
+    JOptionPane.YES_NO_OPTION,
+    JOptionPane.QUESTION_MESSAGE,
+    null,
+    opciones,
+    opciones[0]
     );
 
     if (confirmacion == JOptionPane.NO_OPTION) {
@@ -250,7 +297,7 @@ String modelo;
     }//GEN-LAST:event_jButton1ActionPerformed
 
  private void cargarListaPaquetes() {
-    List<Paquete> paquetesPlanificados = ctrlPaquete.filtrarPaquetesPorEstado("PLANIFICADO");
+    List<Paquete> paquetesPlanificados = ctrlPaquete.obtenerPaquetesPlanificadosPorViaje(idViaje);
 
     DefaultTableModel modelo = new DefaultTableModel();
     modelo.addColumn("Código Paquete");
@@ -258,8 +305,7 @@ String modelo;
     modelo.addColumn("Estado");
     modelo.addColumn("Domicilio de Retiro");
     modelo.addColumn("Domicilio de Entrega");
-    modelo.addColumn("Fecha Recibido");
-    modelo.addColumn("Fecha Entrega");
+    modelo.addColumn("Fecha de registro");
     modelo.addColumn("Provincia Origen");
     modelo.addColumn("Localidad Origen");
     modelo.addColumn("Provincia Destino");
@@ -280,7 +326,6 @@ String modelo;
             paquete.getDomicilioRetiro(),
             paquete.getDomicilioEntrega(),
             paquete.getFechaRecibido(),
-            paquete.getFechaEntrega(),
             paquete.getOrigen().getNombre(),
             paquete.getLocalidadOrigen().getNombre(),
             paquete.getDestino().getNombre(),
@@ -292,6 +337,7 @@ String modelo;
         modelo.addRow(fila);
     }
 }
+
 
 
     /**
@@ -309,6 +355,7 @@ String modelo;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
