@@ -106,13 +106,13 @@ private int viajeID;
         jTable1.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
             },
             new String [] {
-                "Codigo del paquete", "Descripcion", "Domicilio", "Estado"
+                "Codigo del paquete", "Destino", "Domicilio", "Receptor", "Descripcion", "Estado"
             }
         ));
         jScrollPane1.setViewportView(jTable1);
@@ -203,10 +203,15 @@ private int viajeID;
     paquetes = controladoraPaquete.obtenerPaquetesPorViaje(viajeID); // Obtener los paquetes asociados a este viaje
 
     for (Paquete paquete : paquetes) {
+         String nombreApellidoReceptor = paquete.getReceptor().getNombre() + " " + paquete.getReceptor().getApellido();
+            
+            String provinciaLocalidadDestino = paquete.getDestino().getNombre() + ", " + paquete.getLocalidadDestino().getNombre();
         model.addRow(new Object[]{
             paquete.getCodigo_paquete(), 
-            paquete.getDescripcion(), 
+            provinciaLocalidadDestino,
             paquete.getDomicilioEntrega(), 
+            nombreApellidoReceptor,
+            paquete.getDescripcion(), 
             paquete.getEstado()
         });
     }
@@ -218,7 +223,7 @@ private int viajeID;
 private void mostrarPaquetes(List<Paquete> paquetesMostrados) {
     DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
     model.setRowCount(0);
-
+    
     for (Paquete paquete : paquetesMostrados) {
         model.addRow(new Object[]{
             paquete.getCodigo_paquete(),

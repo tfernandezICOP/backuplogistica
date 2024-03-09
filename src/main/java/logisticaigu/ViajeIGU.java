@@ -299,16 +299,18 @@ public class ViajeIGU extends javax.swing.JFrame {
         boolean necesitaMantenimiento = verificarNecesidadMantenimiento(vehiculoSeleccionado);
 
         if (necesitaMantenimiento) {
+            JLabel vehiculonecesitamante = new JLabel("El vehículo necesita mantenimiento. ¿Desea continuar?");
+            vehiculonecesitamante.setFont(new Font("Arial", Font.PLAIN, 18));
             int opcion = JOptionPane.showOptionDialog(
-                this,
-                "El vehículo necesita mantenimiento. ¿Desea continuar?",
-                "Alerta de Mantenimiento",
-                JOptionPane.YES_NO_OPTION,
-                JOptionPane.WARNING_MESSAGE,
-                null,
-                new Object[]{"Sí", "No"},
-                "Sí"
-            );
+            this,
+            vehiculonecesitamante,
+        "Alerta de Mantenimiento",
+        JOptionPane.YES_NO_OPTION,
+        JOptionPane.WARNING_MESSAGE,
+        null,
+        new Object[]{"Sí", "No"},
+        "Sí"
+);
 
             if (opcion == JOptionPane.YES_OPTION) {
                 // El usuario desea continuar, abrir la pantalla siguiente
@@ -323,13 +325,14 @@ public class ViajeIGU extends javax.swing.JFrame {
             this.dispose(); // Cerrar la ventana actual
         }
     } else {
-        // No se ha seleccionado ningún vehículo
+        JLabel selecvehiculoparacontinuar = new JLabel("Por favor, seleccione un vehículo antes de continuar.");
+        selecvehiculoparacontinuar.setFont(new Font("Arial", Font.PLAIN, 18));
         JOptionPane.showMessageDialog(
-            this,
-            "Por favor, seleccione un vehículo antes de continuar.",
-            "Error",
-            JOptionPane.ERROR_MESSAGE
-        );
+        this,
+        selecvehiculoparacontinuar,
+        "Error",
+        JOptionPane.ERROR_MESSAGE
+);
     }
 }
 

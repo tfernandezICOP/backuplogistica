@@ -17,6 +17,7 @@ import com.itextpdf.text.Image;
 import com.itextpdf.text.PageSize;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.Phrase;
+import com.itextpdf.text.Rectangle;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
@@ -170,46 +171,58 @@ public class HojaDeRutaPaquetes extends javax.swing.JFrame {
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
       Document documento = new Document(PageSize.A4.rotate());
     try {
-        String ruta = System.getProperty("user.home") + "/Desktop/HojaDeRuta.pdf";
-        PdfWriter.getInstance(documento, new FileOutputStream(ruta));
-        documento.open();
-        Image logo = Image.getInstance("C:\\Users\\ULTRA\\Downloads\\c84c0eb8add148d089791e382f332189.png"); // Reemplaza con la ruta real de tu logo
-        logo.scaleToFit(200, 100); // Ajusta el tamaño del logo
-        logo.setAlignment(Element.ALIGN_LEFT); // Alinea el logo a la izquierda
-        documento.add(logo);
-         Paragraph vehiculoInfo = new Paragraph("Vehículo: " + modeloVehiculo + "\nPatente: " + patenteVehiculo);
-        vehiculoInfo.setAlignment(Element.ALIGN_LEFT); 
-        documento.add(vehiculoInfo);
-        // Título del documento
-        Font fontTitulo = new Font(Font.FontFamily.TIMES_ROMAN, 20, Font.BOLD);
-        Paragraph titulo = new Paragraph("Encomiendas Patria - Hoja de Ruta", fontTitulo);
-        titulo.setAlignment(Element.ALIGN_CENTER);
-        documento.add(titulo);
-        
-        // Separador
+    String ruta = System.getProperty("user.home") + "/Desktop/HojaDeRuta.pdf";
+    PdfWriter.getInstance(documento, new FileOutputStream(ruta));
+    documento.open();
+    
+    // Agregar el logo
+    Image logo = Image.getInstance("C:\\Users\\ULTRA\\Downloads\\logoblanco-removebg-preview.png");
+    logo.scaleToFit(300, 200); // Ajusta el tamaño del logo según sea necesario
+    logo.setAbsolutePosition(20, PageSize.A4.rotate().getHeight() - logo.getScaledHeight() - 20); // Posición del logo
+    
+    documento.add(logo);
         documento.add(new Paragraph("\n"));
+
+    
+    // Crear el título
+    Font fontTitulo = new Font(Font.FontFamily.TIMES_ROMAN, 20, Font.BOLD);
+    Paragraph titulo = new Paragraph("Encomiendas Patria - Hoja de Ruta", fontTitulo);
+    titulo.setAlignment(Element.ALIGN_CENTER); // Alinear al centro
+    documento.add(titulo);
+    
+    // Espacio después del título
+    documento.add(new Paragraph("\n"));
+    
+    // Información del vehículo
+    Paragraph vehiculoInfo = new Paragraph("Vehículo: " + modeloVehiculo + "\nPatente: " + patenteVehiculo);
+    vehiculoInfo.setAlignment(Element.ALIGN_RIGHT); // Alinear a la derecha
+    documento.add(vehiculoInfo);
+    
+    // Espacio después de la información del vehículo
+    documento.add(new Paragraph("\n"));
+   
+    
+    // Tabla para los datos del origen
+    PdfPTable tablaOrigen = new PdfPTable(5); // Se ha aumentado el número de columnas a 5
+    tablaOrigen.setWidthPercentage(100);
+    tablaOrigen.setSpacingBefore(10f);
+    tablaOrigen.setSpacingAfter(10f);
+    
+    // Título de la tabla de origen
+    Font fontTituloOrigen = new Font(Font.FontFamily.TIMES_ROMAN, 16, Font.BOLD);
+PdfPCell celdaTituloOrigen = new PdfPCell(new Phrase("Origen del Paquete", fontTituloOrigen));
+celdaTituloOrigen.setColspan(5); // Ajuste del colspan al nuevo número de columnas
+celdaTituloOrigen.setHorizontalAlignment(Element.ALIGN_CENTER);
+celdaTituloOrigen.setVerticalAlignment(Element.ALIGN_MIDDLE); // Centrado verticalmente
+celdaTituloOrigen.setBackgroundColor(new BaseColor(200, 200, 200)); // Color de fondo para el título
+tablaOrigen.addCell(celdaTituloOrigen);
         
-        // Tabla para los datos del origen
-        PdfPTable tablaOrigen = new PdfPTable(4);
-        tablaOrigen.setWidthPercentage(100);
-        tablaOrigen.setSpacingBefore(10f);
-        tablaOrigen.setSpacingAfter(10f);
-        
-        // Título de la tabla de origen
-        Font fontTituloOrigen = new Font(Font.FontFamily.TIMES_ROMAN, 16, Font.BOLD);
-        PdfPCell celdaTituloOrigen = new PdfPCell(new Phrase("Origen del Paquete", fontTituloOrigen));
-        celdaTituloOrigen.setColspan(4);
-        celdaTituloOrigen.setHorizontalAlignment(Element.ALIGN_CENTER);
-        celdaTituloOrigen.setBackgroundColor(new BaseColor(200, 200, 200)); // Color de fondo para el título
-        tablaOrigen.addCell(celdaTituloOrigen);
-        
-        String[] headersOrigen = {"Numero de Paquete", "Origen", "Domicilio retiro", "Emisor"};
-        for (String header : headersOrigen) {
-            PdfPCell cell = new PdfPCell(new Phrase(header));
-            cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-            tablaOrigen.addCell(cell);
-        }
-        
+        String[] headersOrigen = {"Numero de Paquete", "Origen", "Domicilio retiro", "Emisor", "Descripción"}; // Se ha agregado la columna Descripción
+for (String header : headersOrigen) {
+    PdfPCell cell = new PdfPCell(new Phrase(header));
+    cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+    tablaOrigen.addCell(cell);
+}
         // Tabla para los datos del destino
         PdfPTable tablaDestino = new PdfPTable(5); // Se ha cambiado el número de columnas a 5
         tablaDestino.setWidthPercentage(100);
@@ -221,6 +234,8 @@ public class HojaDeRutaPaquetes extends javax.swing.JFrame {
         PdfPCell celdaTituloDestino = new PdfPCell(new Phrase("Destino del Paquete", fontTituloDestino));
         celdaTituloDestino.setColspan(5); // Ajuste del colspan al nuevo número de columnas
         celdaTituloDestino.setHorizontalAlignment(Element.ALIGN_CENTER);
+        celdaTituloDestino.setVerticalAlignment(Element.ALIGN_MIDDLE); // Centrado verticalmente
+
         celdaTituloDestino.setBackgroundColor(new BaseColor(200, 200, 200)); // Color de fondo para el título
         tablaDestino.addCell(celdaTituloDestino);
         
@@ -239,6 +254,7 @@ public class HojaDeRutaPaquetes extends javax.swing.JFrame {
             tablaOrigen.addCell(model.getValueAt(i, 1).toString());
             tablaOrigen.addCell(model.getValueAt(i, 2).toString());
             tablaOrigen.addCell(model.getValueAt(i, 5).toString());
+            tablaOrigen.addCell(model.getValueAt(i, 7).toString());
             
             // Datos del destino
             tablaDestino.addCell(model.getValueAt(i, 0).toString());
@@ -274,7 +290,6 @@ public class HojaDeRutaPaquetes extends javax.swing.JFrame {
     Collections.sort(paquetesPlanificados, new Comparator<Paquete>() {
         @Override
         public int compare(Paquete p1, Paquete p2) {
-            // Comparar las localidades
             int localidadComparison = p1.getLocalidadOrigen().getNombre().compareTo(p2.getLocalidadOrigen().getNombre());
             if (localidadComparison != 0) {
                 return localidadComparison;

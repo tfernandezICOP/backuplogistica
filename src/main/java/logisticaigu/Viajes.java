@@ -246,8 +246,15 @@ public class Viajes extends javax.swing.JFrame {
         List<Viaje> viajesActivos = controladoraviaje.obtenerViajesActivosPorVehiculo(vehiculoID);
         
         if (viajesActivos.isEmpty()) {
-            // Mostrar una alerta si el vehículo no tiene viajes activos
-            JOptionPane.showMessageDialog(this, "El vehículo seleccionado no tiene ningún viaje activo.", "Alerta", JOptionPane.WARNING_MESSAGE);
+
+        JLabel vehiculoselecsinviajeactivo = new JLabel("El vehículo seleccionado no tiene ningún viaje activo.");
+        vehiculoselecsinviajeactivo.setFont(new Font("Arial", Font.PLAIN, 18));
+        JOptionPane.showMessageDialog(
+        this,
+        vehiculoselecsinviajeactivo,
+        "Alerta",
+        JOptionPane.WARNING_MESSAGE
+        ); 
         } else {
             // Verificar si el modelo y la patente son válidos
             if (modelo != null && !modelo.isEmpty() && patente != null && !patente.isEmpty()) {

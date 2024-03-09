@@ -107,7 +107,7 @@ public class ConfirmarEntrega extends javax.swing.JFrame {
 
         jLabel1.setFont(new java.awt.Font("Arial", 0, 36)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("Gestionar entrega - Confirmar entrega");
+        jLabel1.setText("Gestionar entrega - Validar recepcion");
 
         jLabel2.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
         jLabel2.setText("Codigo del paquete:");
@@ -138,13 +138,13 @@ public class ConfirmarEntrega extends javax.swing.JFrame {
         jTable1.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
             },
             new String [] {
-                "Codigo del paquete", "Descripcion", "Domicilio", "Estado"
+                "Codigo del paquete", "Descripcion", "Destino", "Domicilio", "Receptor", "Estado"
             }
         ));
         jScrollPane1.setViewportView(jTable1);
@@ -158,7 +158,7 @@ public class ConfirmarEntrega extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jButton2)
-                        .addGap(102, 102, 102)
+                        .addGap(100, 100, 100)
                         .addComponent(jButton1))
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                         .addComponent(jScrollPane1)
@@ -202,7 +202,7 @@ public class ConfirmarEntrega extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-   int filaSeleccionada = jTable1.getSelectedRow();
+  int filaSeleccionada = jTable1.getSelectedRow();
 
     if (filaSeleccionada == -1) {
         // Crear un JLabel para personalizar el mensaje
@@ -214,19 +214,19 @@ public class ConfirmarEntrega extends javax.swing.JFrame {
     } else {
         Paquete paqueteSeleccionado = paquetesEnCamino.get(filaSeleccionada);
 
-        // Mostrar un cuadro de diálogo de confirmación
-        // Construir el mensaje con salto de línea y detalles del paquete
-        String message = "¿Seguro que quieres seleccionar este paquete?\n\n " +
-                 " Código del paquete: " + paqueteSeleccionado.getCodigo_paquete() + "\n" +
-                 " Descripción: " + paqueteSeleccionado.getDescripcion();
+        JLabel confirmarpaquete = new JLabel("<html>¿Seguro que quieres seleccionar este paquete?<br><br>" +
+                 "Código del paquete: " + paqueteSeleccionado.getCodigo_paquete() + "<br>" +
+                 "Descripción: " + paqueteSeleccionado.getDescripcion() + "</html>");
 
-       // Crear un JLabel para personalizar el mensaje con la fuente Arial de tamaño 18
-       JLabel selecestepaque = new JLabel(message);
-       selecestepaque.setFont(new Font("Arial", Font.PLAIN, 18));
+        confirmarpaquete.setFont(new Font("Arial", Font.PLAIN, 18));
 
-       // Mostrar el cuadro de diálogo de confirmación con el JLabel personalizado
-       int opcion = JOptionPane.showConfirmDialog(this, selecestepaque, "Confirmar Selección", JOptionPane.YES_NO_OPTION);
+        Object[] options = {"Sí", "No"};
 
+        int opcion = JOptionPane.showOptionDialog(
+                   this,
+                   confirmarpaquete,
+                   "Confirmar selección", JOptionPane.YES_NO_OPTION,
+                   JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
         if (opcion == JOptionPane.YES_OPTION) {
             // Array con las opciones del cuadro de diálogo
             Object[] opciones = {"Entregado", "Devuelto"};
@@ -305,15 +305,17 @@ public class ConfirmarEntrega extends javax.swing.JFrame {
                 controladoraPaquete.actualizarEstadoPaquete(paqueteSeleccionado);
                 controladoraPaquete.actualizarFechaEntregaPaquete(paqueteSeleccionado);
 
-                // Actualiza la fila seleccionada en la tabla para reflejar el cambio
+                // Actualiza el estado del paquete en la tabla
+                paquetesEnCamino.get(filaSeleccionada).setEstado(paqueteSeleccionado.getEstado());
                 DefaultTableModel modelo = (DefaultTableModel) jTable1.getModel();
-                modelo.setValueAt(paqueteSeleccionado.getEstado(), filaSeleccionada, 3); // El 3 representa la columna del estado en la tabla
+                modelo.setValueAt(paqueteSeleccionado.getEstado(), filaSeleccionada, 5); // El 5 representa la columna del estado en la tabla
 
                 // Verificar si es necesario finalizar el viaje
                 finalizarViajeSiNecesario();
             }
-        }
-    }
+        
+    
+        }}
 
 
     }//GEN-LAST:event_jButton2ActionPerformed
@@ -371,18 +373,27 @@ public void abrirConfirmarEntrega() {
 
   public void mostrarPaquetes(List<Paquete> paquetes) {
     DefaultTableModel modelo = (DefaultTableModel) jTable1.getModel();
-    modelo.setRowCount(0); 
+    modelo.setRowCount(0); // Limpiar la tabla
+
     for (Paquete paquete : paquetes) {
         if ("EN CAMINO".equals(paquete.getEstado())) {
+            // Obtener el nombre y apellido del cliente receptor
+            String nombreApellidoReceptor = paquete.getReceptor().getNombre() + " " + paquete.getReceptor().getApellido();
+            
+            // Obtener la provincia y localidad concatenadas del destino
+            String provinciaLocalidadDestino = paquete.getDestino().getNombre() + ", " + paquete.getLocalidadDestino().getNombre();
+            
+            // Agregar una nueva fila a la tabla con los datos del paquete
             modelo.addRow(new Object[]{
                 paquete.getCodigo_paquete(),
                 paquete.getDescripcion(),
+                provinciaLocalidadDestino,  // Mostrar provincia y localidad concatenadas del destino
                 paquete.getDomicilioEntrega(),
+                nombreApellidoReceptor,    // Mostrar nombre y apellido concatenados del cliente receptor
                 paquete.getEstado()
             });
         }
     }
-    System.out.println("Cantidad de paquetes mostrados: " + modelo.getRowCount()); // Depuración
 }
 
 

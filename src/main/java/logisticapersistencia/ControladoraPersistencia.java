@@ -1344,7 +1344,7 @@ public void guardarUsuario(Usuario usuario) {
     }
  public List<Viaje> obtenerViajesActivosPorVehiculo(int vehiculoID) {
     EntityManager em = emf.createEntityManager();
-    TypedQuery<Viaje> query = em.createQuery("SELECT v FROM Viaje v WHERE v.vehiculo.vehiculoID = :vehiculoID AND v.estado != 'Baja'", Viaje.class);
+    TypedQuery<Viaje> query = em.createQuery("SELECT v FROM Viaje v WHERE v.vehiculo.vehiculoID = :vehiculoID AND v.estado != 'Finalizado'", Viaje.class);
     query.setParameter("vehiculoID", vehiculoID);
     List<Viaje> viajes = query.getResultList();
     em.close();

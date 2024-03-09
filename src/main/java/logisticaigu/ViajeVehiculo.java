@@ -40,7 +40,6 @@ private Viaje viaje;
     this.patente = patente;
     this.rolUsuario = rolUsuario;
     this.viaje = new Viaje();
-    this.controladoraPaquete = new ControladoraPaquete();
     this.controladoraviaje = new ControladoraViaje();  
     setExtendedState(JFrame.MAXIMIZED_BOTH); // Abre el JFrame en pantalla completa
 
@@ -187,37 +186,18 @@ private Viaje viaje;
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
   int idViajeSeleccionado = obtenerIdViajeSeleccionado();
 
-if (idViajeSeleccionado != -1) {
-    // Verificar si hay paquetes en estado "PENDIENTE" o "Devuelto" para el viaje seleccionado
-    List<Paquete> paquetesPendientes = controladoraPaquete.obtenerPaquetesPorEstadoYViaje(idViajeSeleccionado);
-    
-    boolean hayPaquetesPendientes = false;
-    for (Paquete paquete : paquetesPendientes) {
-        if ("PENDIENTE".equals(paquete.getEstado()) || "Devuelto".equals(paquete.getEstado())) {
-            hayPaquetesPendientes = true;
-            break;
-        }
-    }
-    
-    if (hayPaquetesPendientes) {
-        // Abrir la ventana de AsociarPaqueteViaje si hay paquetes en estado "PENDIENTE" o "Devuelto"
-        AsociarPaqueteViaje asociarPaqueteViaje = new AsociarPaqueteViaje(vehiculoID, modelo, patente, idViajeSeleccionado, rolUsuario);
+    if (idViajeSeleccionado != -1) {
+        AsociarPaqueteViaje asociarPaqueteViaje = new AsociarPaqueteViaje(vehiculoID, modelo,patente,idViajeSeleccionado, rolUsuario);
         asociarPaqueteViaje.setVisible(true);
         dispose(); 
     } else {
-        // Mostrar una alerta si no hay paquetes en estado "PENDIENTE" o "Devuelto"
-        JLabel noHayPaquetes = new JLabel("No hay paquetes para este viaje.");
-        noHayPaquetes.setFont(new Font("Arial", Font.PLAIN, 18));
-        JOptionPane.showMessageDialog(this, noHayPaquetes, "Alerta", JOptionPane.WARNING_MESSAGE);
+        // Crear un JLabel para personalizar el mensaje
+        JLabel selecviaje = new JLabel("Por favor, seleccione un viaje.");
+        // Establecer la fuente del JLabel
+        selecviaje.setFont(new Font("Arial", Font.PLAIN, 18));
+        // Mostrar el cuadro de diálogo de advertencia con el JLabel personalizado y el título personalizado
+        JOptionPane.showMessageDialog(this, selecviaje, "Alerta", JOptionPane.WARNING_MESSAGE);
     }
-} else {
-    // Crear un JLabel para personalizar el mensaje
-    JLabel selecviaje = new JLabel("Por favor, seleccione un viaje.");
-    // Establecer la fuente del JLabel
-    selecviaje.setFont(new Font("Arial", Font.PLAIN, 18));
-    // Mostrar el cuadro de diálogo de advertencia con el JLabel personalizado y el título personalizado
-    JOptionPane.showMessageDialog(this, selecviaje, "Alerta", JOptionPane.WARNING_MESSAGE);
-}
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
